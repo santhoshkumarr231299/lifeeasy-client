@@ -68,7 +68,7 @@ function ForgotPassPage() {
       })
       .then((res) => {
         if (res.data.username !== "") {
-          navigate("/");
+          navigate("/home");
           return;
         }
       });
@@ -178,7 +178,7 @@ function ForgotPassPage() {
       })
       .then((res) => {
         if (res.data.username !== "") {
-          navigate("/");
+          navigate("/home");
         }
       });
   }

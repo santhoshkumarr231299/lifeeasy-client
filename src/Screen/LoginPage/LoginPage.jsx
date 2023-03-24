@@ -24,7 +24,7 @@ function LoginPage() {
       })
       .then((res) => {
         if (res.data.username !== "") {
-          navigate("/");
+          navigate("/home");
         }
       });
   }
@@ -42,7 +42,7 @@ function LoginPage() {
       })
       .then((res) => {
         if (res.data.username !== "") {
-          navigate("/");
+          navigate("/home");
           return;
         }
       });
@@ -55,7 +55,7 @@ function LoginPage() {
       .then((res) => {
         if (res.data.message === "success") {
           Cookies.set("secretKey", res.data.secretKey, { expires: 1 });
-          navigate("/");
+          navigate("/home");
         } else {
           setAlertType("danger");
           setAlert(() => "Failed to Login");

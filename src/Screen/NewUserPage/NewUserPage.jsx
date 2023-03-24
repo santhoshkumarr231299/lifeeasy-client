@@ -95,7 +95,7 @@ function NewUserPage() {
       })
       .then((res) => {
         if (res.data.username !== "") {
-          navigate("/");
+          navigate("/home");
           return;
         }
       });
@@ -244,7 +244,7 @@ function NewUserPage() {
       })
       .then((res) => {
         if (res.data.username !== "") {
-          navigate("/");
+          navigate("/home");
         }
       })
       .catch((err) => console.log(err));
