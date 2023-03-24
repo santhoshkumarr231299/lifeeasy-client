@@ -1,0 +1,57 @@
+body {
+    background-image: url('./assets/background.jpg'); 
+    background-repeat: no-repeat;
+    background-size: 100% 150%;
+    background-attachment: fixed;
+    background-color: #e5c8ff; 
+}
+.sticky-pharm {
+    position: -webkit-sticky;
+    position: sticky;
+    top: 0;
+    z-index: 2;
+    box-shadow: 0 2px 5px rgb(0 0 0 / 0.2);
+}
+.sticky-pharm-sidebar {
+    position: fixed;
+    z-index: 2;
+}
+.pharm-name:hover {
+    color: purple;
+}
+
+.sidebar-items:hover {
+    background-color: rgb(255, 247, 254);
+}
+.org-login:hover {
+  color: purple;
+}
+
+.icon-top:hover {
+    color: purple;
+    height: 25px;
+    width: 25px;
+}
+.favicon:hover {
+    color : purple;
+}
+
+.app-name{
+    display: flex;
+    align-items: center;
+    transition: background-position 275ms ease;
+}
+
+.app-name:hover {
+    background-position: 0 100%;
+}
+.app-name-second {
+    color: rgb(143, 212, 39);
+}
+
+.super-title {
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+    margin-bottom: 20px;
+}
