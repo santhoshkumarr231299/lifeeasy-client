@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { Button, Form, Card, Alert } from "react-bootstrap";
 import Cookies from "js-cookie";
 import axios from "../../api/axios";
+import { CircularProgress } from "@mui/material";
 
 function LoginPage() {
   const [pharmacies, setPharmacies] = useState([]);
@@ -12,6 +13,8 @@ function LoginPage() {
   const [hoverColor, setHoverColor] = useState("black");
   const [opacity, setOpacity] = useState("60%");
   const [selectDisp, setSelectDisp] = useState(false);
+
+  const [isLoading, setIsLoading] = useState(false);
 
   const username = useRef();
   const password = useRef();
@@ -36,12 +39,14 @@ function LoginPage() {
   }, []);
   const validateLogin = async (e) => {
     e.preventDefault();
+    setIsLoading(true);
     await axios
       .post("/logged-in", {
         secretKey: Cookies.get("secretKey"),
       })
       .then((res) => {
         if (res.data.username !== "") {
+          setIsLoading(false);
           navigate("/home");
           return;
         }
@@ -55,8 +60,10 @@ function LoginPage() {
       .then((res) => {
         if (res.data.message === "success") {
           Cookies.set("secretKey", res.data.secretKey, { expires: 1 });
+          setIsLoading(false);
           navigate("/home");
         } else {
+          setIsLoading(false);
           setAlertType("danger");
           setAlert(() => "Failed to Login");
           setOpenAlert(() => true);
@@ -206,6 +213,9 @@ function LoginPage() {
               type="submit"
               onClick={(e) => validateLogin(e)}
             >
+              {isLoading && (
+                <CircularProgress style={{ marginRight: "10px" }} size={20} />
+              )}
               Log In
             </Button>
             {/* <div style={{ margin: "10px", display: "flex", gap: "10px" }}>
