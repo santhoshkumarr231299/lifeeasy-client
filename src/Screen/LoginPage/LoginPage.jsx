@@ -212,11 +212,19 @@ function LoginPage() {
               variant="primary"
               type="submit"
               onClick={(e) => validateLogin(e)}
+              disabled={isLoading}
             >
-              {isLoading && (
-                <CircularProgress style={{ marginRight: "10px" }} size={20} />
-              )}
-              Log In
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  gap: "1rem",
+                }}
+              >
+                <div>{isLoading && <CircularProgress size={20} />}</div>
+                <div>Log In</div>
+              </div>
             </Button>
             {/* <div style={{ margin: "10px", display: "flex", gap: "10px" }}>
               <div>
