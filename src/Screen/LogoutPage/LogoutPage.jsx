@@ -9,8 +9,10 @@ import DialogTitle from "@mui/material/DialogTitle";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { useTheme } from "@mui/material/styles";
 import Cookies from "js-cookie";
+import { useNavigate } from "react-router-dom";
 
 export default function LogoutPage(props) {
+  const navigate = useNavigate();
   const logoutUser = (e) => {
     e.preventDefault();
     axios
@@ -19,7 +21,7 @@ export default function LogoutPage(props) {
       })
       .then((resp) => {
         Cookies.remove("secretKey");
-        window.location.reload(false);
+        navigate("/login");
       });
   };
   const [open, setOpen] = React.useState(true);
