@@ -35,6 +35,7 @@ function AssignUserPrevileges(props) {
   const [message, setMessage] = useState("");
 
   const [isLoading, setIsLoading] = useState(false);
+  const [isBtnDisabled, setIsBtnDisabled] = useState(false);
 
   const handleClose = () => {
     setMessage("");
@@ -158,11 +159,13 @@ function AssignUserPrevileges(props) {
 
   const updatePrevileges = async (e) => {
     e.preventDefault();
+    setIsBtnDisabled(true);
     let userPrevileges = await fetchUserPrevileges();
     if (userPrevileges === "") {
       setSeverity("warning");
       setMessage("Choose atleast one User Previleges");
       setOpen(true);
+      setIsBtnDisabled(false);
       return;
     }
     let userPreTemp = await userPrevileges.replace("[", "");
@@ -179,11 +182,13 @@ function AssignUserPrevileges(props) {
         setSeverity(resp.data.status);
         setMessage(resp.data.message);
         setOpen(true);
+        setIsBtnDisabled(false);
       })
       .catch((err) => {
         setSeverity("error");
         setMessage("Something went wrong");
         setOpen(true);
+        setIsBtnDisabled(false);
       });
   };
 
@@ -300,7 +305,9 @@ function AssignUserPrevileges(props) {
         }}
         variant="contained"
         onClick={(e) => updatePrevileges(e)}
+        disabled={isBtnDisabled}
       >
+        {isBtnDisabled && (<CircularProgress style={{ marginRight: "10px" }} size={20} />)}
         Save Previleges
       </Button>
       <Snackbar open={open} autoHideDuration={3000} onClose={handleClose}>

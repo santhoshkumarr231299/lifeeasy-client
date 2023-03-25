@@ -77,6 +77,7 @@ function UserDetails(props) {
   const [message, setMessage] = useState("");
 
   const [isLoading, setIsLoading] = useState(false);
+  const [buttonLoading, setButtonLoading] = useState(false);
 
   const [user, setUser] = useState({});
   const userFields = [
@@ -266,6 +267,7 @@ function UserDetails(props) {
         onClick={(e) => updateDetails(e)}
         disabled={isBtnDisabled}
       >
+        {isBtnDisabled && (<CircularProgress style={{ marginRight: "10px" }} size={20} />)}
         Save Details
       </Button>
       <Snackbar open={open} autoHideDuration={3000} onClose={handleClose}>
@@ -284,6 +286,9 @@ function ChangePass(props) {
   const [newPass, setNewPass] = useState("");
   const [confirmNewPass, setConfirmNewPass] = useState("");
   const [oldPass, setOldPass] = useState("");
+
+  const [isBtnDisabled, setIsBtnDisabled] = useState(false);
+
   const changePassFields = [
     {
       id: 1,
@@ -313,12 +318,14 @@ function ChangePass(props) {
     setOpen(false);
   };
   const updatePassword = async () => {
+    setIsBtnDisabled(true);
     if (newPass === confirmNewPass) {
       let valid = validatePassword(newPass);
       if (valid !== "") {
         setOpen(true);
         setSeverity("warning");
         setMessage(valid);
+        setIsBtnDisabled(false);
         return;
       } else {
         await axios
@@ -331,11 +338,13 @@ function ChangePass(props) {
             setSeverity(resp.data.status);
             setMessage(resp.data.message);
             setOpen(true);
+            setIsBtnDisabled(false);
           })
           .catch((err) => {
             setMessage("Something went wrong");
             setSeverity("error");
             setOpen(true);
+            setIsBtnDisabled(false);
           });
       }
     } else {
@@ -388,7 +397,9 @@ function ChangePass(props) {
         }}
         variant="contained"
         onClick={(e) => updatePassword(e)}
+        disabled={isBtnDisabled}
       >
+        {isBtnDisabled && (<CircularProgress style={{ marginRight: "10px" }} size={20} />)}
         Save New Password
       </Button>
       <Snackbar open={open} autoHideDuration={3000} onClose={handleClose}>
