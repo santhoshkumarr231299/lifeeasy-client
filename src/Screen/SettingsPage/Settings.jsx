@@ -87,6 +87,7 @@ function UserDetails(props) {
       labelName: "Username",
       value: user.username,
       status: "disabled",
+      dispStatus: true,
     },
     {
       id: 2,
@@ -94,6 +95,7 @@ function UserDetails(props) {
       labelName: "Email",
       value: user.email,
       status: "disabled",
+      dispStatus: true,
     },
     {
       id: 3,
@@ -101,6 +103,7 @@ function UserDetails(props) {
       labelName: "Mobile Number",
       value: user.mobileNumber,
       status: "active",
+      dispStatus: true,
     },
     {
       id: 4,
@@ -108,6 +111,7 @@ function UserDetails(props) {
       labelName: "Pharmacy Name",
       value: user.pharmacyName,
       status: "disabled",
+      dispStatus: user.pharmacyName === "" ? false : true,
     },
     {
       id: 5,
@@ -115,6 +119,7 @@ function UserDetails(props) {
       labelName: "Branch ID",
       value: user.branchId,
       status: "disabled",
+      dispStatus: user.pharmacyName === "" ? false : true,
     },
   ];
   const handleClose = () => {
@@ -225,7 +230,7 @@ function UserDetails(props) {
         <div key={userField.id}>
           <InputGroup
             className="mb-3"
-            style={{ display: "flex", alignItems: "center" }}
+            style={{ display: userField.dispStatus ? "flex" : "none", alignItems: "center" }}
           >
             <InputGroup.Text style={{ minWidth: "150px", height: "40px" }}>
               {userField.labelName}

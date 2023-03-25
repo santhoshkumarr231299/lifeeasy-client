@@ -51,7 +51,7 @@ export default function ImgMediaCard(props) {
   return (
     <div>
       <Card
-        sx={{ maxWidth: 345, maxHeight : 500, minHeight : 400 }}
+        sx={{ maxWidth: 500 }}
         style={{
           margin: "10px",
         }}
@@ -62,8 +62,8 @@ export default function ImgMediaCard(props) {
           height="140"
           image={props.img}
         />
-        <CardContent>
-          <Typography gutterBottom variant="h5" component="div">
+        <CardContent sx={{height : 150}}>
+          <Typography gutterBottom variant="h6" component="div">
             {props.changeToRightCase(props.name.split(" "))}
           </Typography>
           <Typography variant="body2" color="text.secondary">
@@ -71,12 +71,13 @@ export default function ImgMediaCard(props) {
               {props.changeToRightCase(props.pharmacy.split(" "))}
             </strong>
             <div>
-              Company : {props.changeToRightCase(props.content.split(" "))}
+            <strong>Company :</strong> {props.changeToRightCase(props.content.split(" "))}
             </div>
-            <strong> MRP :</strong> ₹{props.mrp} <br />
-            <strong>Order At :</strong> ₹{props.rate}
           </Typography>
         </CardContent>
+        <Typography>
+          <div style={{display : "flex", alignItems : "center", gap : "10px", marginLeft : "20px"}}><span style={{textDecoration : "line-through", fontSize : "30px"}}>₹{props.mrp} </span>  <span style={{fontSize : "20px"}}>₹{props.rate}</span></div>
+          </Typography>
         <CardActions>
           <Button style={{ color: "purple" }} onClick={(e) => addToCart(e)}>
             ADD TO CART

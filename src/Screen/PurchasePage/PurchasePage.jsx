@@ -227,7 +227,7 @@ function CartPage(props) {
   const updateTotAmt = () => {
     let amt = 0;
     medList.forEach((data) => {
-      amt += data.quantity * data.price;
+      amt += (+data.quantity) * (+data.price);
     });
     setMedList(amt);
   };
@@ -241,7 +241,8 @@ function CartPage(props) {
         let tempList = [];
         let amt = 0;
         resp.data.forEach((data) => {
-          amt += data.quantity * data.price;
+          console.log(data.price);
+          amt += (+data.quantity) * (+data.price);
           tempList.push({
             id: data.id,
             mid: data.mid,
@@ -296,7 +297,7 @@ function CartPage(props) {
               let tempList = [];
               let amt = 0;
               resp1.data.forEach((data) => {
-                amt += data.quantity * data.price;
+                amt += (+data.quantity) * (+data.price);
                 tempList.push({
                   id: data.id,
                   mid: data.mid,
@@ -373,7 +374,7 @@ function CartPage(props) {
               let tempList = [];
               let amt = 0;
               resp1.data.forEach((data) => {
-                amt += data.quantity * data.price;
+                amt += (+data.quantity) * (+data.price);
                 tempList.push({
                   id: data.id,
                   mid: data.mid,
