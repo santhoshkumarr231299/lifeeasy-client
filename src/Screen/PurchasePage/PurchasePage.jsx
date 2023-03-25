@@ -17,6 +17,7 @@ import Snackbar from "@mui/material/Snackbar";
 import { CircularProgress } from "@mui/material";
 import MuiAlert from "@mui/material/Alert";
 import Cards from "./Cards";
+import medImg from "../../assets/medicine-img.png";
 import {
   MDBInput,
   MDBBtn,
@@ -50,8 +51,12 @@ export default function MainMedicinePage(props) {
 function MedicinePage(props) {
   const [medicines, setMedicines] = useState([]);
   const [cartItemSize, setCartItemSize] = useState(0);
+
+  const [isLoading, setIsLoading] = useState(false);
+
   const updateMedicines = (e) => {
     e.preventDefault();
+    setIsLoading(true);
     axios
       .post("/get-search-medicines", {
         searchWord: e.target.value,
@@ -59,6 +64,10 @@ function MedicinePage(props) {
       })
       .then((resp) => {
         setMedicines(resp.data);
+        setIsLoading(false);
+      }).catch(err => {
+        console.log("Error fetching data....");
+        setIsLoading(false);
       });
   };
 
@@ -92,6 +101,7 @@ function MedicinePage(props) {
   }
 
   useEffect(() => {
+    setIsLoading(true);
     axios
       .post("/get-search-medicines", {
         searchWord: "",
@@ -99,9 +109,11 @@ function MedicinePage(props) {
       })
       .then((resp) => {
         setMedicines(resp.data);
+        setIsLoading(false);
       })
       .catch((err) => {
-        console.log("something went wrong");
+        console.log("Error fetching details...");
+        setIsLoading(false);
       });
     updateCartCount();
   }, []);
@@ -151,6 +163,11 @@ function MedicinePage(props) {
                   <SearchIcon />
                 </InputAdornment>
               }
+              endAdornment={
+                <InputAdornment position="end">
+                  {isLoading && <CircularProgress style={{ marginRight: "10px" }} size={20} />}
+                </InputAdornment>
+              }
               placeholder="Search Medicines..."
               onChange={(e) => updateMedicines(e)}
             />
@@ -179,9 +196,7 @@ function MedicinePage(props) {
               rate={data.medRate}
               updateCartCount={updateCartCount}
               changeToRightCase={changeToRightCase}
-              img={
-                "https://images.unsplash.com/photo-1617881770125-6fb0d039ecde?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MzF8fG1lZGljaW5lfGVufDB8fDB8fA%3D%3D&w=1000&q=80"
-              }
+              img={medImg}
             />
           ))}
         </div>
@@ -200,6 +215,7 @@ function CartPage(props) {
   const [totalAmount, setTotalAmount] = useState(0);
   const [mouseHover, setMouseHover] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [isDataLoading, setIsDataLoading] = useState(false);
 
   const handleClose = () => {
     setMessage("");
@@ -215,6 +231,7 @@ function CartPage(props) {
     setMedList(amt);
   };
   const getCartItems = () => {
+    setIsDataLoading(true);
     axios
       .post("/get-cart-items", {
         secretKey: Cookies.get("secretKey"),
@@ -234,6 +251,10 @@ function CartPage(props) {
         });
         setTotalAmount(amt);
         setMedList(tempList);
+        setIsDataLoading(false);
+      }).catch(err => {
+        setIsDataLoading(false);
+        console.log("Error fetching data...");
       });
   };
 
@@ -419,7 +440,8 @@ function CartPage(props) {
             </div>
           </div>
           <div>
-            {medList.map((med) => (
+          {isDataLoading ? <CircularProgress style={{ marginRight: "10px", alignSelf: "center" }} size={30} /> :
+            medList.map((med) => (
               <div>
                 <MDBCard
                   style={{ backgroundColor: "#fcfafa" }}
@@ -431,7 +453,7 @@ function CartPage(props) {
                         <MDBCardImage
                           style={{ marginLeft: "20px" }}
                           fluid
-                          src="https://images.unsplash.com/photo-1617881770125-6fb0d039ecde?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MzF8fG1lZGljaW5lfGVufDB8fDB8fA%3D%3D&w=1000&q=80"
+                          src={medImg}
                           alt="Generic placeholder image"
                         />
                       </MDBCol>

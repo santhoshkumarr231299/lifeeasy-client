@@ -51,7 +51,7 @@ export default function ImgMediaCard(props) {
   return (
     <div>
       <Card
-        sx={{ maxWidth: 345 }}
+        sx={{ maxWidth: 345, maxHeight : 500, minHeight : 400 }}
         style={{
           margin: "10px",
         }}
