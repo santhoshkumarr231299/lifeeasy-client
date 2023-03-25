@@ -15,7 +15,7 @@ function loadScript(src) {
   });
 }
 
-async function displayRazorpay(makeOrder) {
+async function displayRazorpay(makeOrder, openSnackBar) {
   const res = await loadScript("https://checkout.razorpay.com/v1/checkout.js");
 
   if (!res) {
@@ -61,6 +61,8 @@ async function displayRazorpay(makeOrder) {
       // alert(result.data.message);
       const res = await makeOrder();
 
+      openSnackBar("success", "Payment Successful");
+
       return;
     },
     prefill: {
@@ -79,6 +81,6 @@ async function displayRazorpay(makeOrder) {
   paymentObject.open();
 }
 
-export async function RazorpayPaymentGateWay(makeOrder) {
-  return await displayRazorpay(makeOrder);
+export async function RazorpayPaymentGateWay(makeOrder, openSnackBar) {
+  return await displayRazorpay(makeOrder, openSnackBar);
 }

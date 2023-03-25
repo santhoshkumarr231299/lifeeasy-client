@@ -251,7 +251,7 @@ function CartPage(props) {
             price: data.price,
           });
         });
-        setTotalAmount(amt);
+        setTotalAmount(() => amt.toFixed(2));
         setMedList(tempList);
         setIsDataLoading(false);
       }).catch(err => {
@@ -306,7 +306,7 @@ function CartPage(props) {
                   price: data.price,
                 });
               });
-              setTotalAmount(amt);
+              setTotalAmount(() => amt.toFixed(2));
               setMedList(tempList);
               setIsUpdatingQuantity(false);
             });
@@ -333,7 +333,7 @@ function CartPage(props) {
         if (resp.data.status === "success") {
           setTimeout(() => {
             getCartItems();
-            alert("Ordered Successfully...");
+            openSnackBar("success", "Ordered Successful");
             setIsLoading(false);
           }, 3000);
         } else {
@@ -343,18 +343,26 @@ function CartPage(props) {
       .catch((err) => setIsLoading(false));
   };
 
+  const openSnackBar = (status, message) => {
+    setMessage(message);
+    setSeverity(status);
+    setOpen(true);
+  }
+
   const makePayment = async (e) => {
     e.preventDefault();
     if (totalAmount > 50) {
       setIsLoading(true);
 
-      RazorpayPaymentGateWay(makeOrder);
+      RazorpayPaymentGateWay(makeOrder, openSnackBar);
 
-      setTimeout(() => {
-        setIsLoading(false);
-      }, 4000);
+      // setTimeout(() => {
+      //   setIsLoading(false);
+      // }, 4000);
     } else {
-      alert("The Amount should be more than 50");
+      setMessage("The Amount should be more than 50");
+      setSeverity("warning");
+      setOpen(true);
     }
   };
 
@@ -383,7 +391,7 @@ function CartPage(props) {
                   price: data.price,
                 });
               });
-              setTotalAmount(amt);
+              setTotalAmount(() => amt.toFixed(2));
               setMedList(tempList);
             });
         }
@@ -596,6 +604,11 @@ function CartPage(props) {
           </div>
         </div>
       </Paper>
+      <Snackbar open={open} autoHideDuration={3000} onClose={handleClose}>
+        <Alert onClose={handleClose} severity={severity} sx={{ width: "100%" }}>
+          {message}
+        </Alert>
+      </Snackbar>
     </div>
   );
 }
