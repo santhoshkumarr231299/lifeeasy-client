@@ -289,7 +289,7 @@ function MainPage(props) {
                     key={menu.menuValue}
                     className="sidebar-items"
                     style={{
-                      width: "250px",
+                      width: "280px",
                       color: option === menu.menuValue ? "purple" : "",
                       fontWeight: option === menu.menuValue ? "bold" : "",
                     }}

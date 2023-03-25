@@ -88,8 +88,11 @@ function OrderPickupPage(props) {
           });
         });
         setDataGridRows(temp);
+        setIsLoading(false)
+      }).catch(err => {
+        console.log("Error fetching details...");
+        setIsLoading(false);
       });
-    setIsLoading(false);
   }
 
   useEffect(() => {
@@ -218,8 +221,11 @@ function YourDeliveryPage(props) {
           });
         });
         setDataGridRows(temp);
+        setIsLoading(false);
+      }).catch(err => {
+        console.log("Error fetching details...");
+        setIsLoading(false);
       });
-    setIsLoading(false);
   }
 
   useEffect(() => {

@@ -35,7 +35,11 @@ export default function MedicinePageManager() {
 function MedicinePage(props) {
   const [medicines, setMedicines] = useState([]);
   const [dataGridRows, setDataGridRows] = useState([]);
+
+  const [isLoading, setIsLoading] = useState(false);
+
   useEffect(() => {
+    setIsLoading(true);
     let temp = [];
     let counter = 1;
     axios
@@ -61,7 +65,11 @@ function MedicinePage(props) {
         });
 
         setDataGridRows(temp);
-      });
+        setIsLoading(false);
+      }).catch(err => {
+        setIsLoading(false);
+        console.log("Error fetching medicines...");
+      }) ;
   }, []);
   const columns = [
     { field: "id", headerName: "ID", width: 60 },
@@ -109,6 +117,7 @@ function MedicinePage(props) {
           height: "500px",
           margin: "auto",
         }}
+        loading={isLoading}
         rows={dataGridRows}
         columns={columns}
         pageSize={10}

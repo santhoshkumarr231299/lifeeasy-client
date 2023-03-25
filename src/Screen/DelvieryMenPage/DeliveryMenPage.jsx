@@ -38,7 +38,11 @@ export default function MedicinePageManager() {
 function DeliveryManPage(props) {
   const [deliveryMan, setDeliveryMan] = useState([]);
   const [dataGridRows, setDataGridRows] = useState([]);
+
+  const [isLoading, setIsLoading] = useState(false);
+
   useEffect(() => {
+    setIsLoading(true);
     let temp = [];
     let counter = 0;
     axios
@@ -58,6 +62,10 @@ function DeliveryManPage(props) {
           });
         });
         setDataGridRows(temp);
+        setIsLoading(false);
+      }).catch(err => {
+        setIsLoading(false);
+        console.log("Error fetching details...");
       });
   }, []);
   const columns = [
@@ -100,6 +108,7 @@ function DeliveryManPage(props) {
           height: "500px",
           margin: "auto",
         }}
+        loading={isLoading}
         rows={dataGridRows}
         columns={columns}
         pageSize={10}

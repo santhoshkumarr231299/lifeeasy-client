@@ -2,7 +2,7 @@ import axios from "../../api/axios";
 import React, { useState } from "react";
 import { useEffect } from "react";
 import { Form } from "react-bootstrap";
-import { Paper, Button, TextField } from "@mui/material";
+import { Paper, Button, CircularProgress } from "@mui/material";
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert from "@mui/material/Alert";
 import { Typeahead } from "react-bootstrap-typeahead";
@@ -33,6 +33,8 @@ function AssignUserPrevileges(props) {
   const [open, setOpen] = useState(false);
   const [severity, setSeverity] = useState("");
   const [message, setMessage] = useState("");
+
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleClose = () => {
     setMessage("");
@@ -207,6 +209,7 @@ function AssignUserPrevileges(props) {
 
   useEffect(() => {
     if (selectedUser && selectedUser.length === 1) {
+      setIsLoading(true);
       axios
         .post("/get-user-previleges", {
           username: selectedUser[0].label,
@@ -214,14 +217,17 @@ function AssignUserPrevileges(props) {
         })
         .then((resp) => {
           setUserPrevileges(resp.data.userPrevileges);
+          setIsLoading(false);
         })
         .catch((err) => {
           setSeverity("error");
           setMessage("Something went wrong");
           setOpen(true);
+          setIsLoading(false);
         });
     } else {
       setUserPrevileges("");
+      setIsLoading(false);
     }
   }, [selectedUser]);
 
@@ -268,7 +274,10 @@ function AssignUserPrevileges(props) {
             display: selectedUser && selectedUser === "" ? "none" : "block",
           }}
         >
-          {selectedUser.length > 0 &&
+          {isLoading ? (<div style={{
+            marginLeft : "65px"
+          }}><CircularProgress style={{ marginRight: "10px" }} size={20} /> </div>) :
+          selectedUser.length > 0 &&
             allMenus.map((menu) => (
               <div key={menu.FieldId}>
                 <Form.Check
