@@ -1,6 +1,6 @@
 import axios from "../../api/axios";
 import React, { useState } from "react";
-import { Paper, Button, TextField } from "@mui/material";
+import { Paper, Button, TextField, CircularProgress } from "@mui/material";
 import { useEffect } from "react";
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert from "@mui/material/Alert";
@@ -75,6 +75,8 @@ function UserDetails(props) {
   const [open, setOpen] = useState(false);
   const [severity, setSeverity] = useState("");
   const [message, setMessage] = useState("");
+
+  const [isLoading, setIsLoading] = useState(false);
 
   const [user, setUser] = useState({});
   const userFields = [
@@ -193,6 +195,7 @@ function UserDetails(props) {
     }
   };
   const fetchData = async () => {
+    setIsLoading(true);
     let tempUser;
     await axios
       .post("/get-user-details", {
@@ -201,9 +204,13 @@ function UserDetails(props) {
       })
       .then((resp) => {
         tempUser = resp.data;
-      });
+        setIsLoading(false);
+      }).catch(err => {
+        setIsLoading(false);
+        console.log("Error fetching details...");
+      });;
     setUser(tempUser);
-  };
+  }
   useEffect(() => {
     fetchData();
   }, []);
@@ -212,7 +219,8 @@ function UserDetails(props) {
   });
   return (
     <div style={{ maxWidth: "400px", margin: "auto" }}>
-      {userFields.map((userField) => (
+      {isLoading ? (<div><CircularProgress style={{ marginRight: "10px" }} size={20} /> </div>) :
+      userFields.map((userField) => (
         <div key={userField.id}>
           <InputGroup
             className="mb-3"

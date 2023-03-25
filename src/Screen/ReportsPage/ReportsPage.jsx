@@ -27,7 +27,11 @@ export default function ReportPageManager() {
 
 function ReportPage(props) {
   const [dataGridRows, setDataGridRows] = useState([]);
+
+  const [isLoading, setIsLoading] = useState(false);
+
   useEffect(() => {
+    setIsLoading(true);
     let temp = [];
     axios
       .post("/get-reports", {
@@ -46,6 +50,10 @@ function ReportPage(props) {
           });
         });
         setDataGridRows(temp);
+        setIsLoading(false);
+      }).catch(err => {
+        console.log("Error fetching details...");
+        setIsLoading(false);
       });
   }, []);
   const columns = [
@@ -90,6 +98,7 @@ function ReportPage(props) {
           height: "500px",
           margin: "auto",
         }}
+        loading={isLoading}
         rows={dataGridRows}
         columns={columns}
         pageSize={5}

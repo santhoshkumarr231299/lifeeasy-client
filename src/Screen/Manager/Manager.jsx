@@ -38,7 +38,11 @@ export default function ManagerPage() {
 function ManagerReportPage(props) {
   const [manager, setManager] = useState([]);
   const [dataGridRows, setDataGridRows] = useState([]);
+
+  const [isLoading, setIsLoading] = useState(false);
+
   useEffect(() => {
+    setIsLoading(true);
     let temp = [];
     let counter = 0;
     axios
@@ -57,6 +61,10 @@ function ManagerReportPage(props) {
           });
         });
         setDataGridRows(temp);
+        setIsLoading(false);
+      }).catch(err => {
+        console.log("Error fetching details...");
+        setIsLoading(false);
       });
   }, []);
   const columns = [
@@ -98,6 +106,7 @@ function ManagerReportPage(props) {
           height: "500px",
           margin: "auto",
         }}
+        loading={isLoading}
         rows={dataGridRows}
         columns={columns}
         pageSize={10}
