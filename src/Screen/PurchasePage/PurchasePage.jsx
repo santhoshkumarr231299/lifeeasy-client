@@ -211,6 +211,7 @@ function CartPage(props) {
   const [severity, setSeverity] = useState("");
   const [message, setMessage] = useState("");
 
+  const [isUpdatingQuantity, setIsUpdatingQuantity] = useState(false);
   const [medList, setMedList] = useState([]);
   const [totalAmount, setTotalAmount] = useState(0);
   const [mouseHover, setMouseHover] = useState(false);
@@ -278,6 +279,7 @@ function CartPage(props) {
   };
 
   const updateQuantity = (e, id) => {
+    setIsUpdatingQuantity(true);
     axios
       .post("/update-cart-items", {
         newQuantity: e.target.value,
@@ -305,8 +307,15 @@ function CartPage(props) {
               });
               setTotalAmount(amt);
               setMedList(tempList);
+              setIsUpdatingQuantity(false);
             });
         }
+        else {
+          setIsUpdatingQuantity(false);
+        }
+      }).catch(err => {
+        console.log("Error updating Quantity...");
+        setIsUpdatingQuantity(false);
       });
   };
 
@@ -532,7 +541,7 @@ function CartPage(props) {
                 <div className="float-end">
                   <p className="mb-0 me-5 d-flex align-items-center">
                     <span className="small text-muted me-2">Order total:</span>
-                    <span className="lead fw-normal">₹{totalAmount}</span>
+                    <span className="lead fw-normal">{isUpdatingQuantity ? (<CircularProgress style={{ marginRight: "10px" }} size={20} />): "₹" +totalAmount}</span>
                   </p>
                 </div>
               </MDBCardBody>
