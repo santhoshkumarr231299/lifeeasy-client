@@ -55,3 +55,26 @@ body {
     margin-top: 10px;
     margin-bottom: 20px;
 }
+
+.subscribe-screen {
+    margin-top: 20vh;
+    display: flex;
+    gap : 50px;
+    align-items : center;
+    justify-content : center;
+}
+
+.subs-title {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.subs-card {
+    min-height: 550px;
+    background-color : white;
+    height : 60vh;
+    width: 400px;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgb(0 0 0 / 0.2);
+}

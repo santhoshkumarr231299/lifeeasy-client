@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.css";
 import CircularProgress from "@mui/material/CircularProgress";
 import "./App.css";
+import SubscribeToServicePage from "./Screen/SubscribeToServicePage/SubscribeToServicePage"
 
 const MainPage = lazy(() => import("./Screen/MainPage/MainPage"));
 const LoginPage = lazy(() => import("./Screen/LoginPage/LoginPage"));
@@ -25,6 +26,7 @@ class App extends Component {
                 <Route path="/login" element={<LoginPage theme = {this.theme} />} />
                 <Route path="/newuser" element={<NewUser theme = {this.theme} />} />
                 <Route path="/forgotpass" element={<ForgotPassPage  theme = {this.theme} />} />
+                <Route path='/subscribe' element={<SubscribeToServicePage />} />
             </Routes>
         </BrowserRouter>
     </Suspense>
