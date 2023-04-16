@@ -15,6 +15,7 @@ function LoginPage() {
   const [selectDisp, setSelectDisp] = useState(false);
 
   const [isLoading, setIsLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
   const username = useRef();
   const password = useRef();
@@ -29,8 +30,10 @@ function LoginPage() {
         if (res.data.username !== "") {
           let today = new Date();
           let DateOfSubscription = new Date(res.data.DateOfSubscription);
-          console.log('remaining days : ',((today - DateOfSubscription)/(1000*60*60*24) <= 30));
-          if(res.data.subscriptionPack == 'monthly' && ((today - DateOfSubscription)/(1000*60*60*24) <= 30)) {
+          console.log('remaining days : ',((today - DateOfSubscription)/(1000*60*60*24)));
+          if(res.data.pharmacy == "") {
+            navigate("/home");
+          } else if(res.data.subscriptionPack == 'monthly' && ((today - DateOfSubscription)/(1000*60*60*24) <= 30)) {
             navigate("/home");
           } else if(res.data.subscriptionPack == 'yearly' && ((today - DateOfSubscription)/(1000*60*60*24) <= 365)) {
             navigate("/home");
@@ -71,8 +74,10 @@ function LoginPage() {
             setIsLoading(false);
             let today = new Date();
             let DateOfSubscription = new Date(res.data.DateOfSubscription);
-            console.log('remaining days : ',((today - DateOfSubscription)/(1000*60*60*24) <= 30));
-            if(res.data.subscriptionPack == 'monthly' && ((today - DateOfSubscription)/(1000*60*60*24) <= 30)) {
+            console.log('remaining days : ',((today - DateOfSubscription)/(1000*60*60*24)));
+            if(res.data.pharmacy == "") {
+              navigate("/home");
+            } else if(res.data.subscriptionPack == 'monthly' && ((today - DateOfSubscription)/(1000*60*60*24) <= 30)) {
               navigate("/home");
             } else if(res.data.subscriptionPack == 'yearly' && ((today - DateOfSubscription)/(1000*60*60*24) <= 365)) {
               navigate("/home");
@@ -89,6 +94,10 @@ function LoginPage() {
       }
     });
   };
+
+  const handleShowPassword = (e) => {
+    setShowPassword(e.target.checked);
+  }
 
   const handleChecked = (e) => {
     setSelectDisp(e.target.checked);
@@ -190,7 +199,7 @@ function LoginPage() {
                   <Form.Group className="mb-3" controlId={field.fieldName}>
                     <Form.Label>{field.labelName}</Form.Label>
                     <Form.Control
-                      type={field.type}
+                      type={field.type == 'password' ? (showPassword ? 'text' : field.type) : field.type}
                       ref={field.reference}
                       placeholder={field.labelName}
                     />
@@ -215,6 +224,15 @@ function LoginPage() {
                 )} */}
               </div>
             ))}
+            <div style={{ margin: "10px", display: "flex", gap: "10px" }}>
+              <div>
+                <Form.Check
+                  disabled={isLoading}
+                  onChange={(e) => handleShowPassword(e)}
+                />
+              </div>
+              <div className="org-login">Show Password</div>
+            </div>
             <Alert
               variant={alertType}
               style={{

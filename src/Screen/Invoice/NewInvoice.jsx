@@ -103,6 +103,7 @@ function InvoiceReportPage(props) {
           height: "500px",
           margin: "auto",
         }}
+        getRowHeight={() => 'auto'}
         loading={isLoading}
         rows={dataGridRows}
         columns={columns}

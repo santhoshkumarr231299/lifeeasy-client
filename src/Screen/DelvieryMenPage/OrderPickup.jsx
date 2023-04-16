@@ -167,6 +167,7 @@ function OrderPickupPage(props) {
             height: "500px",
             margin: "auto",
           }}
+          getRowHeight={() => 'auto'}
           rows={dataGridRows}
           columns={columns}
           pageSize={10}
@@ -284,6 +285,7 @@ function YourDeliveryPage(props) {
             height: "500px",
             margin: "auto",
           }}
+          getRowHeight={() => 'auto'}
           rows={dataGridRows}
           columns={columns}
           pageSize={10}

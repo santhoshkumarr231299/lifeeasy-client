@@ -125,3 +125,17 @@ body {
 .subscribe-screen .subs-card p {
     color : rgb(134, 134, 134);
 }
+
+
+/* material ui cell wrap property */
+.MuiDataGrid-root .MuiDataGrid-cell {
+    white-space: normal !important;
+    word-wrap: break-word !important;
+    text-align: left;
+    margin-top: 10px;
+    margin-bottom: 10px;
+  }
+
+  .MuiDataGrid-root .MuiDataGrid-cell:hover {
+    color: red;
+  }

@@ -13,6 +13,10 @@ function SubscribeToServicePage() {
     const [user, setUser] = useState({});
     const [logout, setLogout] = useState(false);
 
+    const [isLoading, setIsLoading] = useState(false);
+    const [isMonthlyClicked, setIsMonthlyClicked] = useState(false);
+    const [isYearlyClicked, setIsYearlyClicked] = useState(false);
+
     const [open, setOpen] = useState(false);
     const [severity, setSeverity] = useState("");
     const [message, setMessage] = useState("");
@@ -41,10 +45,14 @@ function SubscribeToServicePage() {
 
     function MonthlyPayment() {
         console.log('Monthly Payment clicked');
+        setIsLoading(true);
+        setIsMonthlyClicked(true);
         RazorpayPaymentGateWaySubscription(openSnackBar, "monthly",goToHome);
     }
     function YearlyPayment() {
         console.log('Yearly Payment clicked');
+        setIsLoading(true);
+        setIsYearlyClicked(true);
         RazorpayPaymentGateWaySubscription(openSnackBar, "yearly",goToHome);
     }
     
@@ -69,8 +77,10 @@ function SubscribeToServicePage() {
               });
               let today = new Date();
               let DateOfSubscription = new Date(res.data.DateOfSubscription);
-              console.log('remaining days : ',((today - DateOfSubscription)/(1000*60*60*24) <= 30));
-              if(res.data.subscriptionPack == 'monthly' && ((today - DateOfSubscription)/(1000*60*60*24) <= 30)) {
+              console.log('remaining days : ',((today - DateOfSubscription)/(1000*60*60*24)));
+              if(res.data.pharmacy == "") {
+                navigate("/home");
+              } else if(res.data.subscriptionPack == 'monthly' && ((today - DateOfSubscription)/(1000*60*60*24) <= 30)) {
                 navigate("/home");
               } else if(res.data.subscriptionPack == 'yearly' && ((today - DateOfSubscription)/(1000*60*60*24) <= 365)) {
                 navigate("/home");
@@ -102,7 +112,19 @@ function SubscribeToServicePage() {
                             </ul>
                             <div className="price-tag"><h1>₹10</h1></div>
                             <p>1 month subscription</p>
-                         <button type="button" onClick={(e) => MonthlyPayment()}>Buy Now</button>
+                         <button type="button" disabled={isLoading} onClick={(e) => MonthlyPayment()}>
+                          <div
+                            style={{
+                              display: "flex",
+                              justifyContent: "center",
+                              alignItems: "center",
+                              gap: "1rem",
+                            }}
+                          >
+                            <div>{isMonthlyClicked && <CircularProgress size={20} />}</div>
+                            <div>Buy Now</div>
+                          </div>
+                         </button>
                     </form>
                 </div>
                 <div className="subs-card">
@@ -118,7 +140,19 @@ function SubscribeToServicePage() {
                             </ul>
                             <div className="price-tag"><h1 className="rate">₹120</h1><h2>₹100</h2></div>
                             <p>1 year subscription</p>
-                        <button type="button" onClick={(e) => YearlyPayment()}>Buy Now</button>
+                        <button type="button" disabled={isLoading} onClick={(e) => YearlyPayment()}>
+                        <div
+                          style={{
+                            display: "flex",
+                            justifyContent: "center",
+                            alignItems: "center",
+                            gap: "1rem",
+                          }}
+                        >
+                          <div>{isYearlyClicked && <CircularProgress size={20} />}</div>
+                          <div>Buy Now</div>
+                        </div>
+                        </button>
                     </form>                
                 </div>
             </div>
