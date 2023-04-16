@@ -3,12 +3,12 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.css";
 import CircularProgress from "@mui/material/CircularProgress";
 import "./App.css";
+import LoginPage from './Screen/LoginPage/LoginPage';
+import NewUser from './Screen/NewUserPage/NewUserPage';
+import ForgotPassPage from './Screen/ForgotPass/ForgotPass';
 import SubscribeToServicePage from "./Screen/SubscribeToServicePage/SubscribeToServicePage"
 
 const MainPage = lazy(() => import("./Screen/MainPage/MainPage"));
-const LoginPage = lazy(() => import("./Screen/LoginPage/LoginPage"));
-const NewUser = lazy(() => import("./Screen/NewUserPage/NewUserPage"));
-const ForgotPassPage = lazy(() => import("./Screen/ForgotPass/ForgotPass"));
 
 class App extends Component {
   theme = {

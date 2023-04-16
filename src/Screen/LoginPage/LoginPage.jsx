@@ -40,35 +40,36 @@ function LoginPage() {
   const validateLogin = async (e) => {
     e.preventDefault();
     setIsLoading(true);
-    await axios
-      .post("/logged-in", {
-        secretKey: Cookies.get("secretKey"),
-      })
-      .then((res) => {
-        if (res.data.username !== "") {
-          setIsLoading(false);
-          navigate("/home");
-          return;
-        }
-      });
-    await axios
-      .post("/login", {
-        username: username.current.value,
-        password: password.current.value,
-        pharmacy: selectDisp ? pharmaciesRef.current.value : "",
-      })
-      .then((res) => {
-        if (res.data.message === "success") {
-          Cookies.set("secretKey", res.data.secretKey, { expires: 1 });
-          setIsLoading(false);
-          navigate("/home");
-        } else {
-          setIsLoading(false);
-          setAlertType("danger");
-          setAlert(() => "Failed to Login");
-          setOpenAlert(() => true);
-        }
-      });
+      axios
+    .post("/logged-in", {
+      secretKey: Cookies.get("secretKey"),
+    })
+    .then((res) => {
+      if (res.data.username !== "") {
+        setIsLoading(false);
+        navigate("/home");
+        return;
+      } else {
+          axios
+        .post("/login", {
+          username: username.current.value,
+          password: password.current.value,
+          pharmacy: selectDisp ? pharmaciesRef.current.value : "",
+        })
+        .then((res) => {
+          if (res.data.message === "success") {
+            Cookies.set("secretKey", res.data.secretKey, { expires: 1 });
+            setIsLoading(false);
+            navigate("/home");
+          } else {
+            setIsLoading(false);
+            setAlertType("danger");
+            setAlert(() => res.data.comment);
+            setOpenAlert(() => true);
+          }
+    });
+      }
+    });
   };
 
   const handleChecked = (e) => {

@@ -6,6 +6,7 @@ import axios from "../../api/axios";
 import CircularProgress from "@mui/material/CircularProgress";
 import ListGroup from "react-bootstrap/ListGroup";
 import LogoutPage from "../LogoutPage/LogoutPage";
+import Navbar from "./Navbar";
 import {
   Dashboard,
   Receipt,
@@ -20,7 +21,6 @@ import {
   CheckCircle,
 } from "@mui/icons-material";
 
-const Navbar = lazy(() => import("./Navbar"));
 const DashboardPage = lazy(() => import("../Dashboard/Dashboard"));
 const Invoice = lazy(() => import("../Invoice/NewInvoice"));
 const Manager = lazy(() => import("../Manager/Manager"));
@@ -60,7 +60,7 @@ function MainPage(props) {
         secretKey: Cookies.get("secretKey"),
       })
       .then((res) => {
-        if (res.data.username === "") {
+        if (res.data.username == "") {
           navigate("/login");
         } else {
           setOption(() => res.data.lastAccessedScreen);
