@@ -134,7 +134,14 @@ export async function RazorpayPaymentGateWaySubscription(openSnackBar, subscript
         subscriptionType : subscriptionType
       });
 
-      openSnackBar("success", res.data.message);
+      if(res.data.status == 'success') {
+        openSnackBar("success", res.data.message);
+        setTimeout(() => {
+          goToHome();
+        }, 2000);
+      } else {
+        openSnackBar("error", res.data.message);
+      }
 
       setTimeout(() => {
         goToHome();
@@ -156,4 +163,23 @@ export async function RazorpayPaymentGateWaySubscription(openSnackBar, subscript
   };
   const paymentObject = new window.Razorpay(options);
   paymentObject.open();
+}
+
+
+export async function activateYourFreeTrail(openSnackBar, goToHome) {
+  const res = await axios.post("/activate-subscription", {
+    secretKey: Cookies.get("secretKey"),
+    subscriptionType : "monthly"
+  });
+
+  if(res.data.status == 'success') {
+    openSnackBar("success", res.data.message);
+    setTimeout(() => {
+      goToHome();
+    }, 2000);
+  } else {
+    openSnackBar("error", res.data.message);
+  }
+
+  return;
 }

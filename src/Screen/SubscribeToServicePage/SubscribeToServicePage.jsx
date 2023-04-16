@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { RazorpayPaymentGateWaySubscription } from "../PaymentGateWay/PaymentGatewWay";
+import { RazorpayPaymentGateWaySubscription, activateYourFreeTrail } from "../PaymentGateWay/PaymentGatewWay";
 import Snackbar from "@mui/material/Snackbar";
 import { CircularProgress } from "@mui/material";
 import MuiAlert from "@mui/material/Alert";
@@ -16,6 +16,7 @@ function SubscribeToServicePage() {
     const [isLoading, setIsLoading] = useState(false);
     const [isMonthlyClicked, setIsMonthlyClicked] = useState(false);
     const [isYearlyClicked, setIsYearlyClicked] = useState(false);
+    const [isFreeTrailClicked, setIsFreeTrailClicked] = useState(false);
 
     const [open, setOpen] = useState(false);
     const [severity, setSeverity] = useState("");
@@ -41,6 +42,13 @@ function SubscribeToServicePage() {
 
     const goToHome = () => {
         navigate('/home');
+    }
+
+    function freeTrail() {
+      console.log('Free Trail clicked');
+      setIsLoading(true);
+      setIsFreeTrailClicked(true);
+      activateYourFreeTrail(openSnackBar, goToHome);
     }
 
     function MonthlyPayment() {
@@ -74,6 +82,7 @@ function SubscribeToServicePage() {
                 username: res.data.username,
                 role: res.data.role,
                 pharmacy: res.data.pharmacy,
+                subscriptionPack : res.data.subscriptionPack
               });
               let today = new Date();
               let DateOfSubscription = new Date(res.data.DateOfSubscription);
@@ -99,6 +108,36 @@ function SubscribeToServicePage() {
                 setLogout={setLogout} />
             <div 
             className="subscribe-screen">
+              { user && user.subscriptionPack && (user.subscriptionPack == 'none') && 
+                    <div className="subs-card">
+                    <form>
+                        <h3 className="subs-title">Free Trail</h3>
+                            <ul>
+                                <li>Admin Login</li>
+                                <li>Manager Login</li>
+                                <li>Pharmacist Login</li>
+                                <li>Delivery Man Login</li>
+                                <li>Assign Custom User Previleges</li>
+                                <li>Unlimited Access to all the resources</li>
+                            </ul>
+                            <div className="price-tag"><h1 className="rate">₹10</h1><h2>₹0</h2></div>
+                            <p>1 month free trail</p>
+                        <button type="button" disabled={isLoading} onClick={(e) => freeTrail()}>
+                        <div
+                          style={{
+                            display: "flex",
+                            justifyContent: "center",
+                            alignItems: "center",
+                            gap: "1rem",
+                          }}
+                        >
+                          <div>{isFreeTrailClicked && <CircularProgress size={20} />}</div>
+                          <div>Start Your Free Trail</div>
+                        </div>
+                        </button>
+                    </form>                
+                </div>
+              }
                 <div className="subs-card">
                     <form>
                          <h3 className="subs-title">Monthly Subscription</h3>
