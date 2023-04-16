@@ -72,6 +72,16 @@ function MainPage(props) {
             pharmacy: res.data.pharmacy,
           });
           setOption(res.data.lastAccessedScreen);
+          let today = new Date();
+          let DateOfSubscription = new Date(res.data.DateOfSubscription);
+          console.log('remaining days : ',((today - DateOfSubscription)/(1000*60*60*24) <= 30));
+          if(res.data.subscriptionPack == 'monthly' && ((today - DateOfSubscription)/(1000*60*60*24) <= 30)) {
+            // navigate("/home");
+          } else if(res.data.subscriptionPack == 'yearly' && ((today - DateOfSubscription)/(1000*60*60*24) <= 365)) {
+            // navigate("/home");
+          } else {
+            navigate("/subscribe");
+          }
         }
       });
   }, []);
@@ -264,8 +274,8 @@ function MainPage(props) {
     <div>
       <div className="sticky-pharm">
         <Navbar
-          pharmacy={user ? user.pharmacy : " "}
-          username={user ? user.username : " "}
+          pharmacy={user ? user.pharmacy ?  user.pharmacy : " " : " "}
+          username={user ? user.username ? user.username : " " : " "}
           changeOption={changeOption}
         />
       </div>

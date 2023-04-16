@@ -27,7 +27,16 @@ function LoginPage() {
       })
       .then((res) => {
         if (res.data.username !== "") {
-          navigate("/home");
+          let today = new Date();
+          let DateOfSubscription = new Date(res.data.DateOfSubscription);
+          console.log('remaining days : ',((today - DateOfSubscription)/(1000*60*60*24) <= 30));
+          if(res.data.subscriptionPack == 'monthly' && ((today - DateOfSubscription)/(1000*60*60*24) <= 30)) {
+            navigate("/home");
+          } else if(res.data.subscriptionPack == 'yearly' && ((today - DateOfSubscription)/(1000*60*60*24) <= 365)) {
+            navigate("/home");
+          } else {
+            navigate("/subscribe");
+          }
         }
       });
   }
@@ -60,7 +69,16 @@ function LoginPage() {
           if (res.data.message === "success") {
             Cookies.set("secretKey", res.data.secretKey, { expires: 1 });
             setIsLoading(false);
-            navigate("/home");
+            let today = new Date();
+            let DateOfSubscription = new Date(res.data.DateOfSubscription);
+            console.log('remaining days : ',((today - DateOfSubscription)/(1000*60*60*24) <= 30));
+            if(res.data.subscriptionPack == 'monthly' && ((today - DateOfSubscription)/(1000*60*60*24) <= 30)) {
+              navigate("/home");
+            } else if(res.data.subscriptionPack == 'yearly' && ((today - DateOfSubscription)/(1000*60*60*24) <= 365)) {
+              navigate("/home");
+            } else {
+              navigate("/subscribe");
+            }
           } else {
             setIsLoading(false);
             setAlertType("danger");
