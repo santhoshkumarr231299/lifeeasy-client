@@ -104,6 +104,7 @@ function ReportPage(props) {
         pageSize={5}
         rowsPerPageOptions={[5]}
         checkboxSelection
+        getRowHeight={() => 'auto'}
       />
     </Paper>
   );

@@ -55,8 +55,8 @@ function MedicinePage(props) {
             mname: med.mname,
             mcompany: med.mcompany,
             quantity: med.quantity,
-            dateadded: med.dateAdded,
-            expirydate: med.expiryDate,
+            dateadded: "Date:" + med.dateAdded.substring(0,10) + " Time:" + med.dateAdded.substring(11,16),
+            expirydate: med.expiryDate.substring(0,10),
             mrp: med.medMrp,
             rate: med.medRate,
             status: med.status,
@@ -123,6 +123,7 @@ function MedicinePage(props) {
         pageSize={10}
         rowsPerPageOptions={[5]}
         checkboxSelection
+        getRowHeight={() => 'auto'}
       />
     </Paper>
   );

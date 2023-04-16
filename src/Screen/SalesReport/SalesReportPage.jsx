@@ -47,6 +47,7 @@ export default function SalesReportPage(props) {
             height: "500px",
             margin: "auto",
           }}
+          getRowHeight={() => 'auto'}
           rows={dataGridRows}
           columns={columns}
           pageSize={10}
