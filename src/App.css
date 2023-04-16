@@ -78,3 +78,50 @@ body {
     border-radius: 5px;
     box-shadow: 0 2px 5px rgb(0 0 0 / 0.2);
 }
+
+.subscribe-screen .subs-card form {
+    justify-content: center;
+    margin: auto;
+    text-align: center;
+    margin: 25px;
+}
+
+.subscribe-screen .subs-card button {
+    border-radius: 5px;
+    background-color: purple;
+    color: white;
+    border: none;
+    width: 100%;
+    height: 40px;
+    box-shadow: 0 2px 5px rgb(0 0 0 / 0.2);
+}
+
+.subscribe-screen .subs-card ul {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.subscribe-screen .subs-card ul li{
+    margin-top: 10px;
+    margin-bottom: 10px;
+    text-decoration: none;
+    list-style: none;
+}
+
+.subscribe-screen .subs-card .price-tag {
+    margin-top: 50px;
+    margin-bottom: 50px;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+.subscribe-screen .subs-card .price-tag .rate {
+    text-decoration: line-through;
+}
+
+.subscribe-screen .subs-card p {
+    color : rgb(134, 134, 134);
+}
