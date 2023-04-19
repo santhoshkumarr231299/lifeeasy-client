@@ -35,7 +35,7 @@ function ReportPage(props) {
     let temp = [];
     axios
       .post("/get-reports", {
-        secretKey: Cookies.get("secretKey"),
+        secretKey: Cookies.get(process.env.REACT_APP_SECRET_COOKIE_KEY),
       })
       .then((resp) => {
         resp.data.forEach((tdata) => {
@@ -190,7 +190,7 @@ function AddReportPage(props) {
           reportTitle: title.trim(),
           reportSubject: subject.trim(),
           reportDesc: desc.trim(),
-          secretKey: Cookies.get("secretKey"),
+          secretKey: Cookies.get(process.env.REACT_APP_SECRET_COOKIE_KEY),
         })
         .then((resp) => {
           setOpen(true);

@@ -7,6 +7,7 @@ import LoginPage from './Screen/LoginPage/LoginPage';
 import NewUser from './Screen/NewUserPage/NewUserPage';
 import ForgotPassPage from './Screen/ForgotPass/ForgotPass';
 import SubscribeToServicePage from "./Screen/SubscribeToServicePage/SubscribeToServicePage"
+import SuperMainPage from "./modules/SuperAdmin/Screen/MainPage.tsx";
 
 const MainPage = lazy(() => import("./Screen/MainPage/MainPage"));
 
@@ -27,6 +28,7 @@ class App extends Component {
                 <Route path="/newuser" element={<NewUser theme = {this.theme} />} />
                 <Route path="/forgotpass" element={<ForgotPassPage  theme = {this.theme} />} />
                 <Route path='/subscribe' element={<SubscribeToServicePage />} />
+                <Route path='/super-admin' element={<SuperMainPage />} />
             </Routes>
         </BrowserRouter>
     </Suspense>

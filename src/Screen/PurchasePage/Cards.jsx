@@ -23,7 +23,7 @@ export default function ImgMediaCard(props) {
         mid: props.id,
         medName: props.name,
         quantity: 20,
-        secretKey: Cookies.get("secretKey"),
+        secretKey: Cookies.get(process.env.REACT_APP_SECRET_COOKIE_KEY),
       })
       .then((resp) => {
         setOpen(true);

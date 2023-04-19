@@ -57,7 +57,7 @@ function MainPage(props) {
   useEffect(() => {
     axios
       .post("/logged-in", {
-        secretKey: Cookies.get("secretKey"),
+        secretKey: Cookies.get(process.env.REACT_APP_SECRET_COOKIE_KEY),
       })
       .then((res) => {
         if (res.data.username == "") {
@@ -107,7 +107,7 @@ function MainPage(props) {
         username: user.username,
         role: user.role,
         lastAccessedScreen: value,
-        secretKey: Cookies.get("secretKey"),
+        secretKey: Cookies.get(process.env.REACT_APP_SECRET_COOKIE_KEY),
       })
       .then((resp) => {
         //

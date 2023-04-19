@@ -24,7 +24,7 @@ function LoginPage() {
   async function isLoggedIn() {
     await axios
       .post("/logged-in", {
-        secretKey: Cookies.get("secretKey"),
+        secretKey: Cookies.get(process.env.REACT_APP_SECRET_COOKIE_KEY),
       })
       .then((res) => {
         if (res.data.username !== "") {
@@ -54,7 +54,7 @@ function LoginPage() {
     setIsLoading(true);
       axios
     .post("/logged-in", {
-      secretKey: Cookies.get("secretKey"),
+      secretKey: Cookies.get(process.env.REACT_APP_SECRET_COOKIE_KEY),
     })
     .then((res) => {
       if (res.data.username !== "") {
@@ -70,7 +70,7 @@ function LoginPage() {
         })
         .then((res) => {
           if (res.data.message === "success") {
-            Cookies.set("secretKey", res.data.secretKey, { expires: 1 });
+            Cookies.set(process.env.REACT_APP_SECRET_COOKIE_KEY, res.data.secretKey, { expires: 1 });
             setIsLoading(false);
             let today = new Date();
             let DateOfSubscription = new Date(res.data.DateOfSubscription);

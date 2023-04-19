@@ -94,7 +94,7 @@ function Dashboard() {
   useEffect(() => {
     axios
       .post("/get-dashboard-details", {
-        secretKey: Cookies.get("secretKey"),
+        secretKey: Cookies.get(process.env.REACT_APP_SECRET_COOKIE_KEY),
       })
       .then((resp) => {
         list[0].value = resp.data.managersCount;

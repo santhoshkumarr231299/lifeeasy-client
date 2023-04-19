@@ -47,7 +47,7 @@ function ManagerReportPage(props) {
     let counter = 0;
     axios
       .post("/get-managers", {
-        secretKey: Cookies.get("secretKey"),
+        secretKey: Cookies.get(process.env.REACT_APP_SECRET_COOKIE_KEY),
       })
       .then((resp) => {
         setManager(resp.data);
@@ -257,7 +257,7 @@ function AddManagerPage(props) {
                 address: address,
                 mobileNumber: mobileNumber,
                 password: "manager",
-                secretKey: Cookies.get("secretKey"),
+                secretKey: Cookies.get(process.env.REACT_APP_SECRET_COOKIE_KEY),
               })
               .then((resp) => {
                 setOpen(true);

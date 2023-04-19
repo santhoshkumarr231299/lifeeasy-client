@@ -17,10 +17,10 @@ export default function LogoutPage(props) {
     e.preventDefault();
     axios
       .post("/logout", {
-        secretKey: Cookies.get("secretKey"),
+        secretKey: Cookies.get(process.env.REACT_APP_SECRET_COOKIE_KEY),
       })
       .then((resp) => {
-        Cookies.remove("secretKey");
+        Cookies.remove(process.env.REACT_APP_SECRET_COOKIE_KEY);
         navigate("/login");
       });
   };

@@ -40,7 +40,7 @@ function InvoiceReportPage(props) {
     let counter = 0;
     axios
       .post("/get-invoices", {
-        secretKey: Cookies.get("secretKey"),
+        secretKey: Cookies.get(process.env.REACT_APP_SECRET_COOKIE_KEY),
       })
       .then((resp) => {
         setInvoice(resp.data);
@@ -192,7 +192,7 @@ function AddInvoicePage(props) {
         branch: branch,
         quantity: quantity,
         amount: amount,
-        secretKey: Cookies.get("secretKey"),
+        secretKey: Cookies.get(process.env.REACT_APP_SECRET_COOKIE_KEY),
       })
       .then((resp) => {
         setOpen(true);

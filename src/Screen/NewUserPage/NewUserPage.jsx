@@ -100,7 +100,7 @@ function NewUserPage() {
     e.preventDefault();
     await axios
       .post("/logged-in", {
-        secretKey: Cookies.get("secretKey"),
+        secretKey: Cookies.get(process.env.REACT_APP_SECRET_COOKIE_KEY),
       })
       .then((res) => {
         if (res.data.username !== "") {
@@ -263,7 +263,7 @@ function NewUserPage() {
   async function isLoggedIn() {
     await axios
       .post("/logged-in", {
-        secretKey: Cookies.get("secretKey"),
+        secretKey: Cookies.get(process.env.REACT_APP_SECRET_COOKIE_KEY),
       })
       .then((res) => {
         if (res.data.username !== "") {

@@ -60,7 +60,7 @@ function MedicinePage(props) {
     axios
       .post("/get-search-medicines", {
         searchWord: e.target.value,
-        secretKey: Cookies.get("secretKey"),
+        secretKey: Cookies.get(process.env.REACT_APP_SECRET_COOKIE_KEY),
       })
       .then((resp) => {
         setMedicines(resp.data);
@@ -74,7 +74,7 @@ function MedicinePage(props) {
   const updateCartCount = () => {
     axios
       .post("/get-cart-items-count", {
-        secretKey: Cookies.get("secretKey"),
+        secretKey: Cookies.get(process.env.REACT_APP_SECRET_COOKIE_KEY),
       })
       .then((resp) => {
         setCartItemSize(resp.data.cartSize);
@@ -105,7 +105,7 @@ function MedicinePage(props) {
     axios
       .post("/get-search-medicines", {
         searchWord: "",
-        secretKey: Cookies.get("secretKey"),
+        secretKey: Cookies.get(process.env.REACT_APP_SECRET_COOKIE_KEY),
       })
       .then((resp) => {
         setMedicines(resp.data);
@@ -235,7 +235,7 @@ function CartPage(props) {
     setIsDataLoading(true);
     axios
       .post("/get-cart-items", {
-        secretKey: Cookies.get("secretKey"),
+        secretKey: Cookies.get(process.env.REACT_APP_SECRET_COOKIE_KEY),
       })
       .then((resp) => {
         let tempList = [];
@@ -285,13 +285,13 @@ function CartPage(props) {
       .post("/update-cart-items", {
         newQuantity: e.target.value,
         mid: id,
-        secretKey: Cookies.get("secretKey"),
+        secretKey: Cookies.get(process.env.REACT_APP_SECRET_COOKIE_KEY),
       })
       .then((resp) => {
         if (resp.data.status === "success") {
           axios
             .post("/get-cart-items", {
-              secretKey: Cookies.get("secretKey"),
+              secretKey: Cookies.get(process.env.REACT_APP_SECRET_COOKIE_KEY),
             })
             .then((resp1) => {
               let tempList = [];
@@ -324,7 +324,7 @@ function CartPage(props) {
     setIsLoading(true);
     await axios
       .post("/make-order", {
-        secretKey: Cookies.get("secretKey"),
+        secretKey: Cookies.get(process.env.REACT_APP_SECRET_COOKIE_KEY),
       })
       .then((resp) => {
         setOpen(true);
@@ -370,13 +370,13 @@ function CartPage(props) {
     axios
       .post("/delete-cart-items", {
         mid: id,
-        secretKey: Cookies.get("secretKey"),
+        secretKey: Cookies.get(process.env.REACT_APP_SECRET_COOKIE_KEY),
       })
       .then((resp) => {
         if (resp.data.status === "success") {
           axios
             .post("/get-cart-items", {
-              secretKey: Cookies.get("secretKey"),
+              secretKey: Cookies.get(process.env.REACT_APP_SECRET_COOKIE_KEY),
             })
             .then((resp1) => {
               let tempList = [];

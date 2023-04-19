@@ -45,7 +45,7 @@ function PharmacistPage(props) {
     let counter = 0;
     axios
       .post("/get-pharmacists-details", {
-        secretKey: Cookies.get("secretKey"),
+        secretKey: Cookies.get(process.env.REACT_APP_SECRET_COOKIE_KEY),
       })
       .then((resp) => {
         setPharmacists(resp.data);
@@ -243,7 +243,7 @@ function AddPharmacistPage(props) {
                 mobileNumber: mobileNumber,
                 address: address,
                 aadhar: aadhar,
-                secretKey: Cookies.get("secretKey"),
+                secretKey: Cookies.get(process.env.REACT_APP_SECRET_COOKIE_KEY),
               })
               .then((resp) => {
                 setOpen(true);

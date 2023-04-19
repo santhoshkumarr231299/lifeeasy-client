@@ -25,7 +25,7 @@ async function displayRazorpay(makeOrder, openSnackBar) {
   }
 
   const result = await axios.post("/payment/orders", {
-    secretKey: Cookies.get("secretKey"),
+    secretKey: Cookies.get(process.env.REACT_APP_SECRET_COOKIE_KEY),
   });
 
   if (!result) {
@@ -95,7 +95,7 @@ export async function RazorpayPaymentGateWaySubscription(openSnackBar, subscript
   }
 
   const result = await axios.post("/payment/subscription", {
-    secretKey: Cookies.get("secretKey"),
+    secretKey: Cookies.get(process.env.REACT_APP_SECRET_COOKIE_KEY),
     subscriptionType : subscriptionType
   });
 
@@ -130,7 +130,7 @@ export async function RazorpayPaymentGateWaySubscription(openSnackBar, subscript
       openSnackBar("success", result.data.message);
 
       const res = await axios.post("/activate-subscription", {
-        secretKey: Cookies.get("secretKey"),
+        secretKey: Cookies.get(process.env.REACT_APP_SECRET_COOKIE_KEY),
         subscriptionType : subscriptionType
       });
 
@@ -168,7 +168,7 @@ export async function RazorpayPaymentGateWaySubscription(openSnackBar, subscript
 
 export async function activateYourFreeTrail(openSnackBar, goToHome) {
   const res = await axios.post("/activate-subscription", {
-    secretKey: Cookies.get("secretKey"),
+    secretKey: Cookies.get(process.env.REACT_APP_SECRET_COOKIE_KEY),
     subscriptionType : "monthly"
   });
 

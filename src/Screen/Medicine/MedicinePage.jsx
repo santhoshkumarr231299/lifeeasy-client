@@ -44,7 +44,7 @@ function MedicinePage(props) {
     let counter = 1;
     axios
       .post("/get-medicines", {
-        secretKey: Cookies.get("secretKey"),
+        secretKey: Cookies.get(process.env.REACT_APP_SECRET_COOKIE_KEY),
       })
       .then((resp) => {
         setMedicines(resp.data);
@@ -262,7 +262,7 @@ function AddMedicinePage(props) {
           medQuantity: medQuantity,
           medExpiryDate: medExpiryDate,
           medStatus: medStatus,
-          secretKey: Cookies.get("secretKey"),
+          secretKey: Cookies.get(process.env.REACT_APP_SECRET_COOKIE_KEY),
         })
         .then((resp) => {
           setOpen(true);

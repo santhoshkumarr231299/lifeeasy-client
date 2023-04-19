@@ -33,7 +33,7 @@ export default function PharmacistPage(props) {
           username: userM.name,
           mname: userM.mname,
           mid: userM.mid,
-          secretKey: Cookies.get("secretKey"),
+          secretKey: Cookies.get(process.env.REACT_APP_SECRET_COOKIE_KEY),
         })
         .then((resp) => {
           setOpen(true);
@@ -61,7 +61,7 @@ export default function PharmacistPage(props) {
           username: userM.name,
           mname: userM.mname,
           mid: userM.mid,
-          secretKey: Cookies.get("secretKey"),
+          secretKey: Cookies.get(process.env.REACT_APP_SECRET_COOKIE_KEY),
         })
         .then((resp) => {
           setOpen(true);
@@ -86,7 +86,7 @@ export default function PharmacistPage(props) {
     let counter = 0;
     axios
       .post("/get-ordered-items-for-approval", {
-        secretKey: Cookies.get("secretKey"),
+        secretKey: Cookies.get(process.env.REACT_APP_SECRET_COOKIE_KEY),
       })
       .then((resp) => {
         setOrderedItems(resp.data);

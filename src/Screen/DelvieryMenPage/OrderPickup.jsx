@@ -49,7 +49,7 @@ function OrderPickupPage(props) {
         .post("/pickup-order", {
           username: userM.name,
           medName: userM.mname,
-          secretKey: Cookies.get("secretKey"),
+          secretKey: Cookies.get(process.env.REACT_APP_SECRET_COOKIE_KEY),
         })
         .then((resp) => {
           setOpen(true);
@@ -74,7 +74,7 @@ function OrderPickupPage(props) {
     let counter = 0;
     axios
       .post("/get-approved-items", {
-        secretKey: Cookies.get("secretKey"),
+        secretKey: Cookies.get(process.env.REACT_APP_SECRET_COOKIE_KEY),
       })
       .then((resp) => {
         setOrderedItems(resp.data);
@@ -208,7 +208,7 @@ function YourDeliveryPage(props) {
     let counter = 0;
     axios
       .post("/get-orders", {
-        secretKey: Cookies.get("secretKey"),
+        secretKey: Cookies.get(process.env.REACT_APP_SECRET_COOKIE_KEY),
       })
       .then((resp) => {
         setOrders(resp.data);

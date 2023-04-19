@@ -47,7 +47,7 @@ function DeliveryManPage(props) {
     let counter = 0;
     axios
       .post("/get-delivery-men-details", {
-        secretKey: Cookies.get("secretKey"),
+        secretKey: Cookies.get(process.env.REACT_APP_SECRET_COOKIE_KEY),
       })
       .then((resp) => {
         setDeliveryMan(resp.data);
@@ -248,7 +248,7 @@ function AddDeliveryManPage(props) {
                 mobileNumber: mobileNumber,
                 address: address,
                 aadhar: aadhar,
-                secretKey: Cookies.get("secretKey"),
+                secretKey: Cookies.get(process.env.REACT_APP_SECRET_COOKIE_KEY),
               })
               .then((resp) => {
                 setOpen(true);

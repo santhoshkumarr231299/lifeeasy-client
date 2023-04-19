@@ -176,7 +176,7 @@ function AssignUserPrevileges(props) {
         username: selectedUser[0].label,
         userPrevileges: userPrevileges,
         lastAccessedScreen: userPreArr[0],
-        secretKey: Cookies.get("secretKey"),
+        secretKey: Cookies.get(process.env.REACT_APP_SECRET_COOKIE_KEY),
       })
       .then((resp) => {
         setSeverity(resp.data.status);
@@ -196,7 +196,7 @@ function AssignUserPrevileges(props) {
     axios
       .post("/get-users", {
         search: "",
-        secretKey: Cookies.get("secretKey"),
+        secretKey: Cookies.get(process.env.REACT_APP_SECRET_COOKIE_KEY),
       })
       .then((resp) => {
         let userOpt = [];
@@ -218,7 +218,7 @@ function AssignUserPrevileges(props) {
       axios
         .post("/get-user-previleges", {
           username: selectedUser[0].label,
-          secretKey: Cookies.get("secretKey"),
+          secretKey: Cookies.get(process.env.REACT_APP_SECRET_COOKIE_KEY),
         })
         .then((resp) => {
           setUserPrevileges(resp.data.userPrevileges);
