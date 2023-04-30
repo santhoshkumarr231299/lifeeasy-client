@@ -20,8 +20,13 @@ export default function LogoutPage(props) {
         secretKey: Cookies.get(process.env.REACT_APP_SECRET_COOKIE_KEY),
       })
       .then((resp) => {
+        try {
         Cookies.remove(process.env.REACT_APP_SECRET_COOKIE_KEY);
-        navigate("/login");
+        } catch(e) {
+          //
+        }
+        // navigate("/login");
+        window.location.reload();
       });
   };
   const [open, setOpen] = React.useState(true);

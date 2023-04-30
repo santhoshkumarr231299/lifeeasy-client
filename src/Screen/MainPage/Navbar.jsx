@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Avatar } from "@mui/material";
+import { autocompleteClasses, Avatar } from "@mui/material";
 import { purple } from "@mui/material/colors";
 import { Settings, Logout } from "@mui/icons-material";
 import logo from "../../assets/logo.png";
@@ -10,10 +10,11 @@ export default function Navbar(props) {
       <a
         style={{
           display: "flex",
-          gap: "2rem",
-          position: "flex-end",
+          // gap: "2rem",
           alignItems: "center",
           marginLeft: "15px",
+          justifyContent: "space-between",
+          width: '100%'
         }}
       >
         <div
@@ -63,10 +64,10 @@ export default function Navbar(props) {
 
         <div
           style={{
-            marginLeft: "930px",
             display: "flex",
             gap: "1rem",
             alignItems: "center",
+            marginRight:'15px'
           }}
         >
           <div
@@ -82,10 +83,10 @@ export default function Navbar(props) {
             Hello{" "}
             {props.username[0].toUpperCase() + props.username.substring(1)}
           </div>
-          <div onClick={(e) => props.changeOption(e, 13)}>
+          <div onClick={(e) => props.changeOption(e, 999)}>
             <Settings className="icon-top" />
           </div>
-          <div onClick={(e) => props.changeOption(e, 14)}>
+          <div onClick={(e) => props.changeOption(e, 1000)}>
             <Logout className="icon-top" />
           </div>
         </div>

@@ -19,6 +19,7 @@ import {
   AttachMoney,
   AdminPanelSettings,
   CheckCircle,
+  LocalHospital
 } from "@mui/icons-material";
 
 const DashboardPage = lazy(() => import("../Dashboard/Dashboard"));
@@ -40,6 +41,7 @@ const AssignUserPrevilegesPage = lazy(() =>
   import("../AssignUserPrevileges/AssignUserPrevileges")
 );
 const OrderPickupPage = lazy(() => import("../DelvieryMenPage/OrderPickup"));
+const SearchMedicines = lazy(() => import("../../modules/customer/SearchMedicines.tsx"));
 
 function MainPage(props) {
   const [option, setOption] = useState(0);
@@ -61,7 +63,13 @@ function MainPage(props) {
       })
       .then((res) => {
         if (res.data.username == "") {
-          navigate("/login");
+          try {
+          Cookies.remove(process.env.REACT_APP_SECRET_COOKIE_KEY);
+          } catch(e){
+            //
+          } 
+          window.location.reload();
+          // navigate("/login");
         } else {
           setOption(() => res.data.lastAccessedScreen);
           setUser({
@@ -89,7 +97,7 @@ function MainPage(props) {
   }, []);
   const changeOption = (e, value) => {
     e.preventDefault();
-    if (value === 14) {
+    if (value === 1000) {
       handleOpenLogout();
       return;
     }
@@ -98,7 +106,7 @@ function MainPage(props) {
   };
   const updateLastAccessedScreen = (e, value) => {
     e.preventDefault();
-    if (value === 14) {
+    if (value === 1000) {
       return;
     }
 
@@ -186,6 +194,12 @@ function MainPage(props) {
       icon: <CheckCircle />,
       haveAccess: user && user.haveAccessTo.includes("[12]"),
     },
+    {
+      name: "Medicine Details",
+      menuValue: 13,
+      icon: <LocalHospital />,
+      haveAccess: user && user.haveAccessTo.includes("[8]"),
+    },
   ];
 
   const contentArea = () => {
@@ -262,7 +276,13 @@ function MainPage(props) {
             <OrderPickupPage />
           </Suspense>
         );
-      case 13:
+        case 13:
+        return (
+          <Suspense fallback={<CircularProgress size={50} />}>
+            <SearchMedicines />
+          </Suspense>
+        );
+      case 999:
         return (
           <Suspense fallback={<CircularProgress size={50} />}>
             <SettingsPage username={user.username} />
@@ -337,7 +357,13 @@ function MainPage(props) {
             {contentArea()}
           </main>
         </div>
+        {/* <div style={{backgroundColor : 'white', marginTop : '30px', borderRadius : '5px', maxHeight : "600px", width : "400px", boxShadow: "0 2px 5px rgb(0 0 0 / 0.2)",}}>
+            
+        </div> */}
       </div>
+      {/* <div style={{backgroundColor : 'white', borderRadius : '5px', height : "200px", width : "97%", marginLeft : "21px", boxShadow: "0 2px 5px rgb(0 0 0 / 0.2)",}}>
+            
+      </div> */}
       {logout && (
         <LogoutPage open={handleOpenLogout} close={handleCloseLogout} />
       )}

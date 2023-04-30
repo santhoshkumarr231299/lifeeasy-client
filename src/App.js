@@ -8,6 +8,7 @@ import NewUser from './Screen/NewUserPage/NewUserPage';
 import ForgotPassPage from './Screen/ForgotPass/ForgotPass';
 import SubscribeToServicePage from "./Screen/SubscribeToServicePage/SubscribeToServicePage"
 import SuperMainPage from "./modules/SuperAdmin/Screen/MainPage.tsx";
+import Cookies from 'js-cookie';
 
 const MainPage = lazy(() => import("./Screen/MainPage/MainPage"));
 
@@ -23,12 +24,13 @@ class App extends Component {
           <BrowserRouter>
             <Routes>
                 <Route path="/" element={<Navigate to="/login" />} />
-                <Route path="/home" element={<MainPage theme = {this.theme} />} />
-                <Route path="/login" element={<LoginPage theme = {this.theme} />} />
-                <Route path="/newuser" element={<NewUser theme = {this.theme} />} />
-                <Route path="/forgotpass" element={<ForgotPassPage  theme = {this.theme} />} />
+                <Route path="/home" element={!Cookies.get(process.env.REACT_APP_SECRET_COOKIE_KEY) ? <Navigate to="/login" /> : <MainPage theme = {this.theme} />} />
+                <Route path="/login" element={Cookies.get(process.env.REACT_APP_SECRET_COOKIE_KEY) ? <Navigate to="/home" /> : <LoginPage theme = {this.theme} />} />
+                <Route path="/newuser" element={Cookies.get(process.env.REACT_APP_SECRET_COOKIE_KEY) ? <Navigate to="/home" /> : <NewUser theme = {this.theme} />} />
+                <Route path="/forgotpass" element={Cookies.get(process.env.REACT_APP_SECRET_COOKIE_KEY) ? <Navigate to="/home" /> : <ForgotPassPage  theme = {this.theme} />} />
                 <Route path='/subscribe' element={<SubscribeToServicePage />} />
                 <Route path='/super-admin' element={<SuperMainPage />} />
+                <Route path='/*' element={<h1>Page Not Found 404</h1>} />
             </Routes>
         </BrowserRouter>
     </Suspense>

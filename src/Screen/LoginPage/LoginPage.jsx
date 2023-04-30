@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Navigate } from "react-router-dom";
 import { Button, Form, Card, Alert } from "react-bootstrap";
 import Cookies from "js-cookie";
 import axios from "../../api/axios";
@@ -30,7 +30,7 @@ function LoginPage() {
         if (res.data.username !== "") {
           let today = new Date();
           let DateOfSubscription = new Date(res.data.DateOfSubscription);
-          console.log('remaining days : ',((today - DateOfSubscription)/(1000*60*60*24)));
+          console.log('Remaining days : ',30 - Math.floor((today - DateOfSubscription)/(1000*60*60*24)));
           if(res.data.pharmacy == "") {
             navigate("/home");
           } else if(res.data.subscriptionPack == 'monthly' && ((today - DateOfSubscription)/(1000*60*60*24) <= 30)) {
@@ -68,22 +68,23 @@ function LoginPage() {
           password: password.current.value,
           pharmacy: selectDisp ? pharmaciesRef.current.value : "",
         })
-        .then((res) => {
+        .then((res) => {  
           if (res.data.message === "success") {
-            Cookies.set(process.env.REACT_APP_SECRET_COOKIE_KEY, res.data.secretKey, { expires: 1 });
+            Cookies.set(process.env.REACT_APP_SECRET_COOKIE_KEY, res.headers[process.env.REACT_APP_SERVER_AUTH_NAME], { expires: 1 });
             setIsLoading(false);
-            let today = new Date();
-            let DateOfSubscription = new Date(res.data.DateOfSubscription);
-            console.log('remaining days : ',((today - DateOfSubscription)/(1000*60*60*24)));
-            if(res.data.pharmacy == "") {
-              navigate("/home");
-            } else if(res.data.subscriptionPack == 'monthly' && ((today - DateOfSubscription)/(1000*60*60*24) <= 30)) {
-              navigate("/home");
-            } else if(res.data.subscriptionPack == 'yearly' && ((today - DateOfSubscription)/(1000*60*60*24) <= 365)) {
-              navigate("/home");
-            } else {
-              navigate("/subscribe");
-            }
+            window.location.reload();
+            // let today = new Date();
+            // let DateOfSubscription = new Date(res.data.DateOfSubscription);
+            // console.log('Remaining days : ',30 - Math.floor((today - DateOfSubscription)/(1000*60*60*24)));
+            // if(res.data.pharmacy == "") {
+            //   navigate("/home");
+            // } else if(res.data.subscriptionPack == 'monthly' && ((today - DateOfSubscription)/(1000*60*60*24) <= 30)) {
+            //   navigate("/home");
+            // } else if(res.data.subscriptionPack == 'yearly' && ((today - DateOfSubscription)/(1000*60*60*24) <= 365)) {
+            //   navigate("/home");
+            // } else {
+            //   navigate("/subscribe");
+            // }
           } else {
             setIsLoading(false);
             setAlertType("danger");
