@@ -7,6 +7,7 @@ import LoginPage from './Screen/LoginPage/LoginPage';
 import NewUser from './Screen/NewUserPage/NewUserPage';
 import ForgotPassPage from './Screen/ForgotPass/ForgotPass';
 import SubscribeToServicePage from "./Screen/SubscribeToServicePage/SubscribeToServicePage"
+import NotFoundPage from "./modules/errorpages/404"
 import SuperMainPage from "./modules/SuperAdmin/Screen/MainPage.tsx";
 import Cookies from 'js-cookie';
 
@@ -30,7 +31,7 @@ class App extends Component {
                 <Route path="/forgotpass" element={Cookies.get(process.env.REACT_APP_SECRET_COOKIE_KEY) ? <Navigate to="/home" /> : <ForgotPassPage  theme = {this.theme} />} />
                 <Route path='/subscribe' element={<SubscribeToServicePage />} />
                 <Route path='/super-admin' element={<SuperMainPage />} />
-                <Route path='/*' element={<h1>Page Not Found 404</h1>} />
+                <Route path='/*' element={<NotFoundPage />} />
             </Routes>
         </BrowserRouter>
     </Suspense>
