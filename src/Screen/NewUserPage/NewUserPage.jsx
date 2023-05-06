@@ -187,7 +187,7 @@ function NewUserPage() {
                       setOpenAlert(true);
                       setIsLoading(false);
 
-                      Cookies.set("newuser-key", resp.data.secretKey, {
+                      Cookies.set(process.env.REACT_APP_SECRET_NEW_USER_AUTH_KEY, resp.data.secretKey, {
                         expires: 1,
                       });
 
