@@ -126,7 +126,7 @@ function NewUserPage() {
       mobileNumber: phoneNumber.current.value,
       pharmacyName: dispProp ? pharmacyName.current.value : "",
       otp: otp.current.value,
-      secretKey: Cookies.get("newuser-key"),
+      secretKey: Cookies.get(process.env.REACT_APP_SECRET_NEW_USER_AUTH_KEY),
     };
     let valid = validation();
     if (valid && valid.length > 0) {
