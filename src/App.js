@@ -7,7 +7,7 @@ import LoginPage from './Screen/LoginPage/LoginPage';
 import NewUser from './Screen/NewUserPage/NewUserPage';
 import ForgotPassPage from './Screen/ForgotPass/ForgotPass';
 import SubscribeToServicePage from "./Screen/SubscribeToServicePage/SubscribeToServicePage"
-import NotFoundPage from "./modules/errorpages/404"
+import NotFoundPage from "./modules/errorpages/404.tsx"
 import SuperMainPage from "./modules/SuperAdmin/Screen/MainPage.tsx";
 import Cookies from 'js-cookie';
 
