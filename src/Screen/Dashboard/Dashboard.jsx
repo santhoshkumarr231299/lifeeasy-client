@@ -23,7 +23,7 @@ function boxes(list) {
             marginLeft: "20px",
             marginTop: "20px",
             textAlign: "center",
-            width: "180px",
+            width: "250px",
             height: "180px",
           }}
         >
@@ -119,7 +119,7 @@ function Dashboard() {
       <div
         style={{
           width: "100%",
-          height: "38%",
+          height: "28%",
           display: "grid",
           gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))",
           gridGap: "12px",
@@ -134,8 +134,8 @@ function Dashboard() {
           style={{
             marginLeft: "20px",
             backgroundColor: "white",
-            width: "1100px",
-            height: "380px",
+            width: "160vh",
+            height: "550px",
             color: "Black",
             // boxShadow: "10px",
           }}
