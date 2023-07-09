@@ -22,26 +22,31 @@ function LoginPage() {
   const pharmaciesRef = useRef();
 
   async function isLoggedIn() {
-    await axios
-      .post("/logged-in", {
-        secretKey: Cookies.get(process.env.REACT_APP_SECRET_COOKIE_KEY),
-      })
-      .then((res) => {
-        if (res.data.username !== "") {
-          let today = new Date();
-          let DateOfSubscription = new Date(res.data.DateOfSubscription);
-          console.log('Remaining days : ',30 - Math.floor((today - DateOfSubscription)/(1000*60*60*24)));
-          if(res.data.pharmacy == "") {
-            navigate("/home");
-          } else if(res.data.subscriptionPack == 'monthly' && ((today - DateOfSubscription)/(1000*60*60*24) <= 30)) {
-            navigate("/home");
-          } else if(res.data.subscriptionPack == 'yearly' && ((today - DateOfSubscription)/(1000*60*60*24) <= 365)) {
-            navigate("/home");
-          } else {
-            navigate("/subscribe");
-          }
+    await axios.post("/logged-in").then((res) => {
+      if (res.data.username !== "") {
+        let today = new Date();
+        let DateOfSubscription = new Date(res.data.DateOfSubscription);
+        console.log(
+          "Remaining days : ",
+          30 - Math.floor((today - DateOfSubscription) / (1000 * 60 * 60 * 24))
+        );
+        if (res.data.pharmacy == "") {
+          navigate("/home");
+        } else if (
+          res.data.subscriptionPack == "monthly" &&
+          (today - DateOfSubscription) / (1000 * 60 * 60 * 24) <= 30
+        ) {
+          navigate("/home");
+        } else if (
+          res.data.subscriptionPack == "yearly" &&
+          (today - DateOfSubscription) / (1000 * 60 * 60 * 24) <= 365
+        ) {
+          navigate("/home");
+        } else {
+          navigate("/subscribe");
         }
-      });
+      }
+    });
   }
 
   const navigate = useNavigate();
@@ -52,53 +57,53 @@ function LoginPage() {
   const validateLogin = async (e) => {
     e.preventDefault();
     setIsLoading(true);
-      axios
-    .post("/logged-in", {
-      secretKey: Cookies.get(process.env.REACT_APP_SECRET_COOKIE_KEY),
-    })
-    .then((res) => {
+    axios.post("/logged-in").then((res) => {
       if (res.data.username !== "") {
         setIsLoading(false);
         navigate("/home");
         return;
       } else {
-          axios
-        .post("/login", {
-          username: username.current.value,
-          password: password.current.value,
-          pharmacy: selectDisp ? pharmaciesRef.current.value : "",
-        })
-        .then((res) => {  
-          if (res.data.message === "success") {
-            Cookies.set(process.env.REACT_APP_SECRET_COOKIE_KEY, res.headers[process.env.REACT_APP_SERVER_AUTH_NAME], { expires: 1 });
-            setIsLoading(false);
-            window.location.reload();
-            // let today = new Date();
-            // let DateOfSubscription = new Date(res.data.DateOfSubscription);
-            // console.log('Remaining days : ',30 - Math.floor((today - DateOfSubscription)/(1000*60*60*24)));
-            // if(res.data.pharmacy == "") {
-            //   navigate("/home");
-            // } else if(res.data.subscriptionPack == 'monthly' && ((today - DateOfSubscription)/(1000*60*60*24) <= 30)) {
-            //   navigate("/home");
-            // } else if(res.data.subscriptionPack == 'yearly' && ((today - DateOfSubscription)/(1000*60*60*24) <= 365)) {
-            //   navigate("/home");
-            // } else {
-            //   navigate("/subscribe");
-            // }
-          } else {
-            setIsLoading(false);
-            setAlertType("danger");
-            setAlert(() => res.data.comment);
-            setOpenAlert(() => true);
-          }
-    });
+        axios
+          .post("/login", {
+            username: username.current.value,
+            password: password.current.value,
+            pharmacy: selectDisp ? pharmaciesRef.current.value : "",
+          })
+          .then((res) => {
+            if (res.data.message === "success") {
+              Cookies.set(
+                process.env.REACT_APP_SECRET_COOKIE_KEY,
+                res.headers[process.env.REACT_APP_SERVER_AUTH_NAME],
+                { expires: 1 }
+              );
+              setIsLoading(false);
+              window.location.reload();
+              // let today = new Date();
+              // let DateOfSubscription = new Date(res.data.DateOfSubscription);
+              // console.log('Remaining days : ',30 - Math.floor((today - DateOfSubscription)/(1000*60*60*24)));
+              // if(res.data.pharmacy == "") {
+              //   navigate("/home");
+              // } else if(res.data.subscriptionPack == 'monthly' && ((today - DateOfSubscription)/(1000*60*60*24) <= 30)) {
+              //   navigate("/home");
+              // } else if(res.data.subscriptionPack == 'yearly' && ((today - DateOfSubscription)/(1000*60*60*24) <= 365)) {
+              //   navigate("/home");
+              // } else {
+              //   navigate("/subscribe");
+              // }
+            } else {
+              setIsLoading(false);
+              setAlertType("danger");
+              setAlert(() => res.data.comment);
+              setOpenAlert(() => true);
+            }
+          });
       }
     });
   };
 
   const handleShowPassword = (e) => {
     setShowPassword(e.target.checked);
-  }
+  };
 
   const handleChecked = (e) => {
     setSelectDisp(e.target.checked);
@@ -200,7 +205,13 @@ function LoginPage() {
                   <Form.Group className="mb-3" controlId={field.fieldName}>
                     <Form.Label>{field.labelName}</Form.Label>
                     <Form.Control
-                      type={field.type == 'password' ? (showPassword ? 'text' : field.type) : field.type}
+                      type={
+                        field.type == "password"
+                          ? showPassword
+                            ? "text"
+                            : field.type
+                          : field.type
+                      }
                       ref={field.reference}
                       placeholder={field.labelName}
                     />

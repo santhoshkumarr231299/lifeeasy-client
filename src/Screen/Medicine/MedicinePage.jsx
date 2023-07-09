@@ -3,7 +3,7 @@ import axios from "../../api/axios";
 import { useState } from "react";
 import { useEffect } from "react";
 import { DataGrid } from "@mui/x-data-grid";
-import { TextField, Button, Paper, CircularProgress } from "@mui/material";
+import { TextField, Button, Paper, CircularProgress, Fab } from "@mui/material";
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert from "@mui/material/Alert";
 import InputLabel from "@mui/material/InputLabel";
@@ -11,6 +11,7 @@ import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import Cookies from "js-cookie";
+import AddIcon from "@mui/icons-material/Add";
 import {
   validateMedicineName,
   validateMedCompanyName,
@@ -53,8 +54,12 @@ function MedicinePage(props) {
             mname: med.mname,
             mcompany: med.mcompany,
             quantity: med.quantity,
-            dateadded: "Date:" + med.dateAdded.substring(0,10) + " Time:" + med.dateAdded.substring(11,16),
-            expirydate: med.expiryDate.substring(0,10),
+            dateadded:
+              "Date:" +
+              med.dateAdded.substring(0, 10) +
+              " Time:" +
+              med.dateAdded.substring(11, 16),
+            expirydate: med.expiryDate.substring(0, 10),
             mrp: med.medMrp,
             rate: med.medRate,
             status: med.status,
@@ -64,10 +69,11 @@ function MedicinePage(props) {
 
         setDataGridRows(temp);
         setIsLoading(false);
-      }).catch(err => {
+      })
+      .catch((err) => {
         setIsLoading(false);
         console.log("Error fetching medicines...");
-      }) ;
+      });
   }, []);
   const columns = [
     { field: "id", headerName: "ID", width: 60 },
@@ -121,7 +127,7 @@ function MedicinePage(props) {
         pageSize={10}
         rowsPerPageOptions={[5]}
         checkboxSelection
-        getRowHeight={() => 'auto'}
+        getRowHeight={() => "auto"}
       />
     </Paper>
   );
@@ -172,6 +178,13 @@ function AddMedicinePage(props) {
   };
 
   const medicineFields = [
+    {
+      id: 0,
+      type: "file",
+      fieldName: "medpic",
+      labelName: "Medicine Picture",
+      status: "active",
+    },
     {
       id: 1,
       type: "text",
@@ -288,6 +301,35 @@ function AddMedicinePage(props) {
   const Alert = React.forwardRef(function Alert(props, ref) {
     return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
   });
+
+  function FileUpload() {
+    return (
+      <label
+        htmlFor="upload-photo"
+        style={{
+          marginTop: "20px",
+        }}
+      >
+        <input
+          style={{ display: "none" }}
+          id="upload-photo"
+          name="upload-photo"
+          type="file"
+          accept="image/*"
+        />
+
+        <Fab
+          color="secondary"
+          size="small"
+          component="span"
+          aria-label="add"
+          variant="extended"
+        >
+          <AddIcon /> Upload photo
+        </Fab>
+      </label>
+    );
+  }
   return (
     <div className="new-customer">
       <Paper
@@ -355,6 +397,16 @@ function AddMedicinePage(props) {
                       ))}
                     </Select>
                   </FormControl>
+                )}
+                {med.type === "file" && (
+                  <div
+                    style={{
+                      display: "flex",
+                      justifyContent: "center",
+                    }}
+                  >
+                    {FileUpload()}
+                  </div>
                 )}
                 <br />
               </div>

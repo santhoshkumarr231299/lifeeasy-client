@@ -22,8 +22,7 @@ export default function ImgMediaCard(props) {
       .post("/add-to-cart", {
         mid: props.id,
         medName: props.name,
-        quantity: 20,
-        secretKey: Cookies.get(process.env.REACT_APP_SECRET_COOKIE_KEY),
+        quantity: 1,
       })
       .then((resp) => {
         setOpen(true);
@@ -62,7 +61,7 @@ export default function ImgMediaCard(props) {
           height="140"
           image={props.img}
         />
-        <CardContent sx={{height : 150}}>
+        <CardContent sx={{ height: 150 }}>
           <Typography gutterBottom variant="h6" component="div">
             {props.changeToRightCase(props.name.split(" "))}
           </Typography>
@@ -71,13 +70,26 @@ export default function ImgMediaCard(props) {
               {props.changeToRightCase(props.pharmacy.split(" "))}
             </strong>
             <div>
-            <strong>Company :</strong> {props.changeToRightCase(props.content.split(" "))}
+              <strong>Company :</strong>{" "}
+              {props.changeToRightCase(props.content.split(" "))}
             </div>
           </Typography>
         </CardContent>
         <Typography>
-          <div style={{display : "flex", alignItems : "center", gap : "10px", marginLeft : "20px"}}><span style={{textDecoration : "line-through", fontSize : "30px"}}>₹{props.mrp} </span>  <span style={{fontSize : "20px"}}>₹{props.rate}</span></div>
-          </Typography>
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: "10px",
+              marginLeft: "20px",
+            }}
+          >
+            <span style={{ textDecoration: "line-through", fontSize: "30px" }}>
+              ₹{props.mrp}{" "}
+            </span>{" "}
+            <span style={{ fontSize: "20px" }}>₹{props.rate}</span>
+          </div>
+        </Typography>
         <CardActions>
           <Button style={{ color: "purple" }} onClick={(e) => addToCart(e)}>
             ADD TO CART

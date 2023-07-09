@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "../../api/axios";
+import axiosNew from "axios";
 import Cookies from "js-cookie";
 import { Button, Form, Card, Alert } from "react-bootstrap";
 import { CircularProgress } from "@mui/material";
@@ -97,27 +98,32 @@ function NewUserPage() {
 
   const createUser = async (e) => {
     e.preventDefault();
-    await axios
-      .post("/logged-in", {
-        secretKey: Cookies.get(process.env.REACT_APP_SECRET_COOKIE_KEY),
-      })
-      .then((res) => {
-        if (res.data.username !== "") {
-          let today = new Date();
-          let DateOfSubscription = new Date(res.data.DateOfSubscription);
-          console.log('remaining days : ',((today - DateOfSubscription)/(1000*60*60*24)));
-          if(res.data.pharmacy == "") {
-            navigate("/home");
-          } else if(res.data.subscriptionPack == 'monthly' && ((today - DateOfSubscription)/(1000*60*60*24) <= 30)) {
-            navigate("/home");
-          } else if(res.data.subscriptionPack == 'yearly' && ((today - DateOfSubscription)/(1000*60*60*24) <= 365)) {
-            navigate("/home");
-          } else {
-            navigate("/subscribe");
-          }
-          return;
+    await axios.post("/logged-in").then((res) => {
+      if (res.data.username !== "") {
+        let today = new Date();
+        let DateOfSubscription = new Date(res.data.DateOfSubscription);
+        console.log(
+          "remaining days : ",
+          (today - DateOfSubscription) / (1000 * 60 * 60 * 24)
+        );
+        if (res.data.pharmacy == "") {
+          navigate("/home");
+        } else if (
+          res.data.subscriptionPack == "monthly" &&
+          (today - DateOfSubscription) / (1000 * 60 * 60 * 24) <= 30
+        ) {
+          navigate("/home");
+        } else if (
+          res.data.subscriptionPack == "yearly" &&
+          (today - DateOfSubscription) / (1000 * 60 * 60 * 24) <= 365
+        ) {
+          navigate("/home");
+        } else {
+          navigate("/subscribe");
         }
-      });
+        return;
+      }
+    });
     const user = {
       username: username.current.value,
       password: password.current.value,
@@ -125,7 +131,6 @@ function NewUserPage() {
       mobileNumber: phoneNumber.current.value,
       pharmacyName: dispProp ? pharmacyName.current.value : "",
       otp: otp.current.value,
-      secretKey: Cookies.get(process.env.REACT_APP_SECRET_NEW_USER_AUTH_KEY),
     };
     let valid = validation();
     if (valid && valid.length > 0) {
@@ -144,8 +149,14 @@ function NewUserPage() {
         .then((response) => {
           if (response.data.status === "success") {
             if (otpField) {
-              axios
-                .post("/new-user", user)
+              axiosNew
+                .post(process.env.REACT_APP_BASE_URL + "/new-user", user, {
+                  headers: {
+                    __auth: Cookies.get(
+                      process.env.REACT_APP_SECRET_NEW_USER_AUTH_KEY
+                    ),
+                  },
+                })
                 .then((resp) => {
                   if (resp.data) {
                     setAlert(() => resp.data.message);
@@ -186,9 +197,13 @@ function NewUserPage() {
                       setOpenAlert(true);
                       setIsLoading(false);
 
-                      Cookies.set(process.env.REACT_APP_SECRET_NEW_USER_AUTH_KEY, resp.data.secretKey, {
-                        expires: 1,
-                      });
+                      Cookies.set(
+                        process.env.REACT_APP_SECRET_NEW_USER_AUTH_KEY,
+                        resp.headers[
+                          process.env.REACT_APP_SECRET_NEW_USER_AUTH_KEY
+                        ],
+                        { expires: 1 }
+                      );
 
                       setOtpField(true);
                     } else {
@@ -235,7 +250,7 @@ function NewUserPage() {
     if (valid && valid.length > 0) {
       return valid;
     }
-    if(conPassword.current.value != password.current.value) {
+    if (conPassword.current.value != password.current.value) {
       return "Password - Confirm Password Mismatch";
     }
     valid = validatePassword(password.current.value);
@@ -261,19 +276,26 @@ function NewUserPage() {
 
   async function isLoggedIn() {
     await axios
-      .post("/logged-in", {
-        secretKey: Cookies.get(process.env.REACT_APP_SECRET_COOKIE_KEY),
-      })
+      .post("/logged-in")
       .then((res) => {
         if (res.data.username !== "") {
           let today = new Date();
           let DateOfSubscription = new Date(res.data.DateOfSubscription);
-          console.log('remaining days : ',((today - DateOfSubscription)/(1000*60*60*24)));
-          if(res.data.pharmacy == "") {
+          console.log(
+            "remaining days : ",
+            (today - DateOfSubscription) / (1000 * 60 * 60 * 24)
+          );
+          if (res.data.pharmacy == "") {
             navigate("/home");
-          } else if(res.data.subscriptionPack == 'monthly' && ((today - DateOfSubscription)/(1000*60*60*24) <= 30)) {
+          } else if (
+            res.data.subscriptionPack == "monthly" &&
+            (today - DateOfSubscription) / (1000 * 60 * 60 * 24) <= 30
+          ) {
             navigate("/home");
-          } else if(res.data.subscriptionPack == 'yearly' && ((today - DateOfSubscription)/(1000*60*60*24) <= 365)) {
+          } else if (
+            res.data.subscriptionPack == "yearly" &&
+            (today - DateOfSubscription) / (1000 * 60 * 60 * 24) <= 365
+          ) {
             navigate("/home");
           } else {
             navigate("/subscribe");

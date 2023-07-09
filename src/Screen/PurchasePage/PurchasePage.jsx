@@ -39,8 +39,8 @@ export default function MainMedicinePage(props) {
         return (
           <CartPage username={props.username} changeOption={changeOption} />
         );
-        default:
-          return <MedicinePage changeOption={changeOption} />;
+      default:
+        return <MedicinePage changeOption={changeOption} />;
     }
   };
   return <div>{getMedicinePage()}</div>;
@@ -58,12 +58,12 @@ function MedicinePage(props) {
     axios
       .post("/get-search-medicines", {
         searchWord: e.target.value,
-        secretKey: Cookies.get(process.env.REACT_APP_SECRET_COOKIE_KEY),
       })
       .then((resp) => {
         setMedicines(resp.data);
         setIsLoading(false);
-      }).catch(err => {
+      })
+      .catch((err) => {
         console.log("Error fetching data....");
         setIsLoading(false);
       });
@@ -71,9 +71,7 @@ function MedicinePage(props) {
 
   const updateCartCount = () => {
     axios
-      .post("/get-cart-items-count", {
-        secretKey: Cookies.get(process.env.REACT_APP_SECRET_COOKIE_KEY),
-      })
+      .post("/get-cart-items-count")
       .then((resp) => {
         setCartItemSize(resp.data.cartSize);
       })
@@ -103,7 +101,6 @@ function MedicinePage(props) {
     axios
       .post("/get-search-medicines", {
         searchWord: "",
-        secretKey: Cookies.get(process.env.REACT_APP_SECRET_COOKIE_KEY),
       })
       .then((resp) => {
         setMedicines(resp.data);
@@ -163,7 +160,12 @@ function MedicinePage(props) {
               }
               endAdornment={
                 <InputAdornment position="end">
-                  {isLoading && <CircularProgress style={{ marginRight: "10px" }} size={20} />}
+                  {isLoading && (
+                    <CircularProgress
+                      style={{ marginRight: "10px" }}
+                      size={20}
+                    />
+                  )}
                 </InputAdornment>
               }
               placeholder="Search Medicines..."
@@ -225,22 +227,19 @@ function CartPage(props) {
   const updateTotAmt = () => {
     let amt = 0;
     medList.forEach((data) => {
-      amt += (+data.quantity) * (+data.price);
+      amt += +data.quantity * +data.price;
     });
     setMedList(amt);
   };
   const getCartItems = () => {
     setIsDataLoading(true);
     axios
-      .post("/get-cart-items", {
-        secretKey: Cookies.get(process.env.REACT_APP_SECRET_COOKIE_KEY),
-      })
+      .post("/get-cart-items")
       .then((resp) => {
         let tempList = [];
         let amt = 0;
         resp.data.forEach((data) => {
-          console.log(data.price);
-          amt += (+data.quantity) * (+data.price);
+          amt += +data.quantity * +data.price;
           tempList.push({
             id: data.id,
             mid: data.mid,
@@ -252,7 +251,8 @@ function CartPage(props) {
         setTotalAmount(() => amt.toFixed(2));
         setMedList(tempList);
         setIsDataLoading(false);
-      }).catch(err => {
+      })
+      .catch((err) => {
         setIsDataLoading(false);
         console.log("Error fetching data...");
       });
@@ -283,7 +283,6 @@ function CartPage(props) {
       .post("/update-cart-items", {
         newQuantity: e.target.value,
         mid: id,
-        secretKey: Cookies.get(process.env.REACT_APP_SECRET_COOKIE_KEY),
       })
       .then((resp) => {
         if (resp.data.status === "success") {
@@ -295,7 +294,7 @@ function CartPage(props) {
               let tempList = [];
               let amt = 0;
               resp1.data.forEach((data) => {
-                amt += (+data.quantity) * (+data.price);
+                amt += +data.quantity * +data.price;
                 tempList.push({
                   id: data.id,
                   mid: data.mid,
@@ -308,11 +307,11 @@ function CartPage(props) {
               setMedList(tempList);
               setIsUpdatingQuantity(false);
             });
-        }
-        else {
+        } else {
           setIsUpdatingQuantity(false);
         }
-      }).catch(err => {
+      })
+      .catch((err) => {
         console.log("Error updating Quantity...");
         setIsUpdatingQuantity(false);
       });
@@ -345,7 +344,7 @@ function CartPage(props) {
     setMessage(message);
     setSeverity(status);
     setOpen(true);
-  }
+  };
 
   const makePayment = async (e) => {
     e.preventDefault();
@@ -372,26 +371,22 @@ function CartPage(props) {
       })
       .then((resp) => {
         if (resp.data.status === "success") {
-          axios
-            .post("/get-cart-items", {
-              secretKey: Cookies.get(process.env.REACT_APP_SECRET_COOKIE_KEY),
-            })
-            .then((resp1) => {
-              let tempList = [];
-              let amt = 0;
-              resp1.data.forEach((data) => {
-                amt += (+data.quantity) * (+data.price);
-                tempList.push({
-                  id: data.id,
-                  mid: data.mid,
-                  medName: data.medName,
-                  quantity: data.quantity,
-                  price: data.price,
-                });
+          axios.post("/get-cart-items").then((resp1) => {
+            let tempList = [];
+            let amt = 0;
+            resp1.data.forEach((data) => {
+              amt += +data.quantity * +data.price;
+              tempList.push({
+                id: data.id,
+                mid: data.mid,
+                medName: data.medName,
+                quantity: data.quantity,
+                price: data.price,
               });
-              setTotalAmount(() => amt.toFixed(2));
-              setMedList(tempList);
             });
+            setTotalAmount(() => amt.toFixed(2));
+            setMedList(tempList);
+          });
         }
       });
   };
@@ -456,90 +451,108 @@ function CartPage(props) {
             </div>
           </div>
           <div>
-          {isDataLoading ? <CircularProgress style={{ marginRight: "10px", alignSelf: "center" }} size={30} /> :
-            medList.map((med) => (
-              <div>
-                <MDBCard
-                  style={{ backgroundColor: "#fcfafa" }}
-                  className="mb-2"
-                >
-                  <MDBCardBody className="p-1">
-                    <MDBRow className="align-items-center">
-                      <MDBCol md="1">
-                        <MDBCardImage
-                          style={{ marginLeft: "20px" }}
-                          fluid
-                          src={medImg}
-                          alt="Generic placeholder image"
-                        />
-                      </MDBCol>
-                      <MDBCol md="2" className="d-flex justify-content-center">
-                        <div>
-                          <p className="lead fw-normal mb-0">{med.id}</p>
-                        </div>
-                      </MDBCol>
-                      <MDBCol
-                        md="2"
-                        className="d-flex justify-content-center"
-                        style={{ width: "200px", marginLeft: 0 }}
-                      >
-                        <div>
-                          <p className="lead fw-normal mb-0">
-                            <MDBIcon
-                              fas
-                              icon="circle me-2"
-                              style={{ color: "#fdd8d2" }}
-                            />
-                            {changeToRightCase(med.medName.split(" "))}
-                          </p>
-                        </div>
-                      </MDBCol>
-                      <MDBCol md="2" className="d-flex justify-content-center">
-                        <div>
-                          <p className="lead fw-normal mb-0">
-                            <TextField
-                              style={{
-                                margin: 10,
-                                padding: 0,
-                                width: "80px",
-                              }}
-                              label="Quantity"
-                              id="filled-number"
-                              type="number"
-                              onChange={(e) => updateQuantity(e, med.mid)}
-                              InputLabelProps={{
-                                shrink: true,
-                              }}
-                              variant="outlined"
-                              defaultValue={med.quantity}
-                            />
-                          </p>
-                        </div>
-                      </MDBCol>
-                      <MDBCol md="2" className="d-flex justify-content-center">
-                        <div>
-                          <p className="lead fw-normal mb-0">₹ {med.price}</p>
-                        </div>
-                      </MDBCol>
-                      <MDBCol md="2" className="d-flex justify-content-center">
-                        <div>
-                          <p className="lead fw-normal mb-0">
-                            <div key={med.mid}>
-                              <IconButton
-                                aria-label="delete"
-                                onClick={(e) => deleteItem(e, med.mid)}
-                              >
-                                <DeleteIcon />
-                              </IconButton>
-                            </div>
-                          </p>
-                        </div>
-                      </MDBCol>
-                    </MDBRow>
-                  </MDBCardBody>
-                </MDBCard>
-              </div>
-            ))}
+            {isDataLoading ? (
+              <CircularProgress
+                style={{ marginRight: "10px", alignSelf: "center" }}
+                size={30}
+              />
+            ) : (
+              medList.map((med) => (
+                <div>
+                  <MDBCard
+                    style={{ backgroundColor: "#fcfafa" }}
+                    className="mb-2"
+                  >
+                    <MDBCardBody className="p-1">
+                      <MDBRow className="align-items-center">
+                        <MDBCol md="1">
+                          <MDBCardImage
+                            style={{ marginLeft: "20px" }}
+                            fluid
+                            src={medImg}
+                            alt="Generic placeholder image"
+                          />
+                        </MDBCol>
+                        <MDBCol
+                          md="2"
+                          className="d-flex justify-content-center"
+                        >
+                          <div>
+                            <p className="lead fw-normal mb-0">{med.id}</p>
+                          </div>
+                        </MDBCol>
+                        <MDBCol
+                          md="2"
+                          className="d-flex justify-content-center"
+                          style={{ width: "200px", marginLeft: 0 }}
+                        >
+                          <div>
+                            <p className="lead fw-normal mb-0">
+                              <MDBIcon
+                                fas
+                                icon="circle me-2"
+                                style={{ color: "#fdd8d2" }}
+                              />
+                              {changeToRightCase(med.medName.split(" "))}
+                            </p>
+                          </div>
+                        </MDBCol>
+                        <MDBCol
+                          md="2"
+                          className="d-flex justify-content-center"
+                        >
+                          <div>
+                            <p className="lead fw-normal mb-0">
+                              <TextField
+                                style={{
+                                  margin: 10,
+                                  padding: 0,
+                                  width: "80px",
+                                }}
+                                label="Quantity"
+                                id="filled-number"
+                                type="number"
+                                onChange={(e) => updateQuantity(e, med.mid)}
+                                InputLabelProps={{
+                                  shrink: true,
+                                }}
+                                variant="outlined"
+                                defaultValue={med.quantity}
+                              />
+                            </p>
+                          </div>
+                        </MDBCol>
+                        <MDBCol
+                          md="2"
+                          className="d-flex justify-content-center"
+                        >
+                          <div>
+                            <p className="lead fw-normal mb-0">₹ {med.price}</p>
+                          </div>
+                        </MDBCol>
+                        <MDBCol
+                          md="2"
+                          className="d-flex justify-content-center"
+                        >
+                          <div>
+                            <p className="lead fw-normal mb-0">
+                              <div key={med.mid}>
+                                <IconButton
+                                  aria-label="delete"
+                                  onClick={(e) => deleteItem(e, med.mid)}
+                                >
+                                  <DeleteIcon />
+                                </IconButton>
+                              </div>
+                            </p>
+                          </div>
+                        </MDBCol>
+                      </MDBRow>
+                    </MDBCardBody>
+                  </MDBCard>
+                </div>
+              ))
+            )}
             <MDBCard className="mb-5">
               <MDBCardBody
                 className="p-4"
@@ -548,7 +561,16 @@ function CartPage(props) {
                 <div className="float-end">
                   <p className="mb-0 me-5 d-flex align-items-center">
                     <span className="small text-muted me-2">Order total:</span>
-                    <span className="lead fw-normal">{isUpdatingQuantity ? (<CircularProgress style={{ marginRight: "10px" }} size={20} />): "₹" +totalAmount}</span>
+                    <span className="lead fw-normal">
+                      {isUpdatingQuantity ? (
+                        <CircularProgress
+                          style={{ marginRight: "10px" }}
+                          size={20}
+                        />
+                      ) : (
+                        "₹" + totalAmount
+                      )}
+                    </span>
                   </p>
                 </div>
               </MDBCardBody>
