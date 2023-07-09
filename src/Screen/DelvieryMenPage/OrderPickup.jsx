@@ -3,7 +3,7 @@ import axios from "../../api/axios";
 import { useState } from "react";
 import { useEffect } from "react";
 import { DataGrid } from "@mui/x-data-grid";
-import { TextField, Button, Paper, LinearProgress } from "@mui/material";
+import { Button, Paper } from "@mui/material";
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert from "@mui/material/Alert";
 import Cookies from "js-cookie";
@@ -28,8 +28,6 @@ function OrderPickupPage(props) {
   const [open, setOpen] = useState(false);
   const [severity, setSeverity] = useState("");
   const [message, setMessage] = useState("");
-
-  const [orderedItems, setOrderedItems] = useState([]);
 
   const [isLoading, setIsLoading] = useState(false);
   const [selectedItems, setSelectedItems] = useState([]);
@@ -77,7 +75,6 @@ function OrderPickupPage(props) {
         secretKey: Cookies.get(process.env.REACT_APP_SECRET_COOKIE_KEY),
       })
       .then((resp) => {
-        setOrderedItems(resp.data);
         resp.data.forEach((data) => {
           temp.push({
             id: ++counter,
@@ -119,8 +116,8 @@ function OrderPickupPage(props) {
           alignSelf: "center",
           margin: "auto",
           backgroundColor: "white",
-          width: "1135px",
-          height: "600px",
+          width: "1560px",
+          height: "810px",
           color: "Black",
         }}
       >
@@ -163,8 +160,8 @@ function OrderPickupPage(props) {
           loading={isLoading}
           style={{
             alignSelf: "center",
-            width: "1000px",
-            height: "500px",
+            width: "1460px",
+            height: "710px",
             margin: "auto",
           }}
           getRowHeight={() => 'auto'}
@@ -253,8 +250,8 @@ function YourDeliveryPage(props) {
           alignSelf: "center",
           margin: "auto",
           backgroundColor: "white",
-          width: "1135px",
-          height: "600px",
+          width: "1560px",
+          height: "810px",
           color: "Black",
         }}
       >
@@ -281,8 +278,8 @@ function YourDeliveryPage(props) {
           loading={isLoading}
           style={{
             alignSelf: "center",
-            width: "1000px",
-            height: "500px",
+            width: "1460px",
+            height: "710px",
             margin: "auto",
           }}
           getRowHeight={() => 'auto'}

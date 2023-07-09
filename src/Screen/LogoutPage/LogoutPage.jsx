@@ -1,18 +1,15 @@
 import axios from "../../api/axios";
-import React, { useState } from "react";
+import React from "react";
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
-import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { useTheme } from "@mui/material/styles";
 import Cookies from "js-cookie";
-import { useNavigate } from "react-router-dom";
 
 export default function LogoutPage(props) {
-  const navigate = useNavigate();
   const logoutUser = (e) => {
     e.preventDefault();
     axios
@@ -29,13 +26,9 @@ export default function LogoutPage(props) {
         window.location.reload();
       });
   };
-  const [open, setOpen] = React.useState(true);
+  const [open] = React.useState(true);
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down("md"));
-
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
 
   const handleClose = (e) => {
     e.preventDefault();

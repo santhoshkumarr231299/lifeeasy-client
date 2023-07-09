@@ -1,6 +1,4 @@
 
-import axios from "../api/axios";
-
 export function validateUsername(field) {
     if(!field || field.length === 0) {
         return "Username should not be empty";
@@ -31,17 +29,17 @@ export function validatePassword(field) {
     else {
         var lowerCaseLetters = /[a-z]/g;
         if(!field.match(lowerCaseLetters)) {  
-            return "Password should contain a Lower Case";
+            return "Password should contain a Lower Case, (Upper Case and a number)";
         }
         
         var upperCaseLetters = /[A-Z]/g;
         if(!field.match(upperCaseLetters)) {  
-            return "Password should contain a Upper Case";
+            return "Password should contain a Upper Case, (Lower Case and a number)";
         }
 
         var numbers = /[0-9]/g;
         if(!field.match(numbers)) {  
-            return "Password should contain a number";
+            return "Password should contain a number, (Lower Case and Upper Case)";
         }
         return "";
     }

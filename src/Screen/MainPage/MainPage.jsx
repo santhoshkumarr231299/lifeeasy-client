@@ -19,7 +19,8 @@ import {
   AttachMoney,
   AdminPanelSettings,
   CheckCircle,
-  LocalHospital
+  LocalHospital,
+  ContactMail
 } from "@mui/icons-material";
 
 const DashboardPage = lazy(() => import("../Dashboard/Dashboard"));
@@ -42,6 +43,7 @@ const AssignUserPrevilegesPage = lazy(() =>
 );
 const OrderPickupPage = lazy(() => import("../DelvieryMenPage/OrderPickup"));
 const SearchMedicines = lazy(() => import("../../modules/customer/SearchMedicines.tsx"));
+const ChatBot = lazy(() => import("../../modules/admin/ChatBot.tsx"));
 
 function MainPage(props) {
   const [option, setOption] = useState(0);
@@ -62,7 +64,7 @@ function MainPage(props) {
         secretKey: Cookies.get(process.env.REACT_APP_SECRET_COOKIE_KEY),
       })
       .then((res) => {
-        if (res.data.username == "") {
+        if (res.data.username === "") {
           try {
           Cookies.remove(process.env.REACT_APP_SECRET_COOKIE_KEY);
           } catch(e){
@@ -200,6 +202,12 @@ function MainPage(props) {
       icon: <LocalHospital />,
       haveAccess: user && user.haveAccessTo.includes("[8]"),
     },
+    {
+      name: "Contact Support",
+      menuValue: 14,
+      icon: <ContactMail />,
+      haveAccess: true,
+    },
   ];
 
   const contentArea = () => {
@@ -280,6 +288,12 @@ function MainPage(props) {
         return (
           <Suspense fallback={<CircularProgress size={50} />}>
             <SearchMedicines />
+          </Suspense>
+        );
+        case 14:
+        return (
+          <Suspense fallback={<CircularProgress size={50} />}>
+            <ChatBot />
           </Suspense>
         );
       case 999:

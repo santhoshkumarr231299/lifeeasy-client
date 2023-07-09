@@ -18,7 +18,6 @@ function NewUserPage() {
   const [openAlert, setOpenAlert] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
-  const [hoverColor, setHoverColor] = useState("black");
   const [opacity, setOpacity] = useState("60%");
   const [dispProp, setDispProp] = useState(false);
   const [otpField, setOtpField] = useState(false);

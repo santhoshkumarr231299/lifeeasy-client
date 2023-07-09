@@ -20,12 +20,10 @@ import Cards from "./Cards";
 import medImg from "../../assets/medicine-img.png";
 import {
   MDBInput,
-  MDBBtn,
   MDBCard,
   MDBCardBody,
   MDBCardImage,
   MDBCol,
-  MDBContainer,
   MDBIcon,
   MDBRow,
 } from "mdb-react-ui-kit";
@@ -37,12 +35,12 @@ export default function MainMedicinePage(props) {
   };
   const getMedicinePage = () => {
     switch (option) {
-      case 0:
-        return <MedicinePage changeOption={changeOption} />;
       case 1:
         return (
           <CartPage username={props.username} changeOption={changeOption} />
         );
+        default:
+          return <MedicinePage changeOption={changeOption} />;
     }
   };
   return <div>{getMedicinePage()}</div>;
@@ -124,8 +122,8 @@ function MedicinePage(props) {
         alignSelf: "center",
         margin: "auto",
         backgroundColor: "white",
-        width: "1135px",
-        minHeight: "600px",
+        width: "1560px",
+        minHeight: "810px",
         color: "Black",
       }}
     >
@@ -410,8 +408,8 @@ function CartPage(props) {
           alignSelf: "center",
           margin: "auto",
           backgroundColor: "white",
-          width: "1135px",
-          minHeight: "600px",
+          width: "1560px",
+          minHeight: "810px",
           color: "Black",
         }}
       >

@@ -29,7 +29,6 @@ export default function InvoicePage() {
 }
 
 function InvoiceReportPage(props) {
-  const [invoice, setInvoice] = useState([]);
   const [dataGridRows, setDataGridRows] = useState([]);
 
   const [isLoading, setIsLoading] = useState(false);
@@ -43,7 +42,6 @@ function InvoiceReportPage(props) {
         secretKey: Cookies.get(process.env.REACT_APP_SECRET_COOKIE_KEY),
       })
       .then((resp) => {
-        setInvoice(resp.data);
         resp.data.forEach((da) => {
           temp.push({
             id: ++counter,
@@ -79,8 +77,8 @@ function InvoiceReportPage(props) {
         alignSelf: "center",
         margin: "auto",
         backgroundColor: "white",
-        width: "1135px",
-        height: "600px",
+        width: "1560px",
+        height: "810px",
         color: "Black",
       }}
     >
@@ -99,8 +97,8 @@ function InvoiceReportPage(props) {
       <DataGrid
         style={{
           alignSelf: "center",
-          width: "1000px",
-          height: "500px",
+          width: "1460px",
+          height: "710px",
           margin: "auto",
         }}
         getRowHeight={() => 'auto'}
@@ -227,8 +225,8 @@ function AddInvoicePage(props) {
           textAlign: "center",
           marginBottom: "20px",
           backgroundColor: "white",
-          width: "1135px",
-          minHeight: "600px",
+          width: "1560px",
+          height: "810px",
           color: "Black",
         }}
       >

@@ -37,7 +37,6 @@ export default function MedicinePageManager() {
 
 function PharmacistPage(props) {
   const [isLoading, setIsLoading] = useState(false);
-  const [pharmacists, setPharmacists] = useState([]);
   const [dataGridRows, setDataGridRows] = useState([]);
   useEffect(() => {
     setIsLoading(true);
@@ -48,7 +47,6 @@ function PharmacistPage(props) {
         secretKey: Cookies.get(process.env.REACT_APP_SECRET_COOKIE_KEY),
       })
       .then((resp) => {
-        setPharmacists(resp.data);
         resp.data.forEach((data) => {
           temp.push({
             id: ++counter,
@@ -79,8 +77,8 @@ function PharmacistPage(props) {
         alignSelf: "center",
         margin: "auto",
         backgroundColor: "white",
-        width: "1135px",
-        height: "600px",
+        width: "1560px",
+        height: "810px",
         color: "Black",
       }}
     >
@@ -100,8 +98,8 @@ function PharmacistPage(props) {
         loading={isLoading}
         style={{
           alignSelf: "center",
-          width: "1000px",
-          height: "500px",
+          width: "1460px",
+          height: "710px",
           margin: "auto",
         }}
         getRowHeight={() => 'auto'}
@@ -291,8 +289,8 @@ function AddPharmacistPage(props) {
           textAlign: "center",
           marginBottom: "20px",
           backgroundColor: "white",
-          width: "1135px",
-          minHeight: "600px",
+          width: "1560px",
+          minHeight: "810px",
           color: "Black",
         }}
       >

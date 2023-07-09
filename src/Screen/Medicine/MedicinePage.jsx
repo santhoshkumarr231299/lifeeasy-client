@@ -33,7 +33,6 @@ export default function MedicinePageManager() {
 }
 
 function MedicinePage(props) {
-  const [medicines, setMedicines] = useState([]);
   const [dataGridRows, setDataGridRows] = useState([]);
 
   const [isLoading, setIsLoading] = useState(false);
@@ -47,7 +46,6 @@ function MedicinePage(props) {
         secretKey: Cookies.get(process.env.REACT_APP_SECRET_COOKIE_KEY),
       })
       .then((resp) => {
-        setMedicines(resp.data);
         resp.data.forEach((med) => {
           temp.push({
             id: counter++,
@@ -91,8 +89,8 @@ function MedicinePage(props) {
         alignSelf: "center",
         margin: "auto",
         backgroundColor: "white",
-        width: "1135px",
-        height: "600px",
+        width: "1560px",
+        height: "810px",
         color: "Black",
       }}
     >
@@ -113,8 +111,8 @@ function MedicinePage(props) {
       <DataGrid
         style={{
           alignSelf: "center",
-          width: "1000px",
-          height: "500px",
+          width: "1460px",
+          height: "710px",
           margin: "auto",
         }}
         loading={isLoading}
@@ -298,8 +296,8 @@ function AddMedicinePage(props) {
           textAlign: "center",
           marginBottom: "20px",
           backgroundColor: "white",
-          width: "1135px",
-          minHeight: "600px",
+          width: "1560px",
+          height: "810px",
           color: "Black",
         }}
       >

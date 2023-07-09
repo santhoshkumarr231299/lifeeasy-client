@@ -1,6 +1,5 @@
 import axios from "../../api/axios";
 import Cookies from "js-cookie";
-import { useNavigate } from "react-router-dom";
 
 function loadScript(src) {
   return new Promise((resolve) => {
@@ -24,9 +23,7 @@ async function displayRazorpay(makeOrder, openSnackBar) {
     return;
   }
 
-  const result = await axios.post("/payment/orders", {
-    secretKey: Cookies.get(process.env.REACT_APP_SECRET_COOKIE_KEY),
-  });
+  const result = await axios.post("/payment/orders");
 
   if (!result) {
     alert("Server error. Are you online?");
@@ -57,10 +54,9 @@ async function displayRazorpay(makeOrder, openSnackBar) {
         razorpaySignature: response.razorpay_signature,
       };
 
-      const result = await axios.post("/payment/success", data);
+      await axios.post("/payment/success", data);
 
-      // alert(result.data.message);
-      const res = await makeOrder();
+      await makeOrder();
 
       openSnackBar("success", "Payment Successful");
 
@@ -134,7 +130,7 @@ export async function RazorpayPaymentGateWaySubscription(openSnackBar, subscript
         subscriptionType : subscriptionType
       });
 
-      if(res.data.status == 'success') {
+      if(res.data.status === 'success') {
         openSnackBar("success", res.data.message);
         setTimeout(() => {
           goToHome();
@@ -172,7 +168,7 @@ export async function activateYourFreeTrail(openSnackBar, goToHome) {
     subscriptionType : "monthly"
   });
 
-  if(res.data.status == 'success') {
+  if(res.data.status === 'success') {
     openSnackBar("success", res.data.message);
     setTimeout(() => {
       goToHome();

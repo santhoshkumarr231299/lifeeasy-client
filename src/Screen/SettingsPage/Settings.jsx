@@ -47,8 +47,8 @@ export default function Settings(props) {
           alignSelf: "center",
           margin: "auto",
           backgroundColor: "white",
-          width: "1135px",
-          height: "600px",
+          width: "1560px",
+          height: "810px",
           color: "Black",
         }}
       >
@@ -77,7 +77,6 @@ function UserDetails(props) {
   const [message, setMessage] = useState("");
 
   const [isLoading, setIsLoading] = useState(false);
-  const [buttonLoading, setButtonLoading] = useState(false);
 
   const [user, setUser] = useState({});
   const userFields = [
@@ -198,6 +197,7 @@ function UserDetails(props) {
         tempUser.mobileNumber = e.target.value;
         setUser(tempUser);
         break;
+      default:
     }
   };
   const fetchData = async () => {

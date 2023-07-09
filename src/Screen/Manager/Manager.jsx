@@ -36,7 +36,6 @@ export default function ManagerPage() {
 }
 
 function ManagerReportPage(props) {
-  const [manager, setManager] = useState([]);
   const [dataGridRows, setDataGridRows] = useState([]);
 
   const [isLoading, setIsLoading] = useState(false);
@@ -50,7 +49,6 @@ function ManagerReportPage(props) {
         secretKey: Cookies.get(process.env.REACT_APP_SECRET_COOKIE_KEY),
       })
       .then((resp) => {
-        setManager(resp.data);
         resp.data.forEach((data) => {
           temp.push({
             id: ++counter,
@@ -82,8 +80,8 @@ function ManagerReportPage(props) {
         alignSelf: "center",
         margin: "auto",
         backgroundColor: "white",
-        width: "1135px",
-        height: "600px",
+        width: "1560px",
+        height: "810px",
         color: "Black",
       }}
     >
@@ -102,8 +100,8 @@ function ManagerReportPage(props) {
       <DataGrid
         style={{
           alignSelf: "center",
-          width: "1000px",
-          height: "500px",
+          width: "1460px",
+          height: "710px",
           margin: "auto",
         }}
         getRowHeight={() => 'auto'}
@@ -305,8 +303,8 @@ function AddManagerPage(props) {
           textAlign: "center",
           marginBottom: "20px",
           backgroundColor: "white",
-          width: "1135px",
-          minHeight: "600px",
+          width: "1560px",
+          height: "810px",
           color: "Black",
         }}
       >

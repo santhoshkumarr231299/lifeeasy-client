@@ -30,7 +30,7 @@ class App extends Component {
                 <Route path="/newuser" element={Cookies.get(process.env.REACT_APP_SECRET_COOKIE_KEY) ? <Navigate to="/home" /> : <NewUser theme = {this.theme} />} />
                 <Route path="/forgotpass" element={Cookies.get(process.env.REACT_APP_SECRET_COOKIE_KEY) ? <Navigate to="/home" /> : <ForgotPassPage  theme = {this.theme} />} />
                 <Route path='/subscribe' element={<SubscribeToServicePage />} />
-                <Route path='/super-admin' element={<SuperMainPage />} />
+                <Route path='/super-admin/*' element={<SuperMainPage />} />
                 <Route path='/*' element={<NotFoundPage />} />
             </Routes>
         </BrowserRouter>

@@ -18,8 +18,8 @@ export default function AssignUserPrevilegesPage(props) {
           alignSelf: "center",
           margin: "auto",
           backgroundColor: "white",
-          width: "1135px",
-          height: "600px",
+          width: "1560px",
+          height: "810px",
           color: "Black",
         }}
       >
@@ -256,7 +256,6 @@ function AssignUserPrevileges(props) {
             margin: "10px",
             display: "flex",
             gap: "5px",
-            margin: "auto",
             justifyContent: "center",
             alignItems: "center",
           }}

@@ -1,12 +1,12 @@
 import React, { useEffect, useRef, useState } from "react";
-import { useNavigate, Navigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { Button, Form, Card, Alert } from "react-bootstrap";
 import Cookies from "js-cookie";
 import axios from "../../api/axios";
 import { CircularProgress } from "@mui/material";
 
 function LoginPage() {
-  const [pharmacies, setPharmacies] = useState([]);
+  // const [pharmacies, setPharmacies] = useState([]);
   const [alertType, setAlertType] = useState();
   const [alert, setAlert] = useState();
   const [openAlert, setOpenAlert] = useState(false);
@@ -119,13 +119,13 @@ function LoginPage() {
       required: true,
       reference: password,
     },
-    {
-      fieldName: "pharmacies",
-      labelName: "Pharmacies",
-      type: "select",
-      select: pharmacies,
-      reference: pharmaciesRef,
-    },
+    // {
+    //   fieldName: "pharmacies",
+    //   labelName: "Pharmacies",
+    //   type: "select",
+    //   select: pharmacies,
+    //   reference: pharmaciesRef,
+    // },
   ];
 
   // useEffect(() => {

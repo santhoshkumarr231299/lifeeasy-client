@@ -112,8 +112,8 @@ function Dashboard() {
         justifyContent: "center",
         margin: "auto",
         backgroundColor: "white",
-        width: "1135px",
-        height: "640px",
+        width: "1560px",
+        height: "810px",
       }}
     >
       <div

@@ -73,8 +73,8 @@ function ReportPage(props) {
         alignSelf: "center",
         margin: "auto",
         backgroundColor: "white",
-        width: "1135px",
-        height: "600px",
+        width: "1560px",
+        height: "810px",
         color: "Black",
       }}
     >
@@ -94,8 +94,8 @@ function ReportPage(props) {
       <DataGrid
         style={{
           alignSelf: "center",
-          width: "1000px",
-          height: "500px",
+          width: "1460px",
+          height: "710px",
           margin: "auto",
         }}
         loading={isLoading}
@@ -225,8 +225,8 @@ function AddReportPage(props) {
           textAlign: "center",
           marginBottom: "20px",
           backgroundColor: "white",
-          width: "1135px",
-          minHeight: "600px",
+          width: "1560px",
+          minHeight: "810px",
           color: "Black",
         }}
       >

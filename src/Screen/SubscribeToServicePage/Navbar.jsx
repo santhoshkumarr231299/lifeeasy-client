@@ -1,19 +1,20 @@
-import React, { useState } from "react";
+import React from "react";
 import { Avatar } from "@mui/material";
 import { purple } from "@mui/material/colors";
-import { Settings, Logout } from "@mui/icons-material";
+import { Logout } from "@mui/icons-material";
 import logo from "../../assets/logo.png";
 
 export default function Navbar(props) {
   return (
     <nav className="navbar navbar-light bg-light">
-      <a
+      <div
         style={{
           display: "flex",
-          gap: "2rem",
-          position: "flex-end",
+          // gap: "2rem",
           alignItems: "center",
           marginLeft: "15px",
+          justifyContent: "space-between",
+          width: '100%'
         }}
       >
         <div
@@ -31,6 +32,7 @@ export default function Navbar(props) {
                 margin: 0,
                 padding: 0,
               }}
+              alt=""
             />
           </div>
           <div
@@ -63,10 +65,10 @@ export default function Navbar(props) {
 
         <div
           style={{
-            marginLeft: "930px",
             display: "flex",
             gap: "1rem",
             alignItems: "center",
+            marginRight:'15px'
           }}
         >
           <div
@@ -86,7 +88,7 @@ export default function Navbar(props) {
             <Logout className="icon-top" />
           </div>
         </div>
-      </a>
+      </div>
     </nav>
   );
 }

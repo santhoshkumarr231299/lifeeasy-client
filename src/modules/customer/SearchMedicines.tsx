@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { TextField, Button, Paper, CircularProgress } from "@mui/material";
+import React, { useState } from "react";
+import { Paper, CircularProgress } from "@mui/material";
 import OutlinedInput from "@mui/material/OutlinedInput";
 import InputAdornment from "@mui/material/InputAdornment";
 import SearchIcon from "@mui/icons-material/Search";
@@ -20,18 +20,18 @@ function SearchMedicines() {
 
     const fetchMedicines = (e : any) : void => {
         e.preventDefault();
-        if(!e.target.value || e.target.value == '') {
+        if(!e.target.value || e.target.value === '') {
             setMedicines(()=>[]);
             return;
         }
         setIsLoading(true);
         const options = {
             method: 'GET',
-            url: 'https://drug-info-and-price-history.p.rapidapi.com/1/druginfo',
+            url: process.env.REACT_APP_RAPID_API_URL,
             params: {drug: e.target.value},
             headers: {
-              'X-RapidAPI-Key': 'a01f99be40mshda5728a99cf7da8p1b9fa3jsndee8ef30ebd2',
-              'X-RapidAPI-Host': 'drug-info-and-price-history.p.rapidapi.com'
+              'X-RapidAPI-Key': process.env.REACT_APP_RAPID_API_KEY,
+              'X-RapidAPI-Host': process.env.REACT_APP_RAPID_HOST
             }
           };
         axios.request(options).then(function (response) {
@@ -55,23 +55,6 @@ function SearchMedicines() {
         });
     }
 
-    useEffect(() => {
-        const optins = {
-            method: 'GET',
-            url: 'https://iterar-mapi-us.p.rapidapi.com/api/reserpine/substances.json',
-            headers: {
-              'X-RapidAPI-Key': 'a01f99be40mshda5728a99cf7da8p1b9fa3jsndee8ef30ebd2',
-              'X-RapidAPI-Host': 'iterar-mapi-us.p.rapidapi.com'
-            }
-          };
-          
-          axios.request(optins).then(function (response) {
-              console.log(response.data);
-          }).catch(function (error) {
-              console.error(error);
-          });
-    })
-
     return <div>
         <Paper
       elevation={3}
@@ -80,9 +63,9 @@ function SearchMedicines() {
         alignSelf: "center",
         margin: "auto",
         backgroundColor: "white",
-        width: "1135px",
-        height: "600px",
-        color: "Black",
+        width: "1560px",
+        height: "810px",
+        color: "Black"
       }}
     >
         <div style={{
@@ -121,7 +104,7 @@ function SearchMedicines() {
                         backgroundColor: "purple",
                         }}
                         variant="contained"
-                        onClick={() => fetchMedicines()}
+                        onClick={(e) => fetchMedicines(e)}
                     >
                     Search
                     </Button>

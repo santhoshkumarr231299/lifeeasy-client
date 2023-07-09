@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { autocompleteClasses, Avatar } from "@mui/material";
+import React from "react";
+import {  Avatar } from "@mui/material";
 import { purple } from "@mui/material/colors";
 import { Settings, Logout } from "@mui/icons-material";
 import logo from "../../assets/logo.png";
@@ -7,7 +7,7 @@ import logo from "../../assets/logo.png";
 export default function Navbar(props) {
   return (
     <nav className="navbar navbar-light bg-light">
-      <a
+      <div
         style={{
           display: "flex",
           // gap: "2rem",
@@ -32,6 +32,7 @@ export default function Navbar(props) {
                 margin: 0,
                 padding: 0,
               }}
+              alt=""
             />
           </div>
           <div
@@ -90,7 +91,7 @@ export default function Navbar(props) {
             <Logout className="icon-top" />
           </div>
         </div>
-      </a>
+      </div>
     </nav>
   );
 }
