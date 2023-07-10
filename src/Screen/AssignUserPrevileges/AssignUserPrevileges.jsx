@@ -6,7 +6,6 @@ import { Paper, Button, CircularProgress } from "@mui/material";
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert from "@mui/material/Alert";
 import { Typeahead } from "react-bootstrap-typeahead";
-import Cookies from "js-cookie";
 
 export default function AssignUserPrevilegesPage(props) {
   return (
@@ -49,6 +48,12 @@ function AssignUserPrevileges(props) {
   const [selectedUser, setSelectedUser] = useState([]);
   const [users, setUsers] = useState([]);
   const [usePrevileges, setUserPrevileges] = useState("");
+  const [accStatus, setAccStatus] = useState(true);
+
+  const changeStatus = (e) => {
+    e.preventDefault();
+    setAccStatus((prev) => !prev);
+  };
 
   const allMenus = [
     {
@@ -176,7 +181,7 @@ function AssignUserPrevileges(props) {
         username: selectedUser[0].label,
         userPrevileges: userPrevileges,
         lastAccessedScreen: userPreArr[0],
-        secretKey: Cookies.get(process.env.REACT_APP_SECRET_COOKIE_KEY),
+        userStatus: accStatus,
       })
       .then((resp) => {
         setSeverity(resp.data.status);
@@ -196,7 +201,6 @@ function AssignUserPrevileges(props) {
     axios
       .post("/get-users", {
         search: "",
-        secretKey: Cookies.get(process.env.REACT_APP_SECRET_COOKIE_KEY),
       })
       .then((resp) => {
         let userOpt = [];
@@ -218,10 +222,10 @@ function AssignUserPrevileges(props) {
       axios
         .post("/get-user-previleges", {
           username: selectedUser[0].label,
-          secretKey: Cookies.get(process.env.REACT_APP_SECRET_COOKIE_KEY),
         })
         .then((resp) => {
           setUserPrevileges(resp.data.userPrevileges);
+          setAccStatus(resp.data.userStatus);
           setIsLoading(false);
         })
         .catch((err) => {
@@ -278,10 +282,40 @@ function AssignUserPrevileges(props) {
             display: selectedUser && selectedUser === "" ? "none" : "block",
           }}
         >
-          {isLoading ? (<div style={{
-            marginLeft : "65px"
-          }}><CircularProgress style={{ marginRight: "10px" }} size={20} /> </div>) :
-          selectedUser.length > 0 &&
+          {!isLoading && (
+            <div
+              style={{
+                marginBottom: "25px",
+                display: "flex",
+                gap: "5px",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              {/* <h6 style={{ margin: 0, padding: 0 }}>ACCOUNT STATUS : </h6> */}
+              <div>
+                <Button
+                  hidden={!selectedUser.length > 0}
+                  onClick={(e) => changeStatus(e)}
+                  variant="outlined"
+                  style={{ width: "200px" }}
+                >
+                  {accStatus ? "Deactivate Account" : "Activate Account"}
+                </Button>
+              </div>
+            </div>
+          )}
+          {isLoading ? (
+            <div
+              style={{
+                marginLeft: "65px",
+              }}
+            >
+              <CircularProgress style={{ marginRight: "10px" }} size={20} />{" "}
+            </div>
+          ) : (
+            accStatus &&
+            selectedUser.length > 0 &&
             allMenus.map((menu) => (
               <div key={menu.FieldId}>
                 <Form.Check
@@ -293,7 +327,8 @@ function AssignUserPrevileges(props) {
                   disabled={menu.disabled}
                 />
               </div>
-            ))}
+            ))
+          )}
         </div>
       </Form>
       <Button
@@ -306,7 +341,9 @@ function AssignUserPrevileges(props) {
         onClick={(e) => updatePrevileges(e)}
         disabled={isBtnDisabled}
       >
-        {isBtnDisabled && (<CircularProgress style={{ marginRight: "10px" }} size={20} />)}
+        {isBtnDisabled && (
+          <CircularProgress style={{ marginRight: "10px" }} size={20} />
+        )}
         Save Previleges
       </Button>
       <Snackbar open={open} autoHideDuration={3000} onClose={handleClose}>
