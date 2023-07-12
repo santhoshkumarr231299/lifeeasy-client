@@ -97,7 +97,6 @@ function ForgotPassPage() {
       newPass: newPassword.current.value,
       conNewPass: conNewPassword.current.value,
       otp: otp.current.value,
-      secretKey: Cookies.get("forgot-pass-key"),
     };
     setIsLoading(true);
     if (otpField) {
@@ -118,7 +117,11 @@ function ForgotPassPage() {
       }
 
       await axios
-        .post("/forgot-pass-change", userForgotPassDetails)
+        .post("/forgot-pass-change", userForgotPassDetails, {
+          headers: {
+            ___auth : Cookies.get(process.env.REACT_APP_FORGOT_PASS_CHANGE_AUTH)
+          }
+        })
         .then((resp) => {
           if (resp.data) {
             if (resp.data.status === "success") {
@@ -163,8 +166,9 @@ function ForgotPassPage() {
                 setIsLoading(false);
                 setOtpField(true);
               }, 2500);
-
-              Cookies.set("forgot-pass-key", resp.data.secretKey, {
+              console.log(process.env.REACT_APP_FORGOT_PASS_CHANGE_AUTH);
+              console.log(resp.headers[process.env.REACT_APP_FORGOT_PASS_CHANGE_AUTH]);
+              Cookies.set(process.env.REACT_APP_FORGOT_PASS_CHANGE_AUTH, resp.headers[process.env.REACT_APP_FORGOT_PASS_CHANGE_AUTH], {
                 expires: 1,
               });
             } else {
@@ -177,7 +181,8 @@ function ForgotPassPage() {
             }
           }
         })
-        .catch(() => {
+        .catch((err) => {
+          console.error(err);
           setTimeout(() => {
             setAlertType("danger");
             setAlert(() => "Something went wrong");

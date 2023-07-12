@@ -1,7 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "../../api/axios";
-import axiosNew from "axios";
 import Cookies from "js-cookie";
 import { Button, Form, Card, Alert } from "react-bootstrap";
 import { CircularProgress } from "@mui/material";
@@ -149,8 +148,8 @@ function NewUserPage() {
         .then((response) => {
           if (response.data.status === "success") {
             if (otpField) {
-              axiosNew
-                .post(process.env.REACT_APP_BASE_URL + "/new-user", user, {
+              axios
+                .post("/new-user", user, {
                   headers: {
                     __auth: Cookies.get(
                       process.env.REACT_APP_SECRET_NEW_USER_AUTH_KEY
