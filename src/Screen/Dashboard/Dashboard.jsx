@@ -5,7 +5,6 @@ import { Card } from "react-bootstrap";
 import Cookies from "js-cookie";
 
 const BarChart = lazy(() => import("./Chart"));
-
 function boxes(list) {
   let element = [];
   list.map((data) =>
@@ -25,28 +24,35 @@ function boxes(list) {
             textAlign: "center",
             width: "250px",
             height: "180px",
-          }}
-        >
+          }}>
           <h5
             style={{
               marginLeft: "10px",
               textAlign: "left",
               paddingTop: "10px",
               marginBottom: "10px",
-            }}
-          >
+            }}>
             {data.fieldName}
           </h5>
-          <h1
+          <div
             style={{
-              marginLeft: "10px",
-              textAlign: "left",
-              paddingTop: "20px",
-              marginBottom: "10px",
-            }}
-          >
-            {data.value}
-          </h1>
+              display: "flex",
+              justifyContent: "space-around",
+              alignItems: "center",
+            }}>
+            <div style={{ height: "100px", width: "100px" }}>{data.icon}</div>
+            <div>
+              <h1
+                style={{
+                  marginLeft: "10px",
+                  textAlign: "left",
+                  paddingTop: "20px",
+                  marginBottom: "10px",
+                }}>
+                {data.value}
+              </h1>
+            </div>
+          </div>
         </Card>
       </div>
     )
@@ -56,11 +62,11 @@ function boxes(list) {
 function Dashboard() {
   const [data, setData] = useState([]);
   const list = [
-    { fieldName: "Managers", value: 0, bg: "primary" },
-    { fieldName: "Pharmacists", value: 0, bg: "info" },
-    { fieldName: "Delivery Men", value: 0, bg: "warning" },
-    { fieldName: "Medicines", value: 0, bg: "danger" },
-    { fieldName: "Sales", value: 0, bg: "success" },
+    { fieldName: "Managers", value: 0, bg: "primary", icon: null },
+    { fieldName: "Pharmacists", value: 0, bg: "info", icon: null },
+    { fieldName: "Delivery Men", value: 0, bg: "warning", icon: null },
+    { fieldName: "Medicines", value: 0, bg: "danger", icon: null },
+    { fieldName: "Sales", value: 0, bg: "success", icon: null },
   ];
 
   const chartList = [
@@ -114,8 +120,7 @@ function Dashboard() {
         backgroundColor: "white",
         width: "1560px",
         height: "810px",
-      }}
-    >
+      }}>
       <div
         style={{
           width: "100%",
@@ -124,22 +129,21 @@ function Dashboard() {
           gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))",
           gridGap: "12px",
         }}
-        className="dashboard"
-      >
+        className="dashboard">
         {boxes(data)}
       </div>
       <div>
         <Paper
           elevation={3}
           style={{
+            marginRight: "20px",
             marginLeft: "20px",
             backgroundColor: "white",
-            width: "160vh",
+            // width: "160vh",
             height: "550px",
             color: "Black",
             // boxShadow: "10px",
-          }}
-        >
+          }}>
           <BarChart data={chartList} />
         </Paper>
       </div>

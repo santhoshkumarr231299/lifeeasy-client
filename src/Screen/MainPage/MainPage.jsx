@@ -48,6 +48,7 @@ const SearchMedicines = lazy(() =>
 const ChatBot = lazy(() => import("../../modules/admin/ChatBot.tsx"));
 
 function MainPage(props) {
+  document.title = process.env.REACT_APP_PRODUCT_FIRST_NAME + process.env.REACT_APP_PRODUCT_LAST_NAME + " - Home";
   const [option, setOption] = useState(0);
   const [user, setUser] = useState();
   const navigate = useNavigate();

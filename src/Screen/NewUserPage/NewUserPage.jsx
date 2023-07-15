@@ -13,6 +13,7 @@ import {
 } from "../../Validations/validations";
 
 function NewUserPage() {
+  document.title = process.env.REACT_APP_PRODUCT_FIRST_NAME + process.env.REACT_APP_PRODUCT_LAST_NAME + " - New User";
   const [alertType, setAlertType] = useState();
   const [alert, setAlert] = useState();
   const [openAlert, setOpenAlert] = useState(false);
@@ -331,8 +332,8 @@ function NewUserPage() {
         >
           <div className="super-title">
             <div className="app-name">
-              <div className="app-name-first">Pharm</div>
-              <div className="app-name-second">Simple</div>
+              <div className="app-name-first">{process.env.REACT_APP_PRODUCT_FIRST_NAME}</div>
+              <div className="app-name-second">{process.env.REACT_APP_PRODUCT_LAST_NAME}</div>
             </div>
           </div>
           <div
