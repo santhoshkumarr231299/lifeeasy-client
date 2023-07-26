@@ -204,7 +204,7 @@ function YourDeliveryPage(props) {
     let temp = [];
     let counter = 0;
     axios
-      .post("/get-orders", {
+      .post("/get-delivery-orders", {
         secretKey: Cookies.get(process.env.REACT_APP_SECRET_COOKIE_KEY),
       })
       .then((resp) => {

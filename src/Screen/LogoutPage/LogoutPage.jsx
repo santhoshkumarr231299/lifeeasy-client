@@ -14,7 +14,6 @@ export default function LogoutPage(props) {
     e.preventDefault();
     axios
       .post("/logout", {
-        secretKey: Cookies.get(process.env.REACT_APP_SECRET_COOKIE_KEY),
       })
       .then((resp) => {
         try {
