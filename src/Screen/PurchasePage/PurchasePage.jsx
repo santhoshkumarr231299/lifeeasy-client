@@ -122,30 +122,26 @@ function MedicinePage(props) {
         width: "1560px",
         minHeight: "810px",
         color: "Black",
-      }}
-    >
+      }}>
       <div
         style={{
           width: "1055px",
           minHeight: "560px",
           margin: "auto",
           alignSelf: "center",
-        }}
-      >
+        }}>
         <div
           style={{
             width: "1095px",
             height: "100px",
-          }}
-        >
+          }}>
           <div
             style={{
               display: "flex",
               gap: "4rem",
               alignItems: "center",
               margin: "auto",
-            }}
-          >
+            }}>
             <OutlinedInput
               style={{
                 width: "80%",
@@ -183,8 +179,7 @@ function MedicinePage(props) {
             display: "grid",
             gridTemplateColumns: "repeat(auto-fit, minmax(230px, 1fr))",
             gridGap: "5px",
-          }}
-        >
+          }}>
           {medicines.map((data) => (
             <Cards
               key={data.id}
@@ -278,6 +273,9 @@ function CartPage(props) {
   };
 
   const updateQuantity = (e, id) => {
+    if (String(parseInt(e.target.value)) == "NaN") {
+      return;
+    }
     setIsUpdatingQuantity(true);
     axios
       .post("/update-cart-items", {
@@ -406,8 +404,7 @@ function CartPage(props) {
           width: "1560px",
           minHeight: "810px",
           color: "Black",
-        }}
-      >
+        }}>
         <div
           style={{
             width: "1055px",
@@ -415,15 +412,13 @@ function CartPage(props) {
             marginTop: "20px",
             margin: "auto",
             alignSelf: "center",
-          }}
-        >
+          }}>
           <div
             style={{
               width: "1095px",
               height: "100px",
               paddingRight: 43,
-            }}
-          >
+            }}>
             <div
               className="float-end"
               style={{
@@ -433,8 +428,7 @@ function CartPage(props) {
                 alignItems: "center",
                 margin: "auto",
                 justifyContent: "center",
-              }}
-            >
+              }}>
               <span className="h3">
                 {props.username[0].toUpperCase() +
                   props.username.substr(1) +
@@ -444,8 +438,7 @@ function CartPage(props) {
               <Button
                 onClick={(e) => changeOption(e)}
                 variant="contained"
-                style={{ backgroundColor: "purple" }}
-              >
+                style={{ backgroundColor: "purple" }}>
                 Back
               </Button>
             </div>
@@ -461,8 +454,7 @@ function CartPage(props) {
                 <div>
                   <MDBCard
                     style={{ backgroundColor: "#fcfafa" }}
-                    className="mb-2"
-                  >
+                    className="mb-2">
                     <MDBCardBody className="p-1">
                       <MDBRow className="align-items-center">
                         <MDBCol md="1">
@@ -475,8 +467,7 @@ function CartPage(props) {
                         </MDBCol>
                         <MDBCol
                           md="2"
-                          className="d-flex justify-content-center"
-                        >
+                          className="d-flex justify-content-center">
                           <div>
                             <p className="lead fw-normal mb-0">{med.id}</p>
                           </div>
@@ -484,8 +475,7 @@ function CartPage(props) {
                         <MDBCol
                           md="2"
                           className="d-flex justify-content-center"
-                          style={{ width: "200px", marginLeft: 0 }}
-                        >
+                          style={{ width: "200px", marginLeft: 0 }}>
                           <div>
                             <p className="lead fw-normal mb-0">
                               <MDBIcon
@@ -499,8 +489,7 @@ function CartPage(props) {
                         </MDBCol>
                         <MDBCol
                           md="2"
-                          className="d-flex justify-content-center"
-                        >
+                          className="d-flex justify-content-center">
                           <div>
                             <p className="lead fw-normal mb-0">
                               <TextField
@@ -524,23 +513,20 @@ function CartPage(props) {
                         </MDBCol>
                         <MDBCol
                           md="2"
-                          className="d-flex justify-content-center"
-                        >
+                          className="d-flex justify-content-center">
                           <div>
                             <p className="lead fw-normal mb-0">₹ {med.price}</p>
                           </div>
                         </MDBCol>
                         <MDBCol
                           md="2"
-                          className="d-flex justify-content-center"
-                        >
+                          className="d-flex justify-content-center">
                           <div>
                             <p className="lead fw-normal mb-0">
                               <div key={med.mid}>
                                 <IconButton
                                   aria-label="delete"
-                                  onClick={(e) => deleteItem(e, med.mid)}
-                                >
+                                  onClick={(e) => deleteItem(e, med.mid)}>
                                   <DeleteIcon />
                                 </IconButton>
                               </div>
@@ -556,8 +542,7 @@ function CartPage(props) {
             <MDBCard className="mb-5">
               <MDBCardBody
                 className="p-4"
-                style={{ backgroundColor: "#fcfafa" }}
-              >
+                style={{ backgroundColor: "#fcfafa" }}>
                 <div className="float-end">
                   <p className="mb-0 me-5 d-flex align-items-center">
                     <span className="small text-muted me-2">Order total:</span>
@@ -580,8 +565,7 @@ function CartPage(props) {
             <MDBCard className="mb-4" style={{ width: "100%" }}>
               <MDBCardBody
                 className="p-2 d-flex flex-row"
-                style={{ alignItems: "center", backgroundColor: "#fcfafa" }}
-              >
+                style={{ alignItems: "center", backgroundColor: "#fcfafa" }}>
                 <MDBInput
                   style={{ height: "40px" }}
                   placeholder="Discound code"
@@ -598,8 +582,7 @@ function CartPage(props) {
                     margin: "10px",
                   }}
                   onMouseEnter={() => setMouseHover(true)}
-                  onMouseLeave={() => setMouseHover(false)}
-                >
+                  onMouseLeave={() => setMouseHover(false)}>
                   Apply
                 </Button>
               </MDBCardBody>
@@ -608,14 +591,12 @@ function CartPage(props) {
           <div
             style={{
               textAlign: "right",
-            }}
-          >
+            }}>
             <Button
               onClick={(e) => makePayment(e)}
               variant="contained"
               style={{ backgroundColor: "purple", marginBottom: "15px" }}
-              disabled={isLoading}
-            >
+              disabled={isLoading}>
               {isLoading && (
                 <CircularProgress style={{ marginRight: "10px" }} size={20} />
               )}
