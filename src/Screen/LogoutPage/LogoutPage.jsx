@@ -12,15 +12,15 @@ import Cookies from "js-cookie";
 export default function LogoutPage(props) {
   const logoutUser = (e) => {
     e.preventDefault();
+    try {
+      Cookies.remove(process.env.REACT_APP_SECRET_COOKIE_KEY);
+    } catch(e) {
+      //
+    }
     axios
       .post("/logout", {
       })
       .then((resp) => {
-        try {
-        Cookies.remove(process.env.REACT_APP_SECRET_COOKIE_KEY);
-        } catch(e) {
-          //
-        }
         // navigate("/login");
         window.location.reload();
       });
