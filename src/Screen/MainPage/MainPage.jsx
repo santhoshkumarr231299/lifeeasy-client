@@ -63,12 +63,12 @@ function MainPage(props) {
 
   useEffect(() => {
     axios.post("/logged-in").then((res) => {
-    try {
-        Cookies.remove(process.env.REACT_APP_SECRET_COOKIE_KEY);
-      } catch (e) {
-        //
-      }
       if (res.data.username === "") {
+        try {
+          Cookies.remove(process.env.REACT_APP_SECRET_COOKIE_KEY);
+        } catch (e) {
+          //
+        }
         window.location.reload();
         // navigate("/login");
       } else {
