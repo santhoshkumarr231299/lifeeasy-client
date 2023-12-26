@@ -3,9 +3,11 @@ import axios from "../../api/axios";
 
 async function useAuth() {
     const [user, setUser] = useState("");
+    const [isLoading, setIsLoading] = useState(true);
     await axios.post("/logged-in").then((resp) => {
         if (resp.data.username !== "") {
-            setUser(resp.data.username);    
+            setUser(resp.data.username);
+            setIsLoading(false);
             // let today = new Date();
             // let DateOfSubscription = new Date(res.data.DateOfSubscription);
             // console.log('remaining days : ',((today - DateOfSubscription)/(1000*60*60*24)));
@@ -20,7 +22,7 @@ async function useAuth() {
             // }
           }
     })
-    return [user, setUser];
+    return [user, isLoading];
 }
 
 export { useAuth };
