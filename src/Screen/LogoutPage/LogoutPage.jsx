@@ -22,8 +22,8 @@ export default function LogoutPage(props) {
       })
       .then((resp) => {
         // navigate("/login");
-        window.location.reload();
       });
+     window.location.reload();
   };
   const [open] = React.useState(true);
   const theme = useTheme();
