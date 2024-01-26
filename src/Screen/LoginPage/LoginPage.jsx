@@ -64,12 +64,15 @@ function LoginPage() {
         navigate("/home");
         return;
       } else {
-        axios
-          .post("/login", {
+        const loginCreds = {
             username: username.current.value,
             password: password.current.value,
             pharmacy: selectDisp ? pharmaciesRef.current.value : "",
-          })
+          };
+        username.current.value = '';
+        password.current.value = '';
+        axios
+          .post("/login", loginCreds)
           .then((res) => {
             if (res.data.message === "success") {
               Cookies.set(
