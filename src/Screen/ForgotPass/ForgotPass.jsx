@@ -68,7 +68,7 @@ function ForgotPassPage() {
         secretKey: Cookies.get(process.env.REACT_APP_SECRET_COOKIE_KEY),
       })
       .then((res) => {
-        if (res.data.username !== "") {
+        if (res.data?.username && res.data.username !== "") {
           let today = new Date();
           let DateOfSubscription = new Date(res.data.DateOfSubscription);
           console.log(
@@ -203,7 +203,7 @@ function ForgotPassPage() {
         secretKey: Cookies.get(process.env.REACT_APP_SECRET_COOKIE_KEY),
       })
       .then((res) => {
-        if (res.data.username !== "") {
+        if (res.data?.username && res.data.username !== "") {
           let today = new Date();
           let DateOfSubscription = new Date(res.data.DateOfSubscription);
           console.log(

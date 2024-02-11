@@ -59,7 +59,7 @@ function LoginPage() {
     e.preventDefault();
     setIsLoading(true);
     axios.post("/logged-in").then((res) => {
-      if (res.data.username !== "") {
+      if (res.data?.username && res.data.username !== "") {
         setIsLoading(false);
         navigate("/home");
         return;

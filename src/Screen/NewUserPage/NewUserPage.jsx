@@ -99,7 +99,7 @@ function NewUserPage() {
   const createUser = async (e) => {
     e.preventDefault();
     await axios.post("/logged-in").then((res) => {
-      if (res.data.username !== "") {
+      if (res.data?.username && res.data.username !== "") {
         let today = new Date();
         let DateOfSubscription = new Date(res.data.DateOfSubscription);
         console.log(
@@ -278,7 +278,7 @@ function NewUserPage() {
     await axios
       .post("/logged-in")
       .then((res) => {
-        if (res.data.username !== "") {
+        if (res.data?.username && res.data.username !== "") {
           let today = new Date();
           let DateOfSubscription = new Date(res.data.DateOfSubscription);
           console.log(

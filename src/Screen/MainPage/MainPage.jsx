@@ -45,7 +45,7 @@ const OrderPickupPage = lazy(() => import("../DelvieryMenPage/OrderPickup"));
 const SearchMedicines = lazy(() =>
   import("../../modules/customer/SearchMedicines.tsx")
 );
-const ChatBot = lazy(() => import("../../modules/admin/ChatBot.tsx"));
+const ChatWithOrganization = lazy(() => import("../../modules/chatWithOrg/ChatWithOrganization.tsx"));
 
 function MainPage(props) {
   document.title = process.env.REACT_APP_PRODUCT_FIRST_NAME + process.env.REACT_APP_PRODUCT_LAST_NAME + " - Home";
@@ -63,7 +63,7 @@ function MainPage(props) {
 
   useEffect(() => {
     axios.post("/logged-in").then((res) => {
-      if (res.data.username === "") {
+      if (res.data?.username && res.data.username !== "") {
         try {
           Cookies.remove(process.env.REACT_APP_SECRET_COOKIE_KEY);
         } catch (e) {
@@ -211,7 +211,7 @@ function MainPage(props) {
       haveAccess: user && user.haveAccessTo.includes("[8]"),
     },
     {
-      name: "Contact Support",
+      name: "Chat with Organization",
       menuValue: 14,
       icon: <ContactMail />,
       haveAccess: true,
@@ -301,7 +301,7 @@ function MainPage(props) {
       case 14:
         return (
           <Suspense fallback={<CircularProgress size={50} />}>
-            <ChatBot />
+            <ChatWithOrganization />
           </Suspense>
         );
       case 999:
