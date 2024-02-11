@@ -24,7 +24,7 @@ function LoginPage() {
 
   async function isLoggedIn() {
     await axios.post("/logged-in").then((res) => {
-      if (res.data?.message && res.data.message == "success" && res.data?.username && res.data.username !== "") {
+      if (res.data?.username && res.data.username !== "") {
         let today = new Date();
         let DateOfSubscription = new Date(res.data.DateOfSubscription);
         console.log(
@@ -74,7 +74,7 @@ function LoginPage() {
         axios
           .post("/login", loginCreds)
           .then((res) => {
-            if (res.data.message === "success") {
+            if (res.data?.message && res.data.message == "success" && res.data?.username && res.data.username !== "") {
               Cookies.set(
                 process.env.REACT_APP_SECRET_COOKIE_KEY,
                 res.headers[process.env.REACT_APP_SERVER_AUTH_NAME],
