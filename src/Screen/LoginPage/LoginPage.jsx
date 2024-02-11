@@ -24,7 +24,7 @@ function LoginPage() {
 
   async function isLoggedIn() {
     await axios.post("/logged-in").then((res) => {
-      if (message == "success" && res.data?.username && res.data.username !== "") {
+      if (res.data?.message && res.data.message == "success" && res.data?.username && res.data.username !== "") {
         let today = new Date();
         let DateOfSubscription = new Date(res.data.DateOfSubscription);
         console.log(
