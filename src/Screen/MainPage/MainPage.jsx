@@ -63,7 +63,7 @@ function MainPage(props) {
 
   useEffect(() => {
     axios.post("/logged-in").then((res) => {
-      if (res.data?.username && res.data.username !== "") {
+      if (!res.data.username || res.data.username == "") {
         try {
           Cookies.remove(process.env.REACT_APP_SECRET_COOKIE_KEY);
         } catch (e) {
