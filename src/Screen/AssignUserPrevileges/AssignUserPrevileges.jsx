@@ -58,7 +58,6 @@ function AssignUserPrevileges(props) {
   const allMenus = [
     {
       id: 1,
-      FieldId: "[1]",
       FieldName: "Dashboard",
       FieldType: "checkbox",
       isChecked: usePrevileges && usePrevileges.includes(1),
@@ -66,7 +65,6 @@ function AssignUserPrevileges(props) {
     },
     {
       id: 2,
-      FieldId: "[2]",
       FieldName: "Invoice",
       FieldType: "checkbox",
       isChecked: usePrevileges && usePrevileges.includes(2),
@@ -74,7 +72,6 @@ function AssignUserPrevileges(props) {
     },
     {
       id: 3,
-      FieldId: "[3]",
       FieldName: "Customer",
       FieldType: "checkbox",
       isChecked: usePrevileges && usePrevileges.includes(3),
@@ -82,7 +79,6 @@ function AssignUserPrevileges(props) {
     },
     {
       id: 4,
-      FieldId: "[4]",
       FieldName: "Medicine",
       FieldType: "checkbox",
       isChecked: usePrevileges && usePrevileges.includes(4),
@@ -90,7 +86,6 @@ function AssignUserPrevileges(props) {
     },
     {
       id: 5,
-      FieldId: "[5]",
       FieldName: "Pharmacist",
       FieldType: "checkbox",
       isChecked: usePrevileges && usePrevileges.includes(5),
@@ -98,7 +93,6 @@ function AssignUserPrevileges(props) {
     },
     {
       id: 6,
-      FieldId: "[6]",
       FieldName: "Delivery Man",
       FieldType: "checkbox",
       isChecked: usePrevileges && usePrevileges.includes(6),
@@ -106,14 +100,13 @@ function AssignUserPrevileges(props) {
     },
     {
       id: 7,
-      FieldId: "[7]",
       FieldName: "Sales Report",
       FieldType: "checkbox",
       isChecked: usePrevileges && usePrevileges.includes(7),
       disabled: false,
     },
     // {
-    //   FieldId: "[8]",
+    //   id: 8,
     //   FieldName: "Purchase",
     //   FieldType: "checkbox",
     //   isChecked: usePrevileges && usePrevileges.includes(8),
@@ -121,7 +114,6 @@ function AssignUserPrevileges(props) {
     // },
     {
       id: 9,
-      FieldId: "[9]",
       FieldName: "Reports",
       FieldType: "checkbox",
       isChecked: usePrevileges && usePrevileges.includes(9),
@@ -129,7 +121,6 @@ function AssignUserPrevileges(props) {
     },
     {
       id: 11,
-      FieldId: "[11]",
       FieldName: "Orders Approval",
       FieldType: "checkbox",
       isChecked: usePrevileges && usePrevileges.includes(11),
@@ -137,7 +128,6 @@ function AssignUserPrevileges(props) {
     },
     {
       id: 12,
-      FieldId: "[12]",
       FieldName: "Orders Pickup",
       FieldType: "checkbox",
       isChecked: usePrevileges && usePrevileges.includes(12),
@@ -314,7 +304,7 @@ function AssignUserPrevileges(props) {
             accStatus &&
             selectedUser.length > 0 &&
             allMenus.map((menu) => (
-              <div key={menu.FieldId}>
+              <div key={menu.id}>
                 <Form.Check
                   id={menu.FieldName}
                   onChange={(e) => changeOption(e, menu.id)}
