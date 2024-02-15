@@ -85,8 +85,8 @@ function NewUserPage() {
     {
       fieldName: "pharmacyname",
       type: "text",
-      labelName: "Pharmacy Name",
-      placeholder: "Pharmacy Name",
+      labelName: "Bussiness Name",
+      placeholder: "Bussiness Name",
       required: dispProp ? "" : "none",
       reference: pharmacyName,
     },
@@ -415,7 +415,7 @@ function NewUserPage() {
                   onChange={(e) => handleChecked(e)}
                 />
               </div>
-              <div className="org-login">Organizational account</div>
+              <div className="org-login">Bussiness account</div>
             </div>
           </Form>
         </Card.Body>
