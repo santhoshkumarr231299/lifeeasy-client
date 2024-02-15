@@ -23,10 +23,10 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <div className="background-img">
+        {/* <div className="background-img">
           <img src={BackgroundImage} height="1075vh" width="100%" loading="lazy" />
-        </div>
-        <div className="main">
+        </div> */}
+        {/* <div className="main"> */}
           <Suspense fallback={<CircularProgress />}>
             <BrowserRouter>
               <Routes>
@@ -77,7 +77,7 @@ class App extends Component {
               </Routes>
             </BrowserRouter>
           </Suspense>
-        </div>
+        {/* </div> */}
       </div>
     );
   }
