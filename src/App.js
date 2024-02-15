@@ -10,6 +10,7 @@ import SubscribeToServicePage from "./Screen/SubscribeToServicePage/SubscribeToS
 import NotFoundPage from "./modules/errorpages/404.tsx";
 import SuperMainPage from "./modules/SuperAdmin/index.tsx";
 import Cookies from "js-cookie";
+import BackgroundImage from "./assets/background.jpg";
 
 const MainPage = lazy(() => import("./Screen/MainPage/MainPage"));
 
@@ -22,56 +23,61 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <Suspense fallback={<CircularProgress />}>
-          <BrowserRouter>
-            <Routes>
-              <Route path="/" element={<Navigate to="/login" />} />
-              <Route
-                path="/home"
-                element={
-                  !Cookies.get(process.env.REACT_APP_SECRET_COOKIE_KEY) ? (
-                    <Navigate to="/login" />
-                  ) : (
-                    <MainPage theme={this.theme} />
-                  )
-                }
-              />
-              <Route
-                path="/login"
-                element={
-                  Cookies.get(process.env.REACT_APP_SECRET_COOKIE_KEY) ? (
-                    <Navigate to="/home" />
-                  ) : (
-                    <LoginPage theme={this.theme} />
-                  )
-                }
-              />
-              <Route
-                path="/newuser"
-                element={
-                  Cookies.get(process.env.REACT_APP_SECRET_COOKIE_KEY) ? (
-                    <Navigate to="/home" />
-                  ) : (
-                    <NewUser theme={this.theme} />
-                  )
-                }
-              />
-              <Route
-                path="/forgotpass"
-                element={
-                  Cookies.get(process.env.REACT_APP_SECRET_COOKIE_KEY) ? (
-                    <Navigate to="/home" />
-                  ) : (
-                    <ForgotPassPage theme={this.theme} />
-                  )
-                }
-              />
-              <Route path="/subscribe" element={<SubscribeToServicePage />} />
-              <Route path="/super-admin/*" element={<SuperMainPage />} />
-              <Route path="/*" element={<NotFoundPage />} />
-            </Routes>
-          </BrowserRouter>
-        </Suspense>
+        <div className="background-img">
+          <img src={BackgroundImage} height="1075vh" width="100%" loading="lazy" />
+        </div>
+        <div className="main">
+          <Suspense fallback={<CircularProgress />}>
+            <BrowserRouter>
+              <Routes>
+                <Route path="/" element={<Navigate to="/login" />} />
+                <Route
+                  path="/home"
+                  element={
+                    !Cookies.get(process.env.REACT_APP_SECRET_COOKIE_KEY) ? (
+                      <Navigate to="/login" />
+                    ) : (
+                      <MainPage theme={this.theme} />
+                    )
+                  }
+                />
+                <Route
+                  path="/login"
+                  element={
+                    Cookies.get(process.env.REACT_APP_SECRET_COOKIE_KEY) ? (
+                      <Navigate to="/home" />
+                    ) : (
+                      <LoginPage theme={this.theme} />
+                    )
+                  }
+                />
+                <Route
+                  path="/newuser"
+                  element={
+                    Cookies.get(process.env.REACT_APP_SECRET_COOKIE_KEY) ? (
+                      <Navigate to="/home" />
+                    ) : (
+                      <NewUser theme={this.theme} />
+                    )
+                  }
+                />
+                <Route
+                  path="/forgotpass"
+                  element={
+                    Cookies.get(process.env.REACT_APP_SECRET_COOKIE_KEY) ? (
+                      <Navigate to="/home" />
+                    ) : (
+                      <ForgotPassPage theme={this.theme} />
+                    )
+                  }
+                />
+                <Route path="/subscribe" element={<SubscribeToServicePage />} />
+                <Route path="/super-admin/*" element={<SuperMainPage />} />
+                <Route path="/*" element={<NotFoundPage />} />
+              </Routes>
+            </BrowserRouter>
+          </Suspense>
+        </div>
       </div>
     );
   }
