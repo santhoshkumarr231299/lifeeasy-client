@@ -60,9 +60,11 @@ function LoginPage() {
     setIsLoading(true);
     axios.post("/logged-in").then((res) => {
       if (res.data?.username && res.data.username !== "") {
-        setIsLoading(false);
+        // setIsLoading(false);
         navigate("/home");
         return;
+      } else if(localStorage.getItem(process.env.REACT_APP_LOCALSTORAGE_USER_LOGIN_STATUS)) {
+        window.location.reload();
       } else {
         const loginCreds = {
             username: username.current.value,
@@ -80,6 +82,7 @@ function LoginPage() {
                 res.headers[process.env.REACT_APP_SERVER_AUTH_NAME],
                 { expires: 1 }
               );
+              localStorage.setItem(process.env.REACT_APP_LOCALSTORAGE_USER_LOGIN_STATUS, true);
               setIsLoading(false);
               window.location.reload();
               // let today = new Date();
@@ -101,6 +104,13 @@ function LoginPage() {
               setOpenAlert(() => true);
             }
           });
+      }
+    }).catch(error => {
+      if(error.code == 'ERR_NETWORK') {
+        setIsLoading(false);
+        setAlertType("danger");
+        setAlert(() => "Please Try Again Later");
+        setOpenAlert(() => true);
       }
     });
   };

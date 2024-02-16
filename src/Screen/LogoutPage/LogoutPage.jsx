@@ -16,6 +16,8 @@ export default function LogoutPage(props) {
       Cookies.remove(process.env.REACT_APP_SECRET_COOKIE_KEY);
     } catch(e) {
       //
+    } finally {
+      localStorage.removeItem(process.env.REACT_APP_LOCALSTORAGE_USER_LOGIN_STATUS);
     }
     axios
       .post("/logout", {

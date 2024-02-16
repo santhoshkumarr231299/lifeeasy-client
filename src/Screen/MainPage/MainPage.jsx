@@ -61,15 +61,21 @@ function MainPage(props) {
     setLogout(true);
   };
 
+  const removeCookieAndReload = () => {
+    try {
+      Cookies.remove(process.env.REACT_APP_SECRET_COOKIE_KEY);
+    } catch (e) {
+      //
+    } finally {
+      localStorage.removeItem(process.env.REACT_APP_LOCALSTORAGE_USER_LOGIN_STATUS);
+    }
+    window.location.reload();
+  }
+
   useEffect(() => {
     axios.post("/logged-in").then((res) => {
       if (!res.data.username || res.data.username == "") {
-        try {
-          Cookies.remove(process.env.REACT_APP_SECRET_COOKIE_KEY);
-        } catch (e) {
-          //
-        }
-        window.location.reload();
+        removeCookieAndReload();
         // navigate("/login");
       } else {
         setOption(() => res.data.lastAccessedScreen);
@@ -102,6 +108,10 @@ function MainPage(props) {
         } else {
           navigate("/subscribe");
         }
+      }
+    }).catch(error => {
+      if(error.code == 'ERR_NETWORK') {
+        removeCookieAndReload();
       }
     });
   }, []);

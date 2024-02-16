@@ -10,7 +10,7 @@ import SubscribeToServicePage from "./Screen/SubscribeToServicePage/SubscribeToS
 import NotFoundPage from "./modules/errorpages/404.tsx";
 import SuperMainPage from "./modules/SuperAdmin/index.tsx";
 import Cookies from "js-cookie";
-import BackgroundImage from "./assets/background.jpg";
+// import BackgroundImage from "./assets/background.jpg";
 
 const MainPage = lazy(() => import("./Screen/MainPage/MainPage"));
 
@@ -34,7 +34,7 @@ class App extends Component {
                 <Route
                   path="/home"
                   element={
-                    !Cookies.get(process.env.REACT_APP_SECRET_COOKIE_KEY) ? (
+                    !Cookies.get(process.env.REACT_APP_SECRET_COOKIE_KEY) && !localStorage.getItem(process.env.REACT_APP_LOCALSTORAGE_USER_LOGIN_STATUS) ? (
                       <Navigate to="/login" />
                     ) : (
                       <MainPage theme={this.theme} />
@@ -44,7 +44,7 @@ class App extends Component {
                 <Route
                   path="/login"
                   element={
-                    Cookies.get(process.env.REACT_APP_SECRET_COOKIE_KEY) ? (
+                    Cookies.get(process.env.REACT_APP_SECRET_COOKIE_KEY) && localStorage.getItem(process.env.REACT_APP_LOCALSTORAGE_USER_LOGIN_STATUS) ? (
                       <Navigate to="/home" />
                     ) : (
                       <LoginPage theme={this.theme} />
@@ -54,7 +54,7 @@ class App extends Component {
                 <Route
                   path="/newuser"
                   element={
-                    Cookies.get(process.env.REACT_APP_SECRET_COOKIE_KEY) ? (
+                    Cookies.get(process.env.REACT_APP_SECRET_COOKIE_KEY) && localStorage.getItem(process.env.REACT_APP_LOCALSTORAGE_USER_LOGIN_STATUS) ? (
                       <Navigate to="/home" />
                     ) : (
                       <NewUser theme={this.theme} />
@@ -64,7 +64,7 @@ class App extends Component {
                 <Route
                   path="/forgotpass"
                   element={
-                    Cookies.get(process.env.REACT_APP_SECRET_COOKIE_KEY) ? (
+                    Cookies.get(process.env.REACT_APP_SECRET_COOKIE_KEY) && localStorage.getItem(process.env.REACT_APP_LOCALSTORAGE_USER_LOGIN_STATUS) ? (
                       <Navigate to="/home" />
                     ) : (
                       <ForgotPassPage theme={this.theme} />
