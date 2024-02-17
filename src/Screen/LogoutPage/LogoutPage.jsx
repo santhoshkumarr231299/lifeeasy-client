@@ -10,7 +10,7 @@ import { useTheme } from "@mui/material/styles";
 import Cookies from "js-cookie";
 
 export default function LogoutPage(props) {
-  const logoutUser = (e) => {
+  const logoutUser = async (e) => {
     e.preventDefault();
     try {
       Cookies.remove(process.env.REACT_APP_SECRET_COOKIE_KEY);
@@ -19,12 +19,7 @@ export default function LogoutPage(props) {
     } finally {
       localStorage.removeItem(process.env.REACT_APP_LOCALSTORAGE_USER_LOGIN_STATUS);
     }
-    axios
-      .post("/logout", {
-      })
-      .then((resp) => {
-        // navigate("/login");
-      });
+    await axios.post("/logout");
      window.location.reload();
   };
   const [open] = React.useState(true);
