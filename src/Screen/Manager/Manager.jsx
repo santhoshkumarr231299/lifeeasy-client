@@ -17,7 +17,9 @@ import {
   validatePhoneNumber,
   validateAdddress,
   validateBranchId,
+  validatePassword,
 } from "../../Validations/validations";
+import { PasswordRounded } from "@mui/icons-material";
 
 export default function ManagerPage() {
   const [pageStatus, setPageStatus] = useState(false);
@@ -129,6 +131,7 @@ function AddManagerPage(props) {
   const [address, setAddress] = useState("");
   const [password, setPassword] = useState("");
   const [mobileNumber, setMobileNumber] = useState("");
+  const [conPassword, setConPassword] = useState("");
 
   const updateValues = (e, fieldId) => {
     switch (fieldId) {
@@ -147,8 +150,12 @@ function AddManagerPage(props) {
       case 5:
         setMobileNumber(e.target.value);
         break;
-      // case 6:
-      //password
+      case 6:
+        setPassword(e.target.value);
+        break;
+      case 7:
+        setConPassword(e.target.value);
+        break;
       default:
         console.log("Not Valid");
         break;
@@ -191,13 +198,20 @@ function AddManagerPage(props) {
       labelName: "Mobile Number",
       status: "active",
     },
-    // {
-    //   id: 6,
-    //   type: "password",
-    //   fieldName: "password",
-    //   labelName: "Password",
-    //   status: "active",
-    // },
+    {
+      id: 6,
+      type: "password",
+      fieldName: "password",
+      labelName: "Password",
+      status: "active",
+    },
+    {
+      id: 7,
+      type: "password",
+      fieldName: "confirm-password",
+      labelName: "Confirm Password",
+      status: "active",
+    },
   ];
   const handleClose = () => {
     setMessage("");
@@ -225,6 +239,13 @@ function AddManagerPage(props) {
     valid = validateBranchId(branch);
     if (valid !== "") {
       return valid;
+    }
+    valid = validatePassword(password);
+    if(valid != "") {
+      return valid;
+    }
+    if(password != conPassword) {
+      return "Password - Mismatch";
     }
     return "";
   }
@@ -254,8 +275,8 @@ function AddManagerPage(props) {
                 branch: branch,
                 address: address,
                 mobileNumber: mobileNumber,
-                password: "manager",
-                secretKey: Cookies.get(process.env.REACT_APP_SECRET_COOKIE_KEY),
+                password:password,
+                conPassword: conPassword,
               })
               .then((resp) => {
                 setOpen(true);
@@ -330,7 +351,7 @@ function AddManagerPage(props) {
                 {(field.type === "text" ||
                   field.type === "number" ||
                   field.type === "date" ||
-                  field.type === "email") && (
+                  field.type === "email" || field.type === "password") && (
                   <TextField
                     style={{ margin: "10px", width: "20rem" }}
                     type={field.type}

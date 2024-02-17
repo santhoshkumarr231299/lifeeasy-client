@@ -147,6 +147,7 @@ function AddMedicinePage(props) {
   const [medMrp, setMedMrp] = useState("");
   const [medRate, setMedRate] = useState("");
   const [medStatus, setMedStatus] = useState("");
+  const [formData, setFormData] = useState(null);
 
   const updateValues = (e, fieldId) => {
     switch (fieldId) {
@@ -302,7 +303,27 @@ function AddMedicinePage(props) {
     return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
   });
 
-  function FileUpload() {
+  const uploadImage = async () => {
+    if(formData) {
+      await axios.post("/medicine/upload", formData, {
+        headers : {
+          "Content-Type": "multipart/form-data",
+        }
+      }).then((response) => {
+        console.log(response.data.message);
+      }).catch(e => {
+        console.log(e);
+      })
+    }
+  }
+
+  const FileUpload = () => {
+    const handleFileUpload = (event) => {
+      const file = event.target.files[0];
+      const formDataTemp = new FormData();
+      formDataTemp.append("file", file);
+      setFormData(() => formDataTemp);
+    }
     return (
       <label
         htmlFor="upload-photo"
@@ -316,6 +337,7 @@ function AddMedicinePage(props) {
           name="upload-photo"
           type="file"
           accept="image/*"
+          onChange={handleFileUpload}
         />
 
         <Fab
