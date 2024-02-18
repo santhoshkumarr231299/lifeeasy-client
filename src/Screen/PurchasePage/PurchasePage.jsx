@@ -315,29 +315,6 @@ function CartPage(props) {
       });
   };
 
-  const makeOrder = async () => {
-    setIsLoading(true);
-    await axios
-      .post("/make-order", {
-        secretKey: Cookies.get(process.env.REACT_APP_SECRET_COOKIE_KEY),
-      })
-      .then((resp) => {
-        setOpen(true);
-        setSeverity(resp.data.status);
-        setMessage(resp.data.message);
-        if (resp.data.status === "success") {
-          setTimeout(() => {
-            getCartItems();
-            openSnackBar("success", "Ordered Successful");
-            setIsLoading(false);
-          }, 3000);
-        } else {
-          setIsLoading(false);
-        }
-      })
-      .catch((err) => setIsLoading(false));
-  };
-
   const openSnackBar = (status, message) => {
     setMessage(message);
     setSeverity(status);
@@ -349,7 +326,7 @@ function CartPage(props) {
     if (totalAmount > 50) {
       setIsLoading(true);
 
-      RazorpayPaymentGateWay(makeOrder, openSnackBar);
+      RazorpayPaymentGateWay(openSnackBar);
 
       // setTimeout(() => {
       //   setIsLoading(false);

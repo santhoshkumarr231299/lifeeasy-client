@@ -15,7 +15,7 @@ function loadScript(src) {
   });
 }
 
-async function displayRazorpay(makeOrder, openSnackBar) {
+async function displayRazorpay(openSnackBar) {
   const res = await loadScript("https://checkout.razorpay.com/v1/checkout.js");
 
   if (!res) {
@@ -56,9 +56,7 @@ async function displayRazorpay(makeOrder, openSnackBar) {
 
       await axios.post("/payment/success", data);
 
-      await makeOrder();
-
-      openSnackBar("success", "Payment Successful");
+      openSnackBar("success", "Ordered Successfully");
 
       return;
     },
@@ -78,8 +76,8 @@ async function displayRazorpay(makeOrder, openSnackBar) {
   paymentObject.open();
 }
 
-export async function RazorpayPaymentGateWay(makeOrder, openSnackBar) {
-  return await displayRazorpay(makeOrder, openSnackBar);
+export async function RazorpayPaymentGateWay(openSnackBar) {
+  return await displayRazorpay(openSnackBar);
 }
 
 export async function RazorpayPaymentGateWaySubscription(openSnackBar, subscriptionType, goToHome) {
@@ -91,7 +89,6 @@ export async function RazorpayPaymentGateWaySubscription(openSnackBar, subscript
   }
 
   const result = await axios.post("/payment/subscription", {
-    secretKey: Cookies.get(process.env.REACT_APP_SECRET_COOKIE_KEY),
     subscriptionType : subscriptionType
   });
 
@@ -119,16 +116,12 @@ export async function RazorpayPaymentGateWaySubscription(openSnackBar, subscript
         razorpayPaymentId: response.razorpay_payment_id,
         razorpayOrderId: response.razorpay_order_id,
         razorpaySignature: response.razorpay_signature,
+        subscriptionType : subscriptionType
       };
 
-      const result = await axios.post("/payment/success", data);
+      const result = await axios.post("/payment/subscription/success", data);
 
       openSnackBar("success", result.data.message);
-
-      const res = await axios.post("/activate-subscription", {
-        secretKey: Cookies.get(process.env.REACT_APP_SECRET_COOKIE_KEY),
-        subscriptionType : subscriptionType
-      });
 
       if(res.data.status === 'success') {
         openSnackBar("success", res.data.message);
@@ -163,11 +156,7 @@ export async function RazorpayPaymentGateWaySubscription(openSnackBar, subscript
 
 
 export async function activateYourFreeTrail(openSnackBar, goToHome) {
-  const res = await axios.post("/activate-subscription", {
-    secretKey: Cookies.get(process.env.REACT_APP_SECRET_COOKIE_KEY),
-    subscriptionType : "monthly"
-  });
-
+  const res = await axios.post("/activate-free-trial");
   if(res.data.status === 'success') {
     openSnackBar("success", res.data.message);
     setTimeout(() => {
@@ -176,6 +165,5 @@ export async function activateYourFreeTrail(openSnackBar, goToHome) {
   } else {
     openSnackBar("error", res.data.message);
   }
-
   return;
 }

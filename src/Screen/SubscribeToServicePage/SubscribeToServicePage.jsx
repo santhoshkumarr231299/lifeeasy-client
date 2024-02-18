@@ -71,9 +71,7 @@ function SubscribeToServicePage() {
 
     useEffect(() => {
         axios
-          .post("/logged-in", {
-            secretKey: Cookies.get(process.env.REACT_APP_SECRET_COOKIE_KEY),
-          })
+          .post("/logged-in")
           .then((res) => {
             if (res.data.username == "") {
               navigate("/login");
