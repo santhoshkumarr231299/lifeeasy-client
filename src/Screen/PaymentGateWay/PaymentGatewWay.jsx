@@ -15,7 +15,7 @@ function loadScript(src) {
   });
 }
 
-async function displayRazorpay(openSnackBar) {
+async function displayRazorpay(openSnackBar, setIsLoading, refreshCartItems) {
   const res = await loadScript("https://checkout.razorpay.com/v1/checkout.js");
 
   if (!res) {
@@ -54,10 +54,12 @@ async function displayRazorpay(openSnackBar) {
         razorpaySignature: response.razorpay_signature,
       };
 
-      await axios.post("/payment/success", data);
+      const res = await axios.post("/payment/success", data);
 
-      openSnackBar("success", "Ordered Successfully");
-
+      if(res.data.status == "success") openSnackBar("success", res.data.message);
+      else openSnackBar("error", res.data.message);
+      setIsLoading(false);
+      refreshCartItems();
       return;
     },
     prefill: {
@@ -76,8 +78,8 @@ async function displayRazorpay(openSnackBar) {
   paymentObject.open();
 }
 
-export async function RazorpayPaymentGateWay(openSnackBar) {
-  return await displayRazorpay(openSnackBar);
+export async function RazorpayPaymentGateWay(openSnackBar, setIsLoading, refreshCartItems) {
+  return await displayRazorpay(openSnackBar, setIsLoading, refreshCartItems);
 }
 
 export async function RazorpayPaymentGateWaySubscription(openSnackBar, subscriptionType, goToHome) {
@@ -120,16 +122,11 @@ export async function RazorpayPaymentGateWaySubscription(openSnackBar, subscript
       };
 
       const result = await axios.post("/payment/subscription/success", data);
-
-      openSnackBar("success", result.data.message);
-
-      if(res.data.status === 'success') {
-        openSnackBar("success", res.data.message);
-        setTimeout(() => {
-          goToHome();
-        }, 2000);
+      
+      if(result.data.status === 'success') {
+        openSnackBar("success", result.data.message);
       } else {
-        openSnackBar("error", res.data.message);
+        openSnackBar("error", result.data.message);
       }
 
       setTimeout(() => {

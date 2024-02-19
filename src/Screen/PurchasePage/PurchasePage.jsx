@@ -326,7 +326,7 @@ function CartPage(props) {
     if (totalAmount > 50) {
       setIsLoading(true);
 
-      RazorpayPaymentGateWay(openSnackBar);
+      RazorpayPaymentGateWay(openSnackBar, setIsLoading, getCartItems);
 
       // setTimeout(() => {
       //   setIsLoading(false);
@@ -341,8 +341,7 @@ function CartPage(props) {
   const deleteItem = (e, id) => {
     axios
       .post("/delete-cart-items", {
-        mid: id,
-        secretKey: Cookies.get(process.env.REACT_APP_SECRET_COOKIE_KEY),
+        mid: id
       })
       .then((resp) => {
         if (resp.data.status === "success") {

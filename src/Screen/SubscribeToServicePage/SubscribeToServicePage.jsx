@@ -39,26 +39,22 @@ function SubscribeToServicePage() {
     const Alert = React.forwardRef(function Alert(props, ref) {
         return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
       });
-
     const goToHome = () => {
         navigate('/home');
     }
 
     function freeTrail() {
-      console.log('Free Trail clicked');
       setIsLoading(true);
       setIsFreeTrailClicked(true);
       activateYourFreeTrail(openSnackBar, goToHome);
     }
 
     function MonthlyPayment() {
-        console.log('Monthly Payment clicked');
         setIsLoading(true);
         setIsMonthlyClicked(true);
         RazorpayPaymentGateWaySubscription(openSnackBar, "monthly",goToHome);
     }
     function YearlyPayment() {
-        console.log('Yearly Payment clicked');
         setIsLoading(true);
         setIsYearlyClicked(true);
         RazorpayPaymentGateWaySubscription(openSnackBar, "yearly",goToHome);
