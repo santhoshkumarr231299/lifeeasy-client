@@ -17,6 +17,7 @@ import {
   validatePhoneNumber,
   validateAdddress,
   validateAadhar,
+  validatePassword
 } from "../../Validations/validations";
 
 export default function MedicinePageManager() {
@@ -125,6 +126,8 @@ function AddPharmacistPage(props) {
   const [mobileNumber, setMobileNumber] = useState("");
   const [address, setAddress] = useState("");
   const [aadhar, setAadhar] = useState("");
+  const [password, setPassword] = useState("");
+  const [conPassword, setConPassword] = useState("");
 
   const updateValues = (e, fieldId) => {
     switch (fieldId) {
@@ -142,6 +145,12 @@ function AddPharmacistPage(props) {
         break;
       case 5:
         setAadhar(e.target.value);
+        break;
+      case 6:
+        setPassword(e.target.value);
+        break;
+      case 7:
+        setConPassword(e.target.value);
         break;
       default:
         console.log("Not Valid");
@@ -185,6 +194,20 @@ function AddPharmacistPage(props) {
       labelName: "Aadhar Number",
       status: "active",
     },
+    {
+      id: 6,
+      type: "password",
+      fieldName: "password",
+      labelName: "Password",
+      status: "active",
+    },
+    {
+      id: 7,
+      type: "password",
+      fieldName: "conpassword",
+      labelName: "Confirm Password",
+      status: "active",
+    },
   ];
   const handleClose = () => {
     setMessage("");
@@ -194,6 +217,13 @@ function AddPharmacistPage(props) {
 
   function validation() {
     let valid = validateUsername(name);
+    if (valid !== "") {
+      return valid;
+    }
+    if(password != conPassword) {
+      return "Password - Mismatch";
+    }
+    valid = validatePassword(password);
     if (valid !== "") {
       return valid;
     }
@@ -241,7 +271,8 @@ function AddPharmacistPage(props) {
                 mobileNumber: mobileNumber,
                 address: address,
                 aadhar: aadhar,
-                secretKey: Cookies.get(process.env.REACT_APP_SECRET_COOKIE_KEY),
+                password : password,
+                conPassword : conPassword
               })
               .then((resp) => {
                 setOpen(true);
@@ -316,7 +347,7 @@ function AddPharmacistPage(props) {
                 {(pharmacist.type === "text" ||
                   pharmacist.type === "number" ||
                   pharmacist.type === "email" ||
-                  pharmacist.type === "date") && (
+                  pharmacist.type === "date" || pharmacist.type == "password") && (
                   <TextField
                     style={{ margin: "10px", width: "20rem" }}
                     type={pharmacist.type}

@@ -17,7 +17,9 @@ import {
   validatePhoneNumber,
   validateAdddress,
   validateAadhar,
+  validatePassword
 } from "../../Validations/validations";
+import { Password } from "@mui/icons-material";
 
 export default function MedicinePageManager() {
   const [pageStatus, setPageStatus] = useState(false);
@@ -130,6 +132,8 @@ function AddDeliveryManPage(props) {
   const [mobileNumber, setMobileNumber] = useState("");
   const [address, setAddress] = useState("");
   const [aadhar, setAadhar] = useState("");
+  const [password, setPassword] = useState("");
+  const [conPassword, setConPassword] = useState("");
 
   const updateValues = (e, fieldId) => {
     switch (fieldId) {
@@ -147,6 +151,12 @@ function AddDeliveryManPage(props) {
         break;
       case 5:
         setAadhar(e.target.value);
+        break;
+      case 6:
+        setPassword(e.target.value);
+        break;
+      case 7:
+        setConPassword(e.target.value);
         break;
       default:
         console.log("Not Valid");
@@ -190,6 +200,20 @@ function AddDeliveryManPage(props) {
       labelName: "Aadhar Number",
       status: "active",
     },
+    {
+      id: 6,
+      type: "password",
+      fieldName: "password",
+      labelName: "Password",
+      status: "active",
+    },
+    {
+      id: 7,
+      type: "password",
+      fieldName: "conpassword",
+      labelName: "Confirm Password",
+      status: "active",
+    },
   ];
   const handleClose = () => {
     setMessage("");
@@ -199,6 +223,13 @@ function AddDeliveryManPage(props) {
 
   function validation() {
     let valid = validateUsername(name);
+    if (valid !== "") {
+      return valid;
+    }
+    if(password != conPassword) {
+      return "Password - Mismatch";
+    }
+    valid = validatePassword(password);
     if (valid !== "") {
       return valid;
     }
@@ -246,7 +277,8 @@ function AddDeliveryManPage(props) {
                 mobileNumber: mobileNumber,
                 address: address,
                 aadhar: aadhar,
-                secretKey: Cookies.get(process.env.REACT_APP_SECRET_COOKIE_KEY),
+                password : password,
+                conPassword : conPassword
               })
               .then((resp) => {
                 setOpen(true);
@@ -322,7 +354,7 @@ function AddDeliveryManPage(props) {
                 {(field.type === "text" ||
                   field.type === "number" ||
                   field.type === "email" ||
-                  field.type === "date") && (
+                  field.type === "date" || field.type === "password") && (
                   <TextField
                     key={field.id}
                     style={{ margin: "10px", width: "20rem" }}
