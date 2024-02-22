@@ -276,16 +276,17 @@ function AddMedicinePage(props) {
           medStatus: medStatus,
           secretKey: Cookies.get(process.env.REACT_APP_SECRET_COOKIE_KEY),
         })
-        .then((resp) => {
+        .then(async (resp) => {
           setOpen(true);
           setSeverity(resp.data.status);
           setMessage(resp.data.message);
 
           if (resp.data.status === "success") {
+            await uploadImage(resp.data.id);
             setTimeout(() => {
               setIsLoading(false);
               props.addMedStatus(false);
-            }, 3000);
+            }, 1000);
           } else {
             setIsLoading(false);
           }
@@ -303,18 +304,20 @@ function AddMedicinePage(props) {
     return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
   });
 
-  const uploadImage = async () => {
-    if(formData) {
-      await axios.post("/medicine/upload", formData, {
-        headers : {
-          "Content-Type": "multipart/form-data",
-        }
-      }).then((response) => {
-        console.log(response.data.message);
-      }).catch(e => {
-        console.log(e);
-      })
-    }
+  const uploadImage = async (id) => {
+    return new Promise(async (resolve, reject) => {
+      if(formData) {
+        await axios.post("/medicine/upload?mid=" + id, formData, {
+          headers : {
+            "Content-Type": "multipart/form-data",
+          }
+        }).then((response) => {
+          resolve();
+        }).catch(e => {
+          resolve();
+        })
+      }
+    })
   }
 
   const FileUpload = () => {
