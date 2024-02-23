@@ -12,6 +12,7 @@ import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import Cookies from "js-cookie";
 import AddIcon from "@mui/icons-material/Add";
+import RemoveIcon from '@mui/icons-material/Remove';
 import {
   validateMedicineName,
   validateMedCompanyName,
@@ -148,6 +149,7 @@ function AddMedicinePage(props) {
   const [medRate, setMedRate] = useState("");
   const [medStatus, setMedStatus] = useState("");
   const [formData, setFormData] = useState(null);
+  const [selectedImage, setSelectedImage] = useState("");
 
   const updateValues = (e, fieldId) => {
     switch (fieldId) {
@@ -323,6 +325,7 @@ function AddMedicinePage(props) {
   const FileUpload = () => {
     const handleFileUpload = (event) => {
       const file = event.target.files[0];
+      setSelectedImage(() => file.name);
       const formDataTemp = new FormData();
       formDataTemp.append("file", file);
       setFormData(() => formDataTemp);
@@ -350,7 +353,7 @@ function AddMedicinePage(props) {
           aria-label="add"
           variant="extended"
         >
-          <AddIcon /> Upload photo
+        { selectedImage == "" ? <AddIcon /> : <RemoveIcon />} { selectedImage == "" ? "Upload Image" : selectedImage}
         </Fab>
       </label>
     );
@@ -364,7 +367,7 @@ function AddMedicinePage(props) {
           marginBottom: "20px",
           backgroundColor: "white",
           width: "1560px",
-          height: "810px",
+          height: "auto",
           color: "Black",
         }}
       >
