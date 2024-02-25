@@ -9,12 +9,13 @@ import axios from "../../api/axios";
 import { useState } from "react";
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert from "@mui/material/Alert";
-import Cookies from "js-cookie";
+import medImg from "../../assets/medicine-img.png";
 
 export default function ImgMediaCard(props) {
   const [open, setOpen] = useState(false);
   const [severity, setSeverity] = useState("");
   const [message, setMessage] = useState("");
+  const [imageError, setImageError] = useState(false);
 
   const addToCart = async (e, medName) => {
     e.preventDefault();
@@ -59,7 +60,8 @@ export default function ImgMediaCard(props) {
           component="img"
           alt={props.name}
           height="140"
-          image={props.img}
+          image={imageError ? medImg : props.img}
+          onError={() => setImageError(true)}
         />
         <CardContent sx={{ height: 150 }}>
           <Typography gutterBottom variant="h6" component="div">

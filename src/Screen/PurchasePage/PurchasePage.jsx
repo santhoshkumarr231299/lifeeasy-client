@@ -17,7 +17,7 @@ import Snackbar from "@mui/material/Snackbar";
 import { CircularProgress } from "@mui/material";
 import MuiAlert from "@mui/material/Alert";
 import Cards from "./Cards";
-import medImg from "../../assets/medicine-img.png";
+import CartImage from "./CartImage.jsx";
 import {
   MDBInput,
   MDBCard,
@@ -191,7 +191,7 @@ function MedicinePage(props) {
               rate={data.medRate}
               updateCartCount={updateCartCount}
               changeToRightCase={changeToRightCase}
-              img={medImg}
+              img={process.env.REACT_APP_BASE_URL + "/medicine-image?mid=" + data.mid}
             />
           ))}
         </div>
@@ -434,12 +434,7 @@ function CartPage(props) {
                     <MDBCardBody className="p-1">
                       <MDBRow className="align-items-center">
                         <MDBCol md="1">
-                          <MDBCardImage
-                            style={{ marginLeft: "20px" }}
-                            fluid
-                            src={medImg}
-                            alt="Generic placeholder image"
-                          />
+                          <CartImage mid={med.mid} />
                         </MDBCol>
                         <MDBCol
                           md="2"
