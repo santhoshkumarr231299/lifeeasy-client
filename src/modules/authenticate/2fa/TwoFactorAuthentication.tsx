@@ -1,19 +1,14 @@
-import React, { useEffect, useRef, useState } from "react";
-import { Button, Form, Card, Alert } from "react-bootstrap";
+import React, { useEffect, useState } from "react";
+import { Card } from "react-bootstrap";
 import axios from "../../../api/axios.js";
-import { CircularProgress } from "@mui/material";
 import SendOTPForm from "./components/SendOTPForm.tsx";
 import VerificationForm from "./components/VerificationForm.tsx";
-import Snackbar from "@mui/material/Snackbar";
 import MuiAlert from "@mui/material/Alert";
 import { useNavigate } from "react-router-dom";
 import Navbar from "../../../Screen/SubscribeToServicePage/Navbar.jsx";
 import LogoutPage from "../../../Screen/LogoutPage/LogoutPage.jsx";
 
 function TwoFactorAuthentication() {
-    const [open, setOpen] = useState(false);
-    const [severity, setSeverity] = useState("");
-    const [message, setMessage] = useState("");
     const [isSentOTP, setIsSentOTP] = useState(false);
     const [logout, setLogout] = useState(false); 
 
@@ -38,7 +33,7 @@ function TwoFactorAuthentication() {
     let style = {
         card : {
             width: "50%",
-            height: "30%"
+            height: "40%"
         },
         title : {
             display: "flex",
@@ -46,16 +41,6 @@ function TwoFactorAuthentication() {
             margin: "25px"
         },
     }
-
-    const handleClose = () => {
-        setMessage("");
-        setSeverity("success");
-        setOpen(false);
-    };
-
-    const Alert = React.forwardRef(function Alert(props, ref) {
-        return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
-    });
 
     return(
         <div>
@@ -70,14 +55,9 @@ function TwoFactorAuthentication() {
                         <b>Two Factor Authentication</b>
                     </Card.Title>
                     <Card.Body>
-                        {isSentOTP ? <VerificationForm /> : <SendOTPForm setIsSentOTP={setIsSentOTP} setOpen={setOpen} setSeverity={setSeverity} setMessage={setMessage} />}
+                        {isSentOTP ? <VerificationForm /> : <SendOTPForm setIsSentOTP={setIsSentOTP} />}
                     </Card.Body>
                 </Card>
-                <Snackbar open={open} autoHideDuration={3000} onClose={handleClose}>
-                    <Alert onClose={handleClose} severity={severity} sx={{ width: "100%" }}>    
-                        {message}
-                    </Alert>
-                </Snackbar>
             </div>
             { logout && <LogoutPage close={() => setLogout(false)} /> }
         </div>

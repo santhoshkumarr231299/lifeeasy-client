@@ -9,15 +9,34 @@ function VerificationForm() {
     const twoFAOtp = useRef();
     const [isVerifyOTPClicked, setIsVerifyOTPClicked] = useState(false);
 
+    const [alertType, setAlertType] = useState();
+    const [alert, setAlert] = useState("Dummy");
+    const [openAlert, setOpenAlert] = useState(false);
+
     const verifyOTP = () => {
         const otp : number = twoFAOtp.current.value;
         setIsVerifyOTPClicked(() => true);
         axios.post("/2fa/verify-otp", {
             otp : otp
         }).then((res) => {
-            navigate("/home");
+            if(res.data.status == "success") {
+                setAlertType("success");
+                setAlert(res.data.message);
+                setOpenAlert(() => true);
+                setTimeout(() => {
+                    navigate("/home");
+                }, 3000);
+            } else {
+                setAlertType("danger");
+                setAlert(res.data.message);
+                setOpenAlert(() => true);
+                setIsVerifyOTPClicked(() => false);
+            }
         }).catch(e => {
-            setIsSentOTPClicked(() => false);
+            setAlertType("danger");
+            setAlert("Something went wrong");
+            setOpenAlert(() => true);
+            setIsVerifyOTPClicked(() => false);
         })
     }
 
@@ -43,6 +62,16 @@ function VerificationForm() {
                             placeholder="OTP"
                         />
                     </Form.Group>
+                    </div>
+                    <div 
+                        style={{
+                                marginTop : "20px",
+                                opacity: openAlert ? "100%" : "0%",
+                            }}
+                    >
+                        <Alert variant={alertType}>
+                            {alert}
+                        </Alert>
                     </div>
                 </div>
                 <Button

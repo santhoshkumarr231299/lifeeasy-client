@@ -3,22 +3,29 @@ import { Button, Form, Card, Alert } from "react-bootstrap";
 import axios from "../../../../api/axios.js";
 import { CircularProgress } from "@mui/material";
 
-function SendOTPForm({ setIsSentOTP, setOpen, setSeverity, setMessage }) {
+function SendOTPForm({  setIsSentOTP }) {
     const [email, setEmail] = useState("*****@***.com");
     const twoFAOtp = useRef();
     const [isSendOTPClicked, setIsSentOTPClicked] = useState(false);
+
+    const [alertType, setAlertType] = useState();
+    const [alert, setAlert] = useState("Dummy");
+    const [openAlert, setOpenAlert] = useState(false);
 
     const sendOTP = () => {
         setIsSentOTPClicked(() => true);
         axios.post("/2fa/send-otp").then((res) => {
             if(res.data.status == "success") {
-                setOpen();
-                setSeverity("success");
-                setMessage("OTP sent successfully");
+                setAlertType("success");
+                setAlert(res.data.message);
+                setOpenAlert(() => true);
                 setTimeout(() => {
                     setIsSentOTP(()=> true)
-                }, 2000);
+                }, 3000);
             } else {
+                setAlertType("danger");
+                setAlert(res.data.message);
+                setOpenAlert(() => true)
                 setIsSentOTP(() => false);
             }
             setIsSentOTPClicked(() => false);
@@ -57,6 +64,16 @@ function SendOTPForm({ setIsSentOTP, setOpen, setSeverity, setMessage }) {
                     </div>
                     <div>
                         <b>{email}</b>
+                    </div>
+                    <div 
+                        style={{
+                                marginTop : "20px",
+                                opacity: openAlert ? "100%" : "0%",
+                            }}
+                    >
+                        <Alert variant={alertType}>
+                            {alert}
+                        </Alert>
                     </div>
                 </div>
                 <Button
