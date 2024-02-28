@@ -78,6 +78,9 @@ function MainPage(props) {
         removeCookieAndReload();
         // navigate("/login");
       } else {
+        if(res.data?.isTFAEnabled && !res.data?.isTFAVerified) {
+          navigate("/authenticate");
+        }
         setOption(() => res.data.lastAccessedScreen);
         setUser({
           username: res.data.username,

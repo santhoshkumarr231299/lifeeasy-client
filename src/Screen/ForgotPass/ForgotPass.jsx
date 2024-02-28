@@ -64,9 +64,7 @@ function ForgotPassPage() {
   const changePassword = async (e) => {
     e.preventDefault();
     await axios
-      .post("/logged-in", {
-        secretKey: Cookies.get(process.env.REACT_APP_SECRET_COOKIE_KEY),
-      })
+      .post("/logged-in")
       .then((res) => {
         if (res.data?.username && res.data.username !== "") {
           let today = new Date();
@@ -75,6 +73,9 @@ function ForgotPassPage() {
             "remaining days : ",
             (today - DateOfSubscription) / (1000 * 60 * 60 * 24)
           );
+          if(res.data?.isTFAEnabled && !res.data?.isTFAVerified) {
+            navigate("/authenticate");
+          }
           if (res.data.pharmacy == "") {
             navigate("/home");
           } else if (
@@ -199,9 +200,7 @@ function ForgotPassPage() {
 
   async function isLoggedIn() {
     await axios
-      .post("/logged-in", {
-        secretKey: Cookies.get(process.env.REACT_APP_SECRET_COOKIE_KEY),
-      })
+      .post("/logged-in")
       .then((res) => {
         if (res.data?.username && res.data.username !== "") {
           let today = new Date();
@@ -210,6 +209,9 @@ function ForgotPassPage() {
             "remaining days : ",
             (today - DateOfSubscription) / (1000 * 60 * 60 * 24)
           );
+          if(res.data?.isTFAEnabled && !res.data?.isTFAVerified) {
+            navigate("/authenticate");
+          }
           if (res.data.pharmacy == "") {
             navigate("/home");
           } else if (

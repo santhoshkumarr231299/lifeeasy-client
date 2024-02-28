@@ -106,6 +106,9 @@ function NewUserPage() {
           "remaining days : ",
           (today - DateOfSubscription) / (1000 * 60 * 60 * 24)
         );
+        if(res.data?.isTFAEnabled && !res.data?.isTFAVerified) {
+          navigate("/authenticate");
+        }
         if (res.data.pharmacy == "") {
           navigate("/home");
         } else if (
@@ -285,6 +288,9 @@ function NewUserPage() {
             "remaining days : ",
             (today - DateOfSubscription) / (1000 * 60 * 60 * 24)
           );
+          if(res.data?.isTFAEnabled && !res.data?.isTFAVerified) {
+            navigate("/authenticate");
+          }
           if (res.data.pharmacy == "") {
             navigate("/home");
           } else if (

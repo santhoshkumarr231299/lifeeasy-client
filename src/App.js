@@ -1,4 +1,4 @@
-import React, { Component, Suspense, lazy } from "react";
+import React, { Component, Suspense, lazy, useState } from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.css";
 import CircularProgress from "@mui/material/CircularProgress";
@@ -10,6 +10,7 @@ import SubscribeToServicePage from "./Screen/SubscribeToServicePage/SubscribeToS
 import NotFoundPage from "./modules/errorpages/404.tsx";
 import SuperMainPage from "./modules/SuperAdmin/index.tsx";
 import Cookies from "js-cookie";
+import Authenticator from "./modules/authenticate/authenticate.tsx";
 // import BackgroundImage from "./assets/background.jpg";
 
 const MainPage = lazy(() => import("./Screen/MainPage/MainPage"));
@@ -71,8 +72,22 @@ class App extends Component {
                     )
                   }
                 />
-                <Route path="/subscribe" element={<SubscribeToServicePage />} />
-                <Route path="/super-admin/*" element={<SuperMainPage />} />
+                <Route
+                  path="/authenticate"
+                  element={ Cookies.get(process.env.REACT_APP_SECRET_COOKIE_KEY) && localStorage.getItem(process.env.REACT_APP_LOCALSTORAGE_USER_LOGIN_STATUS) ? 
+                  <Authenticator /> : 
+                  <Navigate to="/login" /> }
+                />
+                <Route
+                  path="/subscribe"
+                  element={Cookies.get(process.env.REACT_APP_SECRET_COOKIE_KEY) && localStorage.getItem(process.env.REACT_APP_LOCALSTORAGE_USER_LOGIN_STATUS) ?
+                  <SubscribeToServicePage /> : <Navigate to="/login" /> }
+                 />
+                <Route 
+                  path="/super-admin/*"
+                  element={ Cookies.get(process.env.REACT_APP_SECRET_COOKIE_KEY) && localStorage.getItem(process.env.REACT_APP_LOCALSTORAGE_USER_LOGIN_STATUS) ?
+                  <SuperMainPage /> : <Navigate to="/login" /> }
+                />
                 <Route path="/*" element={<NotFoundPage />} />
               </Routes>
             </BrowserRouter>

@@ -27,6 +27,9 @@ function LoginPage() {
       if (res.data?.username && res.data.username !== "") {
         let today = new Date();
         let DateOfSubscription = new Date(res.data.DateOfSubscription);
+        if(res.data?.isTFAEnabled && !res.data?.isTFAVerified) {
+          navigate("/authenticate");
+        }
         console.log(
           "Remaining days : ",
           30 - Math.floor((today - DateOfSubscription) / (1000 * 60 * 60 * 24))
@@ -60,6 +63,9 @@ function LoginPage() {
     setIsLoading(true);
     axios.post("/logged-in").then((res) => {
       if (res.data?.username && res.data.username !== "") {
+        if(res.data?.isTFAEnabled && !res.data?.isTFAVerified) {
+          navigate("/authenticate");
+        }
         // setIsLoading(false);
         navigate("/home");
         return;

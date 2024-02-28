@@ -153,3 +153,11 @@ body {
   .MuiDataGrid-root .MuiDataGrid-cell:hover {
     color: red;
   }
+
+  .two-factor-authenticate {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 900px;
+  }

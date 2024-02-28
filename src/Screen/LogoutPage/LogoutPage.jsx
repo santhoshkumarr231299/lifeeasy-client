@@ -20,7 +20,7 @@ export default function LogoutPage(props) {
       localStorage.removeItem(process.env.REACT_APP_LOCALSTORAGE_USER_LOGIN_STATUS);
     }
     await axios.post("/logout");
-     window.location.reload();
+    window.location.reload();
   };
   const [open] = React.useState(true);
   const theme = useTheme();
