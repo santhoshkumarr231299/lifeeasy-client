@@ -22,6 +22,16 @@ function LoginPage() {
   const password = useRef();
   const pharmaciesRef = useRef();
 
+  const removeCookie = () => {
+    try {
+      Cookies.remove(process.env.REACT_APP_SECRET_COOKIE_KEY);
+    } catch (e) {
+      //
+    } finally {
+      localStorage.removeItem(process.env.REACT_APP_LOCALSTORAGE_USER_LOGIN_STATUS);
+    }
+  }
+
   async function isLoggedIn() {
     await axios.post("/logged-in").then((res) => {
       if (res.data?.username && res.data.username !== "") {
@@ -49,6 +59,10 @@ function LoginPage() {
         } else {
           navigate("/subscribe");
         }
+      }
+    }).catch(error => {
+      if(error.code == 'ERR_NETWORK') {
+        removeCookie();
       }
     });
   }
