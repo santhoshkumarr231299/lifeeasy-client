@@ -127,7 +127,7 @@ function LoginPage() {
       }
     }).catch(error => {
       if(error.code == 'ERR_NETWORK') {
-        removeCookie();
+        
         setIsLoading(false);
         setAlertType("danger");
         setAlert(() => "Please Try Again Later");

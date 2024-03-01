@@ -3,7 +3,6 @@ import { Card } from "react-bootstrap";
 import axios from "../../../api/axios.js";
 import SendOTPForm from "./components/SendOTPForm.tsx";
 import VerificationForm from "./components/VerificationForm.tsx";
-import MuiAlert from "@mui/material/Alert";
 import { useNavigate } from "react-router-dom";
 import Navbar from "../../../Screen/SubscribeToServicePage/Navbar.jsx";
 import LogoutPage from "../../../Screen/LogoutPage/LogoutPage.jsx";

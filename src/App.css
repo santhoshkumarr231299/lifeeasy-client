@@ -161,3 +161,10 @@ body {
     align-items: center;
     height: 900px;
   }
+
+  .two-factor-authenticate-enable {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    margin-top: 40px;
+  }

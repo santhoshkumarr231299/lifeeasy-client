@@ -7,6 +7,7 @@ import MuiAlert from "@mui/material/Alert";
 import Form from "react-bootstrap/Form";
 import InputGroup from "react-bootstrap/InputGroup";
 import Cookies from "js-cookie";
+import EnableTwoFactorAuthentication from "../../modules/authenticate/2fa/EnableTwoFactorAuthentication.tsx";
 import {
   validateBranchId,
   validateEmail,
@@ -17,14 +18,17 @@ import {
 } from "../../Validations/validations";
 
 export default function Settings(props) {
+  const [user, setUser] = useState({});
   const [option, setOption] = useState(1);
   const [isButtonClicked, setButtonClicked] = useState(false);
   const settings = () => {
     switch (option) {
       case 1:
-        return <UserDetails username={props.username} />;
+        return <UserDetails user={user} setUser={setUser} />;
       case 2:
         return <ChangePass />;
+      case 3:
+        return <EnableTwoFactorAuthentication isTFAEnabled={user.isTFAEnabled} />
       default:
     }
   };
@@ -52,33 +56,50 @@ export default function Settings(props) {
           color: "Black",
         }}
       >
+       <div style={{
+        marginBottom : "20px"
+       }}>
         <Button
-          style={{
-            marginBottom: "20px",
-            marginTop: "20px",
-            margin: "15px",
-            right: -400,
-            backgroundColor: "purple",
-          }}
-          variant="contained"
-          onClick={(e) => callChangePass(e)}
-        >
-          {isButtonClicked ? "Back" : "Change Password"}
-        </Button>
+            style={{
+              marginBottom: "20px",
+              marginTop: "20px",
+              margin: "15px",
+              right: -400,
+              backgroundColor: "purple",
+            }}
+            variant="contained"
+            onClick={() => option == 3 ? setOption(1) : setOption(3)}
+          >
+            {option == 3 ? "Back" : (user.isTFAEnabled ? "Disable TFA" : "Enable TFA")}
+          </Button>
+          <Button
+            style={{
+              marginBottom: "20px",
+              marginTop: "20px",
+              margin: "15px",
+              right: -400,
+              backgroundColor: "purple",
+            }}
+            variant="contained"
+            onClick={(e) => option == 2 ? setOption(1) : setOption(2)}
+          >
+            {option == 2 ? "Back" : "Change Password"}
+          </Button>
+       </div>
         {settings()}
       </Paper>
     </div>
   );
 }
 
-function UserDetails(props) {
+function UserDetails({ user, setUser }) {
   const [open, setOpen] = useState(false);
   const [severity, setSeverity] = useState("");
   const [message, setMessage] = useState("");
 
   const [isLoading, setIsLoading] = useState(false);
 
-  const [user, setUser] = useState({});
+  
   const userFields = [
     {
       id: 1,
@@ -169,7 +190,6 @@ function UserDetails(props) {
           mobileNumber: user.mobileNumber,
           pharmacyName: user.pharmacyName,
           branchId: user.branchId,
-          secretKey: Cookies.get(process.env.REACT_APP_SECRET_COOKIE_KEY),
         })
         .then((resp) => {
           setOpen(true);
@@ -204,10 +224,7 @@ function UserDetails(props) {
     setIsLoading(true);
     let tempUser;
     await axios
-      .post("/get-user-details", {
-        username: props.username,
-        secretKey: Cookies.get(process.env.REACT_APP_SECRET_COOKIE_KEY),
-      })
+      .post("/get-user-details")
       .then((resp) => {
         tempUser = resp.data;
         setIsLoading(false);
