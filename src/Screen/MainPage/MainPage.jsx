@@ -1,51 +1,14 @@
-import React, { Suspense, lazy } from "react";
+import React from "react";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
 import axios from "../../api/axios";
-import CircularProgress from "@mui/material/CircularProgress";
 import ListGroup from "react-bootstrap/ListGroup";
 import LogoutPage from "../LogoutPage/LogoutPage";
 import Navbar from "./Navbar";
-import {
-  Dashboard,
-  Receipt,
-  Vaccines,
-  LocalPharmacy,
-  Flag,
-  ShoppingBasket,
-  People,
-  DeliveryDining,
-  AttachMoney,
-  AdminPanelSettings,
-  CheckCircle,
-  LocalHospital,
-  ContactMail,
-} from "@mui/icons-material";
+import { getMenuIcon, contentArea } from "../../modules/data/menu-data.tsx";
 
-const DashboardPage = lazy(() => import("../Dashboard/Dashboard"));
-const Invoice = lazy(() => import("../Invoice/NewInvoice"));
-const Manager = lazy(() => import("../Manager/Manager"));
-const MedicinePage = lazy(() => import("../Medicine/MedicinePage"));
-const PharmacistPage = lazy(() => import("../Pharmacist/PharmacistPage"));
-const ReportsPage = lazy(() => import("../ReportsPage/ReportsPage"));
-const DeliveryMenPage = lazy(() =>
-  import("../DelvieryMenPage/DeliveryMenPage")
-);
-const SalesReportsPage = lazy(() => import("../SalesReport/SalesReportPage"));
-const PurchasePage = lazy(() => import("../PurchasePage/PurchasePage"));
-const SettingsPage = lazy(() => import("../SettingsPage/Settings"));
-const PharmacistApprovalPage = lazy(() =>
-  import("../PharmacistApprovalPage/PharmacistApprovalPage")
-);
-const AssignUserPrevilegesPage = lazy(() =>
-  import("../AssignUserPrevileges/AssignUserPrevileges")
-);
-const OrderPickupPage = lazy(() => import("../DelvieryMenPage/OrderPickup"));
-const SearchMedicines = lazy(() =>
-  import("../../modules/customer/SearchMedicines.tsx")
-);
-const ChatWithOrganization = lazy(() => import("../../modules/chatWithOrg/ChatWithOrganization.tsx"));
+
 
 function MainPage(props) {
   document.title = process.env.REACT_APP_PRODUCT_FIRST_NAME + process.env.REACT_APP_PRODUCT_LAST_NAME + " - Home";
@@ -53,6 +16,7 @@ function MainPage(props) {
   const [user, setUser] = useState();
   const navigate = useNavigate();
   const [logout, setLogout] = useState(false);
+  const [menus, setMenus] = useState([]);
 
   const handleCloseLogout = () => {
     setLogout(false);
@@ -72,12 +36,28 @@ function MainPage(props) {
     window.location.reload();
   }
 
+  const getMenus = () => {
+    axios.get("/menus").then((res) => {
+      setMenus(() => []);
+      if(res.data.status == 'success') {
+        res.data.data.forEach((menu) => {
+          setMenus((prev) => [...prev, {
+            menuValue : menu.menuId,
+            name : menu.menuName,
+            icon : getMenuIcon(menu.menuId),
+          }])
+        })
+      }
+    })
+  }
+
   useEffect(() => {
     axios.post("/logged-in").then((res) => {
       if (!res.data.username || res.data.username == "") {
         removeCookieAndReload();
         // navigate("/login");
       } else {
+        getMenus();
         if(res.data?.isTFAEnabled && !res.data?.isTFAVerified) {
           navigate("/authenticate");
         }
@@ -144,189 +124,6 @@ function MainPage(props) {
         //
       });
   };
-  const menus = [
-    {
-      name: "Dashboard",
-      menuValue: 1,
-      icon: <Dashboard />,
-      haveAccess: user && user.haveAccessTo.includes("[1]"),
-    },
-    {
-      name: "Invoice",
-      menuValue: 2,
-      icon: <Receipt />,
-      haveAccess: user && user.haveAccessTo.includes("[2]"),
-    },
-    {
-      name: "Manager",
-      menuValue: 3,
-      icon: <People />,
-      haveAccess: user && user.haveAccessTo.includes("[3]"),
-    },
-    {
-      name: "Medicine",
-      menuValue: 4,
-      icon: <Vaccines />,
-      haveAccess: user && user.haveAccessTo.includes("[4]"),
-    },
-    {
-      name: "Pharmacist",
-      menuValue: 5,
-      icon: <LocalPharmacy />,
-      haveAccess: user && user.haveAccessTo.includes("[5]"),
-    },
-    {
-      name: "Delivery Men",
-      menuValue: 6,
-      icon: <DeliveryDining />,
-      haveAccess: user && user.haveAccessTo.includes("[6]"),
-    },
-    {
-      name: "Sales Report",
-      menuValue: 7,
-      icon: <AttachMoney />,
-      haveAccess: user && user.haveAccessTo.includes("[7]"),
-    },
-    {
-      name: "Purchase",
-      menuValue: 8,
-      icon: <ShoppingBasket />,
-      haveAccess: user && user.haveAccessTo.includes("[8]"),
-    },
-    {
-      name: "Reports",
-      menuValue: 9,
-      icon: <Flag />,
-      haveAccess: user && user.haveAccessTo.includes("[9]"),
-    },
-    {
-      name: "Manage User Previleges",
-      menuValue: 10,
-      icon: <AdminPanelSettings />,
-      haveAccess: user && user.haveAccessTo.includes("[10]"),
-    },
-    {
-      name: "Orders Approval",
-      menuValue: 11,
-      icon: <CheckCircle />,
-      haveAccess: user && user.haveAccessTo.includes("[11]"),
-    },
-    {
-      name: "Orders Pickup",
-      menuValue: 12,
-      icon: <CheckCircle />,
-      haveAccess: user && user.haveAccessTo.includes("[12]"),
-    },
-    {
-      name: "Medicine Details",
-      menuValue: 13,
-      icon: <LocalHospital />,
-      haveAccess: user && user.haveAccessTo.includes("[8]"),
-    },
-    {
-      name: "Chat with Organization",
-      menuValue: 14,
-      icon: <ContactMail />,
-      haveAccess: true,
-    },
-  ];
-
-  const contentArea = () => {
-    switch (option) {
-      case 1:
-        return (
-          <Suspense fallback={<CircularProgress size={50} />}>
-            <DashboardPage />
-          </Suspense>
-        );
-      case 2:
-        return (
-          <Suspense fallback={<CircularProgress size={50} />}>
-            <Invoice />
-          </Suspense>
-        );
-      case 3:
-        return (
-          <Suspense fallback={<CircularProgress size={50} />}>
-            <Manager />
-          </Suspense>
-        );
-      case 4:
-        return (
-          <Suspense fallback={<CircularProgress size={50} />}>
-            <MedicinePage />
-          </Suspense>
-        );
-      case 5:
-        return (
-          <Suspense fallback={<CircularProgress size={50} />}>
-            <PharmacistPage />
-          </Suspense>
-        );
-      case 6:
-        return (
-          <Suspense fallback={<CircularProgress size={50} />}>
-            <DeliveryMenPage />
-          </Suspense>
-        );
-      case 7:
-        return (
-          <Suspense fallback={<CircularProgress size={50} />}>
-            <SalesReportsPage />
-          </Suspense>
-        );
-      case 8:
-        return (
-          <Suspense fallback={<CircularProgress size={50} />}>
-            <PurchasePage username={user.username} />
-          </Suspense>
-        );
-      case 9:
-        return (
-          <Suspense fallback={<CircularProgress size={50} />}>
-            <ReportsPage />
-          </Suspense>
-        );
-      case 10:
-        return (
-          <Suspense fallback={<CircularProgress size={50} />}>
-            <AssignUserPrevilegesPage />
-          </Suspense>
-        );
-      case 11:
-        return (
-          <Suspense fallback={<CircularProgress size={50} />}>
-            <PharmacistApprovalPage />
-          </Suspense>
-        );
-      case 12:
-        return (
-          <Suspense fallback={<CircularProgress size={50} />}>
-            <OrderPickupPage />
-          </Suspense>
-        );
-      case 13:
-        return (
-          <Suspense fallback={<CircularProgress size={50} />}>
-            <SearchMedicines />
-          </Suspense>
-        );
-      case 14:
-        return (
-          <Suspense fallback={<CircularProgress size={50} />}>
-            <ChatWithOrganization  username={user.username} />
-          </Suspense>
-        );
-      case 999:
-        return (
-          <Suspense fallback={<CircularProgress size={50} />}>
-            <SettingsPage username={user.username} />
-          </Suspense>
-        );
-      default:
-        return;
-    }
-  };
   return (
     <div>
       <div className="sticky-pharm">
@@ -351,7 +148,7 @@ function MainPage(props) {
           >
             {menus.map(
               (menu) =>
-                menu.haveAccess && (
+                (
                   <ListGroup.Item
                     key={menu.menuValue}
                     className="sidebar-items"
@@ -389,7 +186,7 @@ function MainPage(props) {
             }}
             className="content"
           >
-            {contentArea()}
+            {contentArea(option, user)}
           </main>
         </div>
         {/* <div style={{backgroundColor : 'white', marginTop : '30px', borderRadius : '5px', maxHeight : "600px", width : "400px", boxShadow: "0 2px 5px rgb(0 0 0 / 0.2)",}}>
