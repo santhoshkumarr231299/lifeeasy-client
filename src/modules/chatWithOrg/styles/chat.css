@@ -1,0 +1,136 @@
+:root {
+    --body-bg: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    --msger-bg: #f7f5f5;
+    --border: 2px solid #ddd;
+    --left-msg-bg: #ececec;
+    --right-msg-bg: rgb(255, 96, 255);
+  }
+.chat-title {
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+}
+.chat-body {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+}
+.chat-sidebar {
+    border: 2px solid black;
+    width: 200px;
+    height: 640px;
+    border-radius: 5px;
+}
+.chat-box {
+    border: 2px solid black;
+    width: 1050px;
+    height: 640px;
+    border-radius: 5px;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
+.chat-msg-body {
+    /* border: 2px solid black; */
+    width: 1018px;
+    height: 580px;
+    border-radius: 5px;
+    margin: auto;
+    overflow: scroll;
+}
+.msger-inputarea {
+    display: flex;
+    padding: 10px;
+    border: none;
+    border-radius: 3px;
+    font-size: 1em;
+    /* background-color: var(--msger-bg); */
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 10px 0 rgba(0, 0, 0, 0.19);
+}
+.msger-input {
+    margin-left: 5px;
+    padding: 10px;
+    border: none;
+    border-radius: 3px;
+    font-size: 1em;
+    flex: 1;
+    height: 45px;
+    width: 945px;
+    background: #ddd;
+}
+
+.msger-send-btn {
+    height: 45px;
+    padding: 10px;
+    border: none;
+    border-radius: 3px;
+    margin-left: 10px;
+    background: purple;
+    color: #fff;
+    font-weight: bold;
+    cursor: pointer;
+}
+.msger-send-btn:hover {
+    background: rgb(177, 0, 177);
+}
+.msg-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+.msg-info-name {
+    margin-right: 10px;
+    font-weight: bold;
+}
+.msg-info-time {
+    font-size: 0.85em;
+}
+.right-msg > .msg-bubble {
+    max-width: 450px;
+    padding: 15px;
+    border-radius: 15px;
+    background: var(--right-msg-bg);
+    border-bottom-right-radius: 0;
+}
+.left-msg > .msg-bubble {
+    max-width: 450px;
+    padding: 15px;
+    border-radius: 15px;
+    background: var(--left-msg-bg);
+    border-bottom-left-radius: 0;
+}
+.msg-img {
+    background-image: url(https://image.flaticon.com/icons/svg/327/327779.svg)
+}
+.left-msg > .msg-img {
+    width: 50px;
+    height: 50px;
+    margin-right: 10px;
+    background: #ddd;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    border-radius: 50%;
+}
+.right-msg > .msg-img {
+    width: 50px;
+    height: 50px;
+    margin-left: 10px;
+    background: #ddd;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    border-radius: 50%;
+}
+.left-msg {
+    margin-top: 10px;
+    display: flex;
+    align-items:flex-end;
+}
+.right-msg {
+    margin-top: 10px;
+    display: flex;
+    align-items:flex-end;
+    justify-content: flex-end;
+}

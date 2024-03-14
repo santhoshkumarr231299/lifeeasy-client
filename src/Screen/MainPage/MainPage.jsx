@@ -314,7 +314,7 @@ function MainPage(props) {
       case 14:
         return (
           <Suspense fallback={<CircularProgress size={50} />}>
-            <ChatWithOrganization />
+            <ChatWithOrganization  username={user.username} />
           </Suspense>
         );
       case 999:

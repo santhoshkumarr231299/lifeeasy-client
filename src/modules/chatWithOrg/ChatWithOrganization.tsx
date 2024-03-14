@@ -1,16 +1,24 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Paper } from "@mui/material";
 import io from "socket.io-client";
 import Cookies from "js-cookie";
+import "./styles/chat.css";
 
-const socket = io(process.env.REACT_APP_BASE_URL || "", {
+interface messageType {
+  user : string,
+  message : string,
+  isSentByMe : boolean
+  time : string
+}
+
+const socket = io(process.env.REACT_APP_BASE_URL_CHAT || "", {
   extraHeaders: {
     authorization: Cookies.get(process.env.REACT_APP_SECRET_COOKIE_KEY),
   },
-  transports: ["websocket", "polling", "flashsocket"],
+  transports: ["websocket"],
 });
 
-function ChatWithOrganization() {
+function ChatWithOrganization({ username }) {
   const PaperStyle = {
     margin: "auto",
     backgroundColor: "white",
@@ -21,89 +29,87 @@ function ChatWithOrganization() {
   return (
     <div>
       <Paper style={PaperStyle} elevation={3}>
-        <ChatUI />
+        <ChatUI username={username} />
       </Paper>
     </div>
   );
 }
 
-function ChatUI() {
-  const headerStyle = {
-    display: "flex",
-    justifyContent: "center",
-    padding: "20px",
-  };
-  const bodyStyle = {
-    display: "flex",
-    justifyContent: "center",
-    gap: "30px",
-  };
-  const chatBoxStyle = {
-    border: "2px solid black",
-    width: "100vh",
-    height: "60vh",
-    borderRadius: "5px",
-    display: "flex",
-    justifyContent: "center",
-    flexDirection: "column",
-  };
-  const chatSideBarStyle = {
-    border: "2px solid black",
-    width: "25vh",
-    height: "60vh",
-    borderRadius: "5px",
-  };
-  const messageBodyStyle = {
-    border: "2px solid black",
-    width: "95vh",
-    height: "50vh",
-    borderRadius: "5px",
-    margin: "auto",
-  };
-  const inputBoxStyle = {
-    border: "2px solid black",
-    width: "95vh",
-    height: "8vh",
-    borderRadius: "5px",
-    margin: "auto",
-    display: "flex",
-    justifyContent: "space-around",
-    alignItems: "center",
-  };
+function ChatUI({ username }) {
+  let count = 0;
+  const [messages, setMessages] = useState<messageType[]>([]);
+  const currentMessage = useRef();
 
-  const [message, setMessage] = useState<string>("");
-  const [receivedMessage, setReceivedMessage] = useState<string>("");
-
-  const sendMessage = (e) => {
+  const sendMessage = (e : any) => {
     e.preventDefault();
+    const date : string[] = new Date().toString().split(" ");
     socket.emit("send_message", {
-      message: message,
+      user : username,
+      message: currentMessage.current.value,
+      time : date[4] + " " + date[5],
     });
+    currentMessage.current.value = "";
   };
 
   useEffect(() => {
     socket.on("receive_message", (data) => {
-      setReceivedMessage(data.message);
+      const message : messageType = {
+        user : data.user,
+        message : data.message,
+        isSentByMe : data.user == username,
+        time : data.time
+      }
+      setMessages(prev => [...prev, message]);
     });
   }, [socket]);
 
   return (
     <React.Fragment>
-      <div style={headerStyle}>
-        <h4>Chat With Your Organization</h4>
+      <div className="chat-title">
+        <h4>Chat With Organization</h4>
       </div>
-      <div style={bodyStyle}>
-        <div style={chatSideBarStyle}></div>
-        <div style={chatBoxStyle}>
-          <div style={messageBodyStyle}>{receivedMessage}</div>
-          <div style={inputBoxStyle}>
+      <div className="chat-body">
+        <div className="chat-sidebar"></div>
+        <div className="chat-box">
+          <div className="chat-msg-body">
+            {messages.map((message : messageType) => 
+            <div key={count++}>
+              {message.isSentByMe && 
+                <div className="left-msg">
+                  <div className="msg-img"></div>
+                  <div className="msg-bubble">
+                    <div className="msg-info">
+                      <div className="msg-info-name">{message.user}</div>
+                      <div className="msg-info-time">{message.time}</div>
+                    </div>
+
+                    <div className="msg-text">
+                      {message.message}
+                    </div>
+                  </div>
+                </div>}
+            {!message.isSentByMe && 
+            <div className="right-msg">
+              <div className="msg-bubble">
+                <div className="msg-info">
+                  <div className="msg-info-name">{message.user}</div>
+                  <div className="msg-info-time">{message.time}</div>
+                </div>
+
+                <div className="msg-text">
+                  {message.message}
+                </div>
+              </div>
+              <div className="msg-img"></div>
+            </div>}
+            </div>)}
+          </div>
+          <div className="msger-inputarea">
             <div>
-              <textarea onChange={(e) => setMessage(e.target.value)}></textarea>
+              <input type="text" className="msger-input" placeholder="Enter your message..." ref={currentMessage} />
             </div>
             <div>
-              <button type="button" onClick={(e) => sendMessage(e)}>
-                Send Message
-              </button>
+              <button type="submit" className="msger-send-btn" onClick={(e) => sendMessage(e)} >Send</button>
             </div>
           </div>
         </div>
