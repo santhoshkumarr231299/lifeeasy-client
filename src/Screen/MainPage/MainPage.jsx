@@ -66,7 +66,6 @@ function MainPage(props) {
           username: res.data.username,
           role: res.data.role,
           lastAccessedScreen: res.data.lastAccessedScreen,
-          haveAccessTo: res.data.haveAccessTo,
           pharmacy: res.data.pharmacy,
         });
         setOption(res.data.lastAccessedScreen);
