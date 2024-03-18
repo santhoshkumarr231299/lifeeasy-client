@@ -12,8 +12,8 @@ interface messageType {
 }
 
 const socket = io(process.env.REACT_APP_BASE_URL_CHAT || "", {
-  extraHeaders: {
-    authorization: Cookies.get(process.env.REACT_APP_SECRET_COOKIE_KEY),
+  auth: {
+    token: Cookies.get(process.env.REACT_APP_SECRET_COOKIE_KEY)
   },
   transports: ["websocket"],
 });
@@ -42,11 +42,9 @@ function ChatUI({ username }) {
 
   const sendMessage = (e : any) => {
     e.preventDefault();
-    const date : string[] = new Date().toString().split(" ");
     socket.emit("send_message", {
       user : username,
       message: currentMessage.current.value,
-      time : date[4] + " " + date[5],
     });
     currentMessage.current.value = "";
   };
