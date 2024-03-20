@@ -18,7 +18,7 @@ const socket = io(process.env.REACT_APP_BASE_URL_CHAT || "", {
   transports: ["websocket"],
 });
 
-function ChatWithOrganization({ username }) {
+function ChatWithOrganization({ username } : { username : string }) {
   const PaperStyle = {
     margin: "auto",
     backgroundColor: "white",
@@ -59,6 +59,9 @@ function ChatUI({ username }) {
       }
       setMessages(prev => [...prev, message]);
     });
+    return () => {
+      socket.off("receive_message");
+    };
   }, [socket]);
 
   return (

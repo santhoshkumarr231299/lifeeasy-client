@@ -74,7 +74,8 @@ function LoginPage() {
   }, []);
   const validateLogin = async (e) => {
     e.preventDefault();
-    setIsLoading(true);
+    setShowPassword(() => false);
+    setIsLoading(() => true);
     axios.post("/logged-in").then((res) => {
       if (res.data?.username && res.data.username !== "") {
         if(res.data?.isTFAEnabled && !res.data?.isTFAVerified) {
@@ -84,7 +85,8 @@ function LoginPage() {
         navigate("/home");
         return;
       } else if(localStorage.getItem(process.env.REACT_APP_LOCALSTORAGE_USER_LOGIN_STATUS)) {
-        window.location.reload();
+        navigate("/home");
+        return;
       } else {
         const loginCreds = {
             username: username.current.value,
@@ -276,6 +278,7 @@ function LoginPage() {
                 <Form.Check
                   disabled={isLoading}
                   onChange={(e) => handleShowPassword(e)}
+                  checked={showPassword}
                 />
               </div>
               <div className="org-login">Show Password</div>
