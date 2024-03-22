@@ -22,9 +22,9 @@ class App extends Component {
       process.env.REACT_APP_PRODUCT_LAST_NAME;
   }
   theme = {
-    background : 'black',
-    others : 'violet',
-    fontColor : 'white'
+    background : 'white',
+    others : 'purple',
+    fontColor : 'black'
   }
   render() {
     return (
