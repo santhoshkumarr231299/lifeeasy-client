@@ -62,96 +62,96 @@ function getMenuIcon(id : number) {
   return menuIcons[id];
 }
 
-function contentArea(option : number, user : any) {
+function contentArea(option : number, user : any, theme : any) {
   switch (option) {
     case 1:
       return (
         <Suspense fallback={<CircularProgress size={50} />}>
-          <DashboardPage />
+          <DashboardPage theme={theme} />
         </Suspense>
       );
     case 2:
       return (
         <Suspense fallback={<CircularProgress size={50} />}>
-          <Invoice />
+          <Invoice theme={theme} />
         </Suspense>
       );
     case 3:
       return (
         <Suspense fallback={<CircularProgress size={50} />}>
-          <Manager />
+          <Manager theme={theme} />
         </Suspense>
       );
     case 4:
       return (
         <Suspense fallback={<CircularProgress size={50} />}>
-          <MedicinePage />
+          <MedicinePage theme={theme} />
         </Suspense>
       );
     case 5:
       return (
         <Suspense fallback={<CircularProgress size={50} />}>
-          <PharmacistPage />
+          <PharmacistPage theme={theme} />
         </Suspense>
       );
     case 6:
       return (
         <Suspense fallback={<CircularProgress size={50} />}>
-          <DeliveryMenPage />
+          <DeliveryMenPage theme={theme} />
         </Suspense>
       );
     case 7:
       return (
         <Suspense fallback={<CircularProgress size={50} />}>
-          <SalesReportsPage />
+          <SalesReportsPage theme={theme} />
         </Suspense>
       );
     case 8:
       return (
         <Suspense fallback={<CircularProgress size={50} />}>
-          <PurchasePage username={user.username} />
+          <PurchasePage theme={theme} username={user.username} />
         </Suspense>
       );
     case 9:
       return (
         <Suspense fallback={<CircularProgress size={50} />}>
-          <ReportsPage />
+          <ReportsPage theme={theme} />
         </Suspense>
       );
     case 10:
       return (
         <Suspense fallback={<CircularProgress size={50} />}>
-          <AssignUserPrevilegesPage />
+          <AssignUserPrevilegesPage theme={theme} />
         </Suspense>
       );
     case 11:
       return (
         <Suspense fallback={<CircularProgress size={50} />}>
-          <PharmacistApprovalPage />
+          <PharmacistApprovalPage theme={theme} />
         </Suspense>
       );
     case 12:
       return (
         <Suspense fallback={<CircularProgress size={50} />}>
-          <OrderPickupPage />
+          <OrderPickupPage theme={theme} />
         </Suspense>
       );
     case 13:
       return (
         <Suspense fallback={<CircularProgress size={50} />}>
-          <SearchMedicines />
+          <SearchMedicines theme={theme} />
         </Suspense>
       );
     case 14:
       return (
         <Suspense fallback={<CircularProgress size={50} />}>
-          <ChatWithOrganization  username={user.username} />
+          <ChatWithOrganization theme={theme} username={user.username} />
         </Suspense>
       );
     case 999:
       return (
         <Suspense fallback={<CircularProgress size={50} />}>
-          <SettingsPage username={user.username} />
+          <SettingsPage theme={theme} username={user.username} />
         </Suspense>
       );
     default:

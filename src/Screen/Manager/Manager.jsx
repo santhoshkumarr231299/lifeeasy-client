@@ -10,7 +10,6 @@ import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
-import Cookies from "js-cookie";
 import {
   validateUsername,
   validateEmail,
@@ -19,9 +18,8 @@ import {
   validateBranchId,
   validatePassword,
 } from "../../Validations/validations";
-import { PasswordRounded } from "@mui/icons-material";
 
-export default function ManagerPage() {
+export default function ManagerPage({ theme }) {
   const [pageStatus, setPageStatus] = useState(false);
   const changeStatus = (val) => {
     setPageStatus(val);
@@ -29,9 +27,9 @@ export default function ManagerPage() {
   const getPage = () => {
     switch (pageStatus) {
       case true:
-        return <AddManagerPage addCustomerStatus={changeStatus} />;
+        return <AddManagerPage theme={theme} addCustomerStatus={changeStatus} />;
       default:
-        return <ManagerReportPage addCustomerStatus={changeStatus} />;
+        return <ManagerReportPage theme={theme} addCustomerStatus={changeStatus} />;
     }
   };
   return <>{getPage()}</>;
@@ -47,9 +45,7 @@ function ManagerReportPage(props) {
     let temp = [];
     let counter = 0;
     axios
-      .post("/get-managers", {
-        secretKey: Cookies.get(process.env.REACT_APP_SECRET_COOKIE_KEY),
-      })
+      .post("/get-managers")
       .then((resp) => {
         resp.data.forEach((data) => {
           temp.push({
@@ -81,10 +77,9 @@ function ManagerReportPage(props) {
         textAlign: "right",
         alignSelf: "center",
         margin: "auto",
-        backgroundColor: "white",
+        backgroundColor: props.theme.background,
         width: "1560px",
         height: "810px",
-        color: "Black",
       }}
     >
       <Button
@@ -92,7 +87,7 @@ function ManagerReportPage(props) {
           marginBottom: "20px",
           marginTop: "20px",
           right: 65,
-          backgroundColor: "purple",
+          backgroundColor: props.theme.others,
         }}
         variant="contained"
         onClick={() => props.addCustomerStatus(true)}
@@ -105,6 +100,7 @@ function ManagerReportPage(props) {
           width: "1460px",
           height: "710px",
           margin: "auto",
+          color: props.theme.fontColor
         }}
         getRowHeight={() => 'auto'}
         loading={isLoading}
@@ -323,10 +319,9 @@ function AddManagerPage(props) {
         style={{
           textAlign: "center",
           marginBottom: "20px",
-          backgroundColor: "white",
+          backgroundColor: props.theme.background,
           width: "1560px",
           height: "810px",
-          color: "Black",
         }}
       >
         <Button
@@ -334,7 +329,7 @@ function AddManagerPage(props) {
             marginBottom: "10px",
             marginTop: "20px",
             right: -450,
-            backgroundColor: "purple",
+            backgroundColor: props.theme.others,
           }}
           variant="contained"
           onClick={() => props.addCustomerStatus(false)}
@@ -342,7 +337,7 @@ function AddManagerPage(props) {
           Back
         </Button>
         <div className="main-title">
-          <h2 style={{ color: "black", paddingTop: "20px" }}>New Manager</h2>
+          <h2 style={{ color: props.theme.fontColor, paddingTop: "20px" }}>New Manager</h2>
         </div>
         <div className="main-form">
           <form name="event" style={{ verticalAlign: "middle", gap: "10px" }}>
@@ -353,6 +348,7 @@ function AddManagerPage(props) {
                   field.type === "date" ||
                   field.type === "email" || field.type === "password") && (
                   <TextField
+                    color="secondary"
                     style={{ margin: "10px", width: "20rem" }}
                     type={field.type}
                     label={field.labelName}
@@ -391,7 +387,7 @@ function AddManagerPage(props) {
               style={{
                 marginBottom: "20px",
                 marginTop: "20px",
-                backgroundColor: "purple",
+                backgroundColor: props.theme.others,
               }}
               disabled={isLoading}
               variant="contained"

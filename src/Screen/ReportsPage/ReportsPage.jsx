@@ -9,7 +9,7 @@ import MuiAlert from "@mui/material/Alert";
 import Cookies from "js-cookie";
 import { validateReports } from "../../Validations/validations";
 
-export default function ReportPageManager() {
+export default function ReportPageManager({ theme }) {
   const [isAddMedClicked, setAddMedClicked] = useState(false);
   const changeStatus = (val) => {
     setAddMedClicked(val);
@@ -17,9 +17,9 @@ export default function ReportPageManager() {
   const getMedPage = () => {
     switch (isAddMedClicked) {
       case true:
-        return <AddReportPage addMedStatus={changeStatus} />;
+        return <AddReportPage theme={theme} addMedStatus={changeStatus} />;
       default:
-        return <ReportPage addMedStatus={changeStatus} />;
+        return <ReportPage theme={theme} addMedStatus={changeStatus} />;
     }
   };
   return <>{getMedPage()}</>;
@@ -34,9 +34,7 @@ function ReportPage(props) {
     setIsLoading(true);
     let temp = [];
     axios
-      .post("/get-reports", {
-        secretKey: Cookies.get(process.env.REACT_APP_SECRET_COOKIE_KEY),
-      })
+      .post("/get-reports")
       .then((resp) => {
         resp.data.forEach((tdata) => {
           temp.push({
@@ -72,10 +70,9 @@ function ReportPage(props) {
         textAlign: "right",
         alignSelf: "center",
         margin: "auto",
-        backgroundColor: "white",
+        backgroundColor: props.theme.background,
         width: "1560px",
         height: "810px",
-        color: "Black",
       }}
     >
       <Button
@@ -84,7 +81,7 @@ function ReportPage(props) {
           marginTop: "10px",
           marginRight: "15px",
           right: 50,
-          backgroundColor: "purple",
+          backgroundColor: props.theme.others,
         }}
         variant="contained"
         onClick={() => props.addMedStatus(true)}
@@ -97,6 +94,7 @@ function ReportPage(props) {
           width: "1460px",
           height: "710px",
           margin: "auto",
+          color: props.theme.fontColor
         }}
         loading={isLoading}
         rows={dataGridRows}
@@ -190,7 +188,6 @@ function AddReportPage(props) {
           reportTitle: title.trim(),
           reportSubject: subject.trim(),
           reportDesc: desc.trim(),
-          secretKey: Cookies.get(process.env.REACT_APP_SECRET_COOKIE_KEY),
         })
         .then((resp) => {
           setOpen(true);
@@ -224,10 +221,9 @@ function AddReportPage(props) {
         style={{
           textAlign: "center",
           marginBottom: "20px",
-          backgroundColor: "white",
+          backgroundColor: props.theme.background,
           width: "1560px",
           minHeight: "810px",
-          color: "Black",
         }}
       >
         <Button
@@ -235,7 +231,7 @@ function AddReportPage(props) {
             marginBottom: "20px",
             marginTop: "20px",
             right: -450,
-            backgroundColor: "purple",
+            backgroundColor: props.theme.others,
           }}
           variant="contained"
           onClick={() => props.addMedStatus(false)}
@@ -243,13 +239,14 @@ function AddReportPage(props) {
           Back
         </Button>
         <div className="main-title">
-          <h2 style={{ color: "black", paddingTop: "20px" }}>New Report</h2>
+          <h2 style={{ color: props.theme.fontColor, paddingTop: "20px" }}>New Report</h2>
         </div>
         <div className="main-form">
           <form name="event" style={{ verticalAlign: "middle", gap: "10px" }}>
             {reportFields.map((report) => (
               <div key={report.id}>
                 <TextField
+                  color="secondary"
                   style={{ margin: "10px", width: "400px" }}
                   label={report.labelName}
                   disabled={report.status === "disabled"}
@@ -270,7 +267,7 @@ function AddReportPage(props) {
               style={{
                 marginBottom: "20px",
                 marginTop: "20px",
-                backgroundColor: "purple",
+                backgroundColor: props.theme.others,
               }}
               variant="contained"
               disabled={isLoading}

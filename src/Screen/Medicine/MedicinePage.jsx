@@ -18,7 +18,7 @@ import {
   validateMedCompanyName,
 } from "../../Validations/validations";
 
-export default function MedicinePageManager() {
+export default function MedicinePageManager({ theme }) {
   const [isAddMedClicked, setAddMedClicked] = useState(false);
   const changeStatus = (val) => {
     setAddMedClicked(val);
@@ -26,9 +26,9 @@ export default function MedicinePageManager() {
   const getMedPage = () => {
     switch (isAddMedClicked) {
       case true:
-        return <AddMedicinePage addMedStatus={changeStatus} />;
+        return <AddMedicinePage theme={theme} addMedStatus={changeStatus} />;
       default:
-        return <MedicinePage addMedStatus={changeStatus} />;
+        return <MedicinePage theme={theme} addMedStatus={changeStatus} />;
     }
   };
   return <>{getMedPage()}</>;
@@ -44,9 +44,7 @@ function MedicinePage(props) {
     let temp = [];
     let counter = 1;
     axios
-      .post("/get-medicines", {
-        secretKey: Cookies.get(process.env.REACT_APP_SECRET_COOKIE_KEY),
-      })
+      .post("/get-medicines")
       .then((resp) => {
         resp.data.forEach((med) => {
           temp.push({
@@ -95,10 +93,9 @@ function MedicinePage(props) {
         textAlign: "right",
         alignSelf: "center",
         margin: "auto",
-        backgroundColor: "white",
+        backgroundColor: props.theme.background,
         width: "1560px",
         height: "810px",
-        color: "Black",
       }}
     >
       <Button
@@ -108,7 +105,7 @@ function MedicinePage(props) {
           marginRight: "15px",
           position: "",
           right: 50,
-          backgroundColor: "purple",
+          backgroundColor: props.theme.others,
         }}
         variant="contained"
         onClick={() => props.addMedStatus(true)}
@@ -121,6 +118,7 @@ function MedicinePage(props) {
           width: "1460px",
           height: "710px",
           margin: "auto",
+          color: props.theme.fontColor
         }}
         loading={isLoading}
         rows={dataGridRows}
@@ -352,6 +350,9 @@ function AddMedicinePage(props) {
           component="span"
           aria-label="add"
           variant="extended"
+          style={{
+            backgroundColor: props.theme.others
+          }}
         >
         { selectedImage == "" ? <AddIcon /> : <RemoveIcon />} { selectedImage == "" ? "Upload Image" : selectedImage}
         </Fab>
@@ -365,10 +366,9 @@ function AddMedicinePage(props) {
         style={{
           textAlign: "center",
           marginBottom: "20px",
-          backgroundColor: "white",
+          backgroundColor: props.theme.background,
           width: "1560px",
           height: "auto",
-          color: "Black",
         }}
       >
         <Button
@@ -376,7 +376,7 @@ function AddMedicinePage(props) {
             marginBottom: "10px",
             marginTop: "20px",
             right: -450,
-            backgroundColor: "purple",
+            backgroundColor: props.theme.others,
           }}
           variant="contained"
           onClick={() => props.addMedStatus(false)}
@@ -384,7 +384,7 @@ function AddMedicinePage(props) {
           Back
         </Button>
         <div className="main-title">
-          <h2 style={{ color: "black", paddingTop: "20px" }}>New Medicine</h2>
+          <h2 style={{ color: props.theme.fontColor, paddingTop: "20px" }}>New Medicine</h2>
         </div>
         <div className="main-form">
           <form name="event" style={{ verticalAlign: "middle", gap: "10px" }}>
@@ -394,6 +394,7 @@ function AddMedicinePage(props) {
                   med.type === "number" ||
                   med.type === "date") && (
                   <TextField
+                    color="secondary"
                     style={{ margin: "10px", width: "20rem" }}
                     type={med.type}
                     label={med.labelName}
@@ -444,7 +445,7 @@ function AddMedicinePage(props) {
               style={{
                 marginBottom: "20px",
                 marginTop: "20px",
-                backgroundColor: "purple",
+                backgroundColor: props.theme.others,
               }}
               variant="contained"
               onClick={(e) => submitReport(e)}

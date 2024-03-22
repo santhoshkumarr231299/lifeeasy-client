@@ -59,7 +59,7 @@ function boxes(list) {
   );
   return element;
 }
-function Dashboard() {
+function Dashboard({ theme }) {
   const [data, setData] = useState([]);
   const list = [
     { fieldName: "Managers", value: 0, bg: "primary", icon: null },
@@ -117,7 +117,7 @@ function Dashboard() {
       style={{
         justifyContent: "center",
         margin: "auto",
-        backgroundColor: "white",
+        backgroundColor: theme.background,
         width: "1560px",
         height: "810px",
       }}>

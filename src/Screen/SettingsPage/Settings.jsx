@@ -6,8 +6,8 @@ import Snackbar from "@mui/material/Snackbar";
 import MuiAlert from "@mui/material/Alert";
 import Form from "react-bootstrap/Form";
 import InputGroup from "react-bootstrap/InputGroup";
-import Cookies from "js-cookie";
 import EnableTwoFactorAuthentication from "../../modules/authenticate/2fa/EnableTwoFactorAuthentication.tsx";
+import ProfileImageUpload from "../../modules/main/Settings/components/ProfileImageUpload.tsx";
 import {
   validateBranchId,
   validateEmail,
@@ -24,11 +24,11 @@ export default function Settings(props) {
   const settings = () => {
     switch (option) {
       case 1:
-        return <UserDetails user={user} setUser={setUser} />;
+        return <UserDetails theme={props.theme} user={user} setUser={setUser} />;
       case 2:
-        return <ChangePass />;
+        return <ChangePass theme={props.theme} />;
       case 3:
-        return <EnableTwoFactorAuthentication isTFAEnabled={user.isTFAEnabled} />
+        return <EnableTwoFactorAuthentication theme={props.theme} isTFAEnabled={user.isTFAEnabled} />
       default:
     }
   };
@@ -50,10 +50,9 @@ export default function Settings(props) {
           textAlign: "center",
           alignSelf: "center",
           margin: "auto",
-          backgroundColor: "white",
+          backgroundColor: props.theme.background,
           width: "1560px",
           height: "810px",
-          color: "Black",
         }}
       >
        <div style={{
@@ -65,7 +64,7 @@ export default function Settings(props) {
               marginTop: "20px",
               margin: "15px",
               right: -400,
-              backgroundColor: "purple",
+              backgroundColor: props.theme.others,
             }}
             variant="contained"
             onClick={() => option == 3 ? setOption(1) : setOption(3)}
@@ -78,7 +77,7 @@ export default function Settings(props) {
               marginTop: "20px",
               margin: "15px",
               right: -400,
-              backgroundColor: "purple",
+              backgroundColor: props.theme.others,
             }}
             variant="contained"
             onClick={(e) => option == 2 ? setOption(1) : setOption(2)}
@@ -92,7 +91,7 @@ export default function Settings(props) {
   );
 }
 
-function UserDetails({ user, setUser }) {
+function UserDetails({ user, setUser, theme }) {
   const [open, setOpen] = useState(false);
   const [severity, setSeverity] = useState("");
   const [message, setMessage] = useState("");
@@ -242,6 +241,7 @@ function UserDetails({ user, setUser }) {
   });
   return (
     <div style={{ maxWidth: "400px", margin: "auto" }}>
+      <ProfileImageUpload theme={theme} username={user.username} setOpenPopup={setOpen} setSeverityForPopup={setSeverity} setMessageForPopup={setMessage} />
       {isLoading ? (<div><CircularProgress style={{ marginRight: "10px" }} size={20} /> </div>) :
       userFields.map((userField) => (
         <div key={userField.id}>
@@ -263,27 +263,13 @@ function UserDetails({ user, setUser }) {
               aria-label="First name"
             />
           </InputGroup>
-          {/* <input
-            key={userField.id}
-            style={{ margin: "10px" }}
-            label={userField.labelName}
-            disabled={userField.status === "disabled"}
-            defaultValue={userField.value}
-            variant="outlined"
-            onChange={(e) => updateValues(e, userField.id)}
-            InputLabelProps={{
-              shrink: true,
-            }}
-            required
-          />
-          <br /> */}
         </div>
       ))}
       <Button
         style={{
           marginBottom: "20px",
           marginTop: "10px",
-          backgroundColor: "purple",
+          backgroundColor: theme.others,
         }}
         variant="contained"
         onClick={(e) => updateDetails(e)}
@@ -354,7 +340,6 @@ function ChangePass(props) {
           .post("/update-pass", {
             newPass: newPass,
             oldPass: oldPass,
-            secretKey: Cookies.get(process.env.REACT_APP_SECRET_COOKIE_KEY),
           })
           .then((resp) => {
             setSeverity(resp.data.status);
@@ -388,6 +373,7 @@ function ChangePass(props) {
       {changePassFields.map((field) => (
         <div key={field.id}>
           <TextField
+            color="secondary"
             style={{ margin: "10px" }}
             id={field.fieldName}
             type={field.type}
@@ -413,7 +399,7 @@ function ChangePass(props) {
       ))}
       <Button
         style={{
-          backgroundColor: "purple",
+          backgroundColor: props.theme.others,
           marginBottom: "20px",
           marginTop: "10px",
         }}

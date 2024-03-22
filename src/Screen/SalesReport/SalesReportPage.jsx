@@ -29,10 +29,9 @@ export default function SalesReportPage(props) {
     <Paper
       elevation={3}
       style={{
-        backgroundColor: "white",
+        backgroundColor: props.theme.background,
         width: "1560px",
         height: "810px",
-        color: "Black",
       }}
     >
       <div>
@@ -44,6 +43,7 @@ export default function SalesReportPage(props) {
             width: "1460px",
             height: "710px",  
             margin: "auto",
+            color: props.theme.fontColor
           }}
           getRowHeight={() => 'auto'}
           rows={dataGridRows}

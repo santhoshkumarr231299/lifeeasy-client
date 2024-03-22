@@ -59,7 +59,6 @@ export default function PharmacistPage(props) {
           username: userM.name,
           mname: userM.mname,
           mid: userM.mid,
-          secretKey: Cookies.get(process.env.REACT_APP_SECRET_COOKIE_KEY),
         })
         .then((resp) => {
           setOpen(true);
@@ -83,9 +82,7 @@ export default function PharmacistPage(props) {
     let temp = [];
     let counter = 0;
     axios
-      .post("/get-ordered-items-for-approval", {
-        secretKey: Cookies.get(process.env.REACT_APP_SECRET_COOKIE_KEY),
-      })
+      .post("/get-ordered-items-for-approval")
       .then((resp) => {
         resp.data.forEach((data) => {
           temp.push({
@@ -123,7 +120,7 @@ export default function PharmacistPage(props) {
           textAlign: "right",
           alignSelf: "center",
           margin: "auto",
-          backgroundColor: "white",
+          backgroundColor: props.theme.background,
           width: "1560px",
           height: "810px",
           color: "Black",
@@ -171,6 +168,7 @@ export default function PharmacistPage(props) {
             width: "1460px",
             height: "710px",
             margin: "auto",
+            color: props.theme.fontColor
           }}
           getRowHeight={() => 'auto'}
           rows={dataGridRows}

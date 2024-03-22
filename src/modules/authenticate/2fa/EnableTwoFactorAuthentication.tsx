@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import ESendOTPForm from "./components/ESendOTPForm.tsx";
 import EVerificationForm from "./components/EVerificationForm.tsx";
 
-function EnableTwoFactorAuthentication({ isTFAEnabled }) {
+function EnableTwoFactorAuthentication({ isTFAEnabled, theme }) {
     const [isSentOTP, setIsSentOTP] = useState(false);
 
     let style = {
@@ -18,10 +18,12 @@ function EnableTwoFactorAuthentication({ isTFAEnabled }) {
     }
 
     return(
-            <div className="two-factor-authenticate-enable">
+            <div className="two-factor-authenticate-enable" style={{
+                color: theme.fontColor
+            }}>
                 <div><h4>Two Factor Authentication</h4></div>
                 <div>
-                    {isSentOTP ? <EVerificationForm isTFAEnabled={isTFAEnabled} /> : <ESendOTPForm setIsSentOTP={setIsSentOTP} />}
+                    {isSentOTP ? <EVerificationForm theme={theme} isTFAEnabled={isTFAEnabled} /> : <ESendOTPForm theme={theme} setIsSentOTP={setIsSentOTP} />}
                 </div>
             </div>
     );

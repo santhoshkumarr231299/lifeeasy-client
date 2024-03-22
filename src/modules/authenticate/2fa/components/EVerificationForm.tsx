@@ -5,7 +5,7 @@ import { CircularProgress } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
 
-function EVerificationForm({ isTFAEnabled }) {
+function EVerificationForm({ isTFAEnabled, theme }) {
     const navigate = useNavigate();
     const twoFAOtp = useRef();
     const [isVerifyOTPClicked, setIsVerifyOTPClicked] = useState(false);
@@ -116,7 +116,7 @@ function EVerificationForm({ isTFAEnabled }) {
                 <Button
                     style={{
                         width: "20%",
-                        backgroundColor: "purple",
+                        backgroundColor: theme.others,
                         margin: "20px"
                     }}
                     variant="primary"

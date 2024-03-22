@@ -9,7 +9,7 @@ import { useNavigate } from "react-router-dom";
 import Navbar from "./Navbar";
 import LogoutPage from "../LogoutPage/LogoutPage";
 
-function SubscribeToServicePage() {
+function SubscribeToServicePage({ theme }) {
     const [user, setUser] = useState({});
     const [logout, setLogout] = useState(false);
 
@@ -99,7 +99,9 @@ function SubscribeToServicePage() {
             <Navbar
                 pharmacy={user ? user.pharmacy ?  user.pharmacy : " " : " "}
                 username={user ? user.username ? user.username : " " : " "}
-                setLogout={setLogout} />
+                setLogout={setLogout}
+                theme={theme}  
+            />
             <div 
             className="subscribe-screen">
               { user && user.subscriptionPack && (user.subscriptionPack == 'none') && 

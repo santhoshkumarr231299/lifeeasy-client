@@ -21,6 +21,11 @@ class App extends Component {
       process.env.REACT_APP_PRODUCT_FIRST_NAME +
       process.env.REACT_APP_PRODUCT_LAST_NAME;
   }
+  theme = {
+    background : 'black',
+    others : 'violet',
+    fontColor : 'white'
+  }
   render() {
     return (
       <div className="App">
@@ -81,7 +86,7 @@ class App extends Component {
                 <Route
                   path="/subscribe"
                   element={Cookies.get(process.env.REACT_APP_SECRET_COOKIE_KEY) && localStorage.getItem(process.env.REACT_APP_LOCALSTORAGE_USER_LOGIN_STATUS) ?
-                  <SubscribeToServicePage /> : <Navigate to="/login" /> }
+                  <SubscribeToServicePage theme={this.theme} /> : <Navigate to="/login" /> }
                  />
                 <Route 
                   path="/super-admin/*"

@@ -6,7 +6,12 @@ import logo from "../../assets/logo.png";
 
 export default function Navbar(props) {
   return (
-    <nav className="navbar navbar-light bg-light">
+    <nav className="navbar navbar-light bg-light"
+      style={{
+        backgroundColor : props.theme.backgroundColor,
+        color: props.theme.fontColor
+      }}
+    >
       <div
         style={{
           display: "flex",

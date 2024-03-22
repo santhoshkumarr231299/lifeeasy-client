@@ -20,7 +20,7 @@ import {
   validatePassword
 } from "../../Validations/validations";
 
-export default function MedicinePageManager() {
+export default function MedicinePageManager({ theme }) {
   const [pageStatus, setPageStatus] = useState(false);
   const changeStatus = (val) => {
     setPageStatus(val);
@@ -28,9 +28,9 @@ export default function MedicinePageManager() {
   const getPage = () => {
     switch (pageStatus) {
       case true:
-        return <AddPharmacistPage addPharmacistStatus={changeStatus} />;
+        return <AddPharmacistPage theme={theme} addPharmacistStatus={changeStatus} />;
       default:
-        return <PharmacistPage addPharmacistStatus={changeStatus} />;
+        return <PharmacistPage theme={theme} addPharmacistStatus={changeStatus} />;
     }
   };
   return <>{getPage()}</>;
@@ -77,10 +77,9 @@ function PharmacistPage(props) {
         textAlign: "right",
         alignSelf: "center",
         margin: "auto",
-        backgroundColor: "white",
+        backgroundColor: props.theme.background,
         width: "1560px",
         height: "810px",
-        color: "Black",
       }}
     >
       <Button
@@ -88,7 +87,7 @@ function PharmacistPage(props) {
           marginBottom: "20px",
           marginTop: "20px",
           right: 65,
-          backgroundColor: "purple",
+          backgroundColor: props.theme.others,
         }}
         variant="contained"
         onClick={() => props.addPharmacistStatus(true)}
@@ -102,6 +101,7 @@ function PharmacistPage(props) {
           width: "1460px",
           height: "710px",
           margin: "auto",
+          color: props.theme.fontColor
         }}
         getRowHeight={() => 'auto'}
         rows={dataGridRows}
@@ -319,10 +319,9 @@ function AddPharmacistPage(props) {
         style={{
           textAlign: "center",
           marginBottom: "20px",
-          backgroundColor: "white",
+          backgroundColor: props.theme.background,
           width: "1560px",
           minHeight: "810px",
-          color: "Black",
         }}
       >
         <Button
@@ -330,7 +329,7 @@ function AddPharmacistPage(props) {
             marginBottom: "10px",
             marginTop: "20px",
             right: -450,
-            backgroundColor: "purple",
+            backgroundColor: props.theme.others,
           }}
           variant="contained"
           onClick={() => props.addPharmacistStatus(false)}
@@ -338,7 +337,7 @@ function AddPharmacistPage(props) {
           Back
         </Button>
         <div className="main-title">
-          <h2 style={{ color: "black", paddingTop: "20px" }}>New Pharmacist</h2>
+          <h2 style={{ color: props.theme.fontColor, paddingTop: "20px" }}>New Pharmacist</h2>
         </div>
         <div className="main-form">
           <form name="event" style={{ verticalAlign: "middle", gap: "10px" }}>
@@ -349,6 +348,7 @@ function AddPharmacistPage(props) {
                   pharmacist.type === "email" ||
                   pharmacist.type === "date" || pharmacist.type == "password") && (
                   <TextField
+                    color="secondary"
                     style={{ margin: "10px", width: "20rem" }}
                     type={pharmacist.type}
                     label={pharmacist.labelName}
@@ -389,7 +389,7 @@ function AddPharmacistPage(props) {
               style={{
                 marginBottom: "20px",
                 marginTop: "20px",
-                backgroundColor: "purple",
+                backgroundColor: props.theme.others,
               }}
               variant="contained"
               onClick={(e) => submitReport(e)}

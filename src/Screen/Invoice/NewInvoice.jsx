@@ -12,7 +12,7 @@ import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import Cookies from "js-cookie";
 
-export default function InvoicePage() {
+export default function InvoicePage({ theme }) {
   const [pageStatus, setPageStatus] = useState(false);
   const changeStatus = (val) => {
     setPageStatus(val);
@@ -20,9 +20,9 @@ export default function InvoicePage() {
   const getPage = () => {
     switch (pageStatus) {
       case true:
-        return <AddInvoicePage addInvoiceStatus={changeStatus} />;
+        return <AddInvoicePage theme={theme} addInvoiceStatus={changeStatus} />;
       default:
-        return <InvoiceReportPage addInvoiceStatus={changeStatus} />;
+        return <InvoiceReportPage theme={theme} addInvoiceStatus={changeStatus} />;
     }
   };
   return <>{getPage()}</>;
@@ -38,9 +38,7 @@ function InvoiceReportPage(props) {
     let temp = [];
     let counter = 0;
     axios
-      .post("/get-invoices", {
-        secretKey: Cookies.get(process.env.REACT_APP_SECRET_COOKIE_KEY),
-      })
+      .post("/get-invoices")
       .then((resp) => {
         resp.data.forEach((da) => {
           temp.push({
@@ -76,10 +74,9 @@ function InvoiceReportPage(props) {
         textAlign: "right",
         alignSelf: "center",
         margin: "auto",
-        backgroundColor: "white",
+        backgroundColor: props.theme.background,
         width: "1560px",
         height: "810px",
-        color: "Black",
       }}
     >
       <Button
@@ -87,7 +84,7 @@ function InvoiceReportPage(props) {
           marginBottom: "20px",
           marginTop: "20px",
           right: 65,
-          backgroundColor: "purple",
+          backgroundColor: props.theme.others,
         }}
         variant="contained"
         onClick={() => props.addInvoiceStatus(true)}
@@ -100,6 +97,7 @@ function InvoiceReportPage(props) {
           width: "1460px",
           height: "710px",
           margin: "auto",
+          color: props.theme.fontColor
         }}
         getRowHeight={() => 'auto'}
         loading={isLoading}
@@ -190,7 +188,6 @@ function AddInvoicePage(props) {
         branch: branch,
         quantity: quantity,
         amount: amount,
-        secretKey: Cookies.get(process.env.REACT_APP_SECRET_COOKIE_KEY),
       })
       .then((resp) => {
         setOpen(true);
@@ -224,10 +221,9 @@ function AddInvoicePage(props) {
         style={{
           textAlign: "center",
           marginBottom: "20px",
-          backgroundColor: "white",
+          backgroundColor: props.theme.background,
           width: "1560px",
           height: "810px",
-          color: "Black",
         }}
       >
         <Button
@@ -235,7 +231,7 @@ function AddInvoicePage(props) {
             marginBottom: "10px",
             marginTop: "20px",
             right: -450,
-            backgroundColor: "purple",
+            backgroundColor: props.theme.others,
           }}
           variant="contained"
           onClick={() => props.addInvoiceStatus(false)}
@@ -243,7 +239,7 @@ function AddInvoicePage(props) {
           Back
         </Button>
         <div className="main-title">
-          <h2 style={{ color: "black", paddingTop: "20px" }}>New Invoice</h2>
+          <h2 style={{ color: "black", paddingTop: "20px", color: props.theme.fontColor }}>New Invoice</h2>
         </div>
         <div className="main-form">
           <form name="event" style={{ verticalAlign: "middle", gap: "10px" }}>
@@ -254,6 +250,7 @@ function AddInvoicePage(props) {
                   field.type === "email" ||
                   field.type === "date") && (
                   <TextField
+                    color="secondary"
                     style={{ margin: "10px", width: "20rem" }}
                     type={field.type}
                     label={field.labelName}
@@ -294,7 +291,7 @@ function AddInvoicePage(props) {
               style={{
                 marginBottom: "20px",
                 marginTop: "20px",
-                backgroundColor: "purple",
+                backgroundColor: props.theme.others,
               }}
               disabled={isLoading}
               variant="contained"

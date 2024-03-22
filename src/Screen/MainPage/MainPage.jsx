@@ -10,7 +10,7 @@ import { getMenuIcon, contentArea } from "../../modules/data/menu-data.tsx";
 
 
 
-function MainPage(props) {
+function MainPage({ theme }) {
   document.title = process.env.REACT_APP_PRODUCT_FIRST_NAME + process.env.REACT_APP_PRODUCT_LAST_NAME + " - Home";
   const [option, setOption] = useState(0);
   const [user, setUser] = useState();
@@ -117,7 +117,6 @@ function MainPage(props) {
         username: user.username,
         role: user.role,
         lastAccessedScreen: value,
-        secretKey: Cookies.get(process.env.REACT_APP_SECRET_COOKIE_KEY),
       })
       .then((resp) => {
         //
@@ -129,6 +128,7 @@ function MainPage(props) {
         <Navbar
           pharmacy={user ? (user.pharmacy ? user.pharmacy : " ") : " "}
           username={user ? (user.username ? user.username : " ") : " "}
+          theme={theme}
           changeOption={changeOption}
         />
       </div>
@@ -185,7 +185,7 @@ function MainPage(props) {
             }}
             className="content"
           >
-            {contentArea(option, user)}
+            {contentArea(option, user, theme)}
           </main>
         </div>
         {/* <div style={{backgroundColor : 'white', marginTop : '30px', borderRadius : '5px', maxHeight : "600px", width : "400px", boxShadow: "0 2px 5px rgb(0 0 0 / 0.2)",}}>

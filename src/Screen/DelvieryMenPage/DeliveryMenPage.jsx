@@ -10,7 +10,6 @@ import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
-import Cookies from "js-cookie";
 import {
   validateUsername,
   validateEmail,
@@ -19,9 +18,8 @@ import {
   validateAadhar,
   validatePassword
 } from "../../Validations/validations";
-import { Password } from "@mui/icons-material";
 
-export default function MedicinePageManager() {
+export default function MedicinePageManager({ theme }) {
   const [pageStatus, setPageStatus] = useState(false);
   const changeStatus = (val) => {
     setPageStatus(val);
@@ -29,9 +27,9 @@ export default function MedicinePageManager() {
   const getPage = () => {
     switch (pageStatus) {
       case true:
-        return <AddDeliveryManPage addDeliveryManStatus={changeStatus} />;
+        return <AddDeliveryManPage theme={theme} addDeliveryManStatus={changeStatus} />;
       default:
-        return <DeliveryManPage addDeliveryManStatus={changeStatus} />;
+        return <DeliveryManPage theme={theme} addDeliveryManStatus={changeStatus} />;
     }
   };
   return <>{getPage()}</>;
@@ -47,9 +45,7 @@ function DeliveryManPage(props) {
     let temp = [];
     let counter = 0;
     axios
-      .post("/get-delivery-men-details", {
-        secretKey: Cookies.get(process.env.REACT_APP_SECRET_COOKIE_KEY),
-      })
+      .post("/get-delivery-men-details")
       .then((resp) => {
         resp.data.forEach((data) => {
           temp.push({
@@ -83,10 +79,9 @@ function DeliveryManPage(props) {
         textAlign: "right",
         alignSelf: "center",
         margin: "auto",
-        backgroundColor: "white",
+        backgroundColor: props.theme.background,
         width: "1560px",
         height: "810px",
-        color: "Black",
       }}
     >
       <Button
@@ -94,7 +89,7 @@ function DeliveryManPage(props) {
           marginBottom: "20px",
           marginTop: "20px",
           right: 65,
-          backgroundColor: "purple",
+          backgroundColor: props.theme.others,
         }}
         variant="contained"
         onClick={() => props.addDeliveryManStatus(true)}
@@ -107,6 +102,7 @@ function DeliveryManPage(props) {
           width: "1460px",
           height: "710px",
           margin: "auto",
+          color: props.theme.fontColor
         }}
         getRowHeight={() => 'auto'}
         loading={isLoading}
@@ -324,7 +320,7 @@ function AddDeliveryManPage(props) {
         style={{
           textAlign: "center",
           marginBottom: "20px",
-          backgroundColor: "white",
+          backgroundColor: props.theme.background,
           width: "1560px",
           minHeight: "810px",
           color: "Black",
@@ -335,7 +331,7 @@ function AddDeliveryManPage(props) {
             marginBottom: "10px",
             marginTop: "20px",
             right: -450,
-            backgroundColor: "purple",
+            backgroundColor: props.theme.others,
           }}
           variant="contained"
           onClick={() => props.addDeliveryManStatus(false)}
@@ -343,7 +339,7 @@ function AddDeliveryManPage(props) {
           Back
         </Button>
         <div className="main-title">
-          <h2 style={{ color: "black", paddingTop: "20px" }}>
+          <h2 style={{ color: props.theme.fontColor, paddingTop: "20px" }}>
             New Delivery Man
           </h2>
         </div>
@@ -356,8 +352,9 @@ function AddDeliveryManPage(props) {
                   field.type === "email" ||
                   field.type === "date" || field.type === "password") && (
                   <TextField
+                    color="secondary"
                     key={field.id}
-                    style={{ margin: "10px", width: "20rem" }}
+                    sx={{ margin: "10px", width: "20rem", color: props.theme.fontColor }}
                     type={field.type}
                     label={field.labelName}
                     disabled={field.status === "disabled"}
@@ -395,7 +392,7 @@ function AddDeliveryManPage(props) {
               style={{
                 marginBottom: "20px",
                 marginTop: "20px",
-                backgroundColor: "purple",
+                backgroundColor: props.theme.others,
               }}
               disabled={isLoading}
               variant="contained"

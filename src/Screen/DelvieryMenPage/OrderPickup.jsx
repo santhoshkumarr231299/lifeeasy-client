@@ -8,7 +8,7 @@ import Snackbar from "@mui/material/Snackbar";
 import MuiAlert from "@mui/material/Alert";
 import Cookies from "js-cookie";
 
-export default function MedicinePageManager() {
+export default function MedicinePageManager({ theme }) {
   const [pageStatus, setPageStatus] = useState(false);
   const changeStatus = (val) => {
     setPageStatus(val);
@@ -16,9 +16,9 @@ export default function MedicinePageManager() {
   const getPage = () => {
     switch (pageStatus) {
       case true:
-        return <YourDeliveryPage changeButtonStatus={changeStatus} />;
+        return <YourDeliveryPage theme={theme} changeButtonStatus={changeStatus} />;
       default:
-        return <OrderPickupPage changeButtonStatus={changeStatus} />;
+        return <OrderPickupPage theme={theme} changeButtonStatus={changeStatus} />;
     }
   };
   return <>{getPage()}</>;
@@ -47,7 +47,6 @@ function OrderPickupPage(props) {
         .post("/pickup-order", {
           username: userM.name,
           medName: userM.mname,
-          secretKey: Cookies.get(process.env.REACT_APP_SECRET_COOKIE_KEY),
         })
         .then((resp) => {
           setOpen(true);
@@ -71,9 +70,7 @@ function OrderPickupPage(props) {
     let temp = [];
     let counter = 0;
     axios
-      .post("/get-approved-items", {
-        secretKey: Cookies.get(process.env.REACT_APP_SECRET_COOKIE_KEY),
-      })
+      .post("/get-approved-items")
       .then((resp) => {
         resp.data.forEach((data) => {
           temp.push({
@@ -115,7 +112,7 @@ function OrderPickupPage(props) {
           textAlign: "right",
           alignSelf: "center",
           margin: "auto",
-          backgroundColor: "white",
+          backgroundColor: props.theme.background,
           width: "1560px",
           height: "810px",
           color: "Black",
@@ -132,7 +129,7 @@ function OrderPickupPage(props) {
               marginTop: "20px",
               marginRight: "20px",
               right: 65,
-              backgroundColor: "purple",
+              backgroundColor: props.theme.others,
             }}
             variant="contained"
             onClick={(e) => props.changeButtonStatus(true)}
@@ -158,11 +155,12 @@ function OrderPickupPage(props) {
         </div>
         <DataGrid
           loading={isLoading}
-          style={{
+          sx={{
             alignSelf: "center",
             width: "1460px",
             height: "710px",
             margin: "auto",
+            color: props.theme.fontColor
           }}
           getRowHeight={() => 'auto'}
           rows={dataGridRows}
@@ -204,9 +202,7 @@ function YourDeliveryPage(props) {
     let temp = [];
     let counter = 0;
     axios
-      .post("/get-delivery-orders", {
-        secretKey: Cookies.get(process.env.REACT_APP_SECRET_COOKIE_KEY),
-      })
+      .post("/get-delivery-orders")
       .then((resp) => {
         setOrders(resp.data);
         resp.data.forEach((data) => {
@@ -249,10 +245,9 @@ function YourDeliveryPage(props) {
           textAlign: "right",
           alignSelf: "center",
           margin: "auto",
-          backgroundColor: "white",
+          backgroundColor: props.theme.background,
           width: "1560px",
           height: "810px",
-          color: "Black",
         }}
       >
         <div
@@ -266,7 +261,7 @@ function YourDeliveryPage(props) {
               marginTop: "20px",
               marginRight: "20px",
               right: 65,
-              backgroundColor: "purple",
+              backgroundColor: props.theme.others,
             }}
             variant="contained"
             onClick={(e) => props.changeButtonStatus(false)}
@@ -276,11 +271,12 @@ function YourDeliveryPage(props) {
         </div>
         <DataGrid
           loading={isLoading}
-          style={{
+          sx={{
             alignSelf: "center",
             width: "1460px",
             height: "710px",
             margin: "auto",
+            color: props.theme.fontColor
           }}
           getRowHeight={() => 'auto'}
           rows={dataGridRows}

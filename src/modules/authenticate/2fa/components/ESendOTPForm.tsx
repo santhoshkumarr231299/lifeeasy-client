@@ -3,7 +3,7 @@ import { Button, Form, Card, Alert } from "react-bootstrap";
 import axios from "../../../../api/axios.js";
 import { CircularProgress } from "@mui/material";
 
-function ESendOTPForm({  setIsSentOTP }) {
+function ESendOTPForm({  setIsSentOTP, theme }) {
     const [email, setEmail] = useState("*****@***.com");
     const twoFAOtp = useRef();
     const [isSendOTPClicked, setIsSentOTPClicked] = useState(false);
@@ -79,7 +79,7 @@ function ESendOTPForm({  setIsSentOTP }) {
                 <Button
                     style={{
                         width: "10%",
-                        backgroundColor: "purple",
+                        backgroundColor: theme.others,
                         margin: "20px"
                     }}
                     variant="primary"
