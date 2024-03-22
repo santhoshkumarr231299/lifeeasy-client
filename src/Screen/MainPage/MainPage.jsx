@@ -10,13 +10,18 @@ import { getMenuIcon, contentArea } from "../../modules/data/menu-data.tsx";
 
 
 
-function MainPage({ theme }) {
+function MainPage() {
   document.title = process.env.REACT_APP_PRODUCT_FIRST_NAME + process.env.REACT_APP_PRODUCT_LAST_NAME + " - Home";
   const [option, setOption] = useState(0);
   const [user, setUser] = useState();
   const navigate = useNavigate();
   const [logout, setLogout] = useState(false);
   const [menus, setMenus] = useState([]);
+  const [theme, setTheme] = useState({
+    background : 'white',
+    others : 'purple',
+    fontColor : 'black'
+  });
 
   const handleCloseLogout = () => {
     setLogout(false);
@@ -57,10 +62,16 @@ function MainPage({ theme }) {
         removeCookieAndReload();
         // navigate("/login");
       } else {
-        getMenus();
+        if(res.data.theme.background && res.data.theme.fontColor && res.data.theme.others) {
+          if(res.data.theme.background != "default" && res.data.theme.fontColor != "default" && res.data.theme.others != "default") {
+            setTheme(res.data.theme);
+          }
+        }
         if(res.data?.isTFAEnabled && !res.data?.isTFAVerified) {
           navigate("/authenticate");
+          return;
         }
+        getMenus();
         setOption(() => res.data.lastAccessedScreen);
         setUser({
           username: res.data.username,

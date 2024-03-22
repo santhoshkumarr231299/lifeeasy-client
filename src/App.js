@@ -21,11 +21,6 @@ class App extends Component {
       process.env.REACT_APP_PRODUCT_FIRST_NAME +
       process.env.REACT_APP_PRODUCT_LAST_NAME;
   }
-  theme = {
-    background : 'white',
-    others : 'purple',
-    fontColor : 'black'
-  }
   render() {
     return (
       <div className="App">
@@ -43,7 +38,7 @@ class App extends Component {
                     !Cookies.get(process.env.REACT_APP_SECRET_COOKIE_KEY) && !localStorage.getItem(process.env.REACT_APP_LOCALSTORAGE_USER_LOGIN_STATUS) ? (
                       <Navigate to="/login" />
                     ) : (
-                      <MainPage theme={this.theme} />
+                      <MainPage />
                     )
                   }
                 />
@@ -53,7 +48,7 @@ class App extends Component {
                     Cookies.get(process.env.REACT_APP_SECRET_COOKIE_KEY) && localStorage.getItem(process.env.REACT_APP_LOCALSTORAGE_USER_LOGIN_STATUS) ? (
                       <Navigate to="/home" />
                     ) : (
-                      <LoginPage theme={this.theme} />
+                      <LoginPage />
                     )
                   }
                 />
@@ -63,7 +58,7 @@ class App extends Component {
                     Cookies.get(process.env.REACT_APP_SECRET_COOKIE_KEY) && localStorage.getItem(process.env.REACT_APP_LOCALSTORAGE_USER_LOGIN_STATUS) ? (
                       <Navigate to="/home" />
                     ) : (
-                      <NewUser theme={this.theme} />
+                      <NewUser />
                     )
                   }
                 />
@@ -73,7 +68,7 @@ class App extends Component {
                     Cookies.get(process.env.REACT_APP_SECRET_COOKIE_KEY) && localStorage.getItem(process.env.REACT_APP_LOCALSTORAGE_USER_LOGIN_STATUS) ? (
                       <Navigate to="/home" />
                     ) : (
-                      <ForgotPassPage theme={this.theme} />
+                      <ForgotPassPage />
                     )
                   }
                 />
@@ -86,7 +81,7 @@ class App extends Component {
                 <Route
                   path="/subscribe"
                   element={Cookies.get(process.env.REACT_APP_SECRET_COOKIE_KEY) && localStorage.getItem(process.env.REACT_APP_LOCALSTORAGE_USER_LOGIN_STATUS) ?
-                  <SubscribeToServicePage theme={this.theme} /> : <Navigate to="/login" /> }
+                  <SubscribeToServicePage /> : <Navigate to="/login" /> }
                  />
                 <Route 
                   path="/super-admin/*"
