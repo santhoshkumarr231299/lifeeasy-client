@@ -1,4 +1,24 @@
+# lifeeasy-client
 website - online : https://lifeeasyoff.netlify.app/login
 
 deployed website - server(Node JS)  : https://dashboard.render.com/
 deployed website - client(React JS) : https://app.netlify.com/
+
+
+# Environment Variables:
+REACT_APP_ENV=\
+REACT_APP_BASE_URL=\
+REACT_APP_BASE_URL_CHAT=\
+REACT_APP_BASE_URL_ONLINE=\
+REACT_APP_RAZORPAY_PAYMENT_KEY_ID=\
+REACT_APP_SECRET_COOKIE_KEY=\
+REACT_APP_SERVER_AUTH_NAME=\
+REACT_APP_SECRET_NEW_USER_AUTH_KEY=\
+REACT_APP_SUPER_BASE_API=\
+REACT_APP_RAPID_API_URL=\
+REACT_APP_RAPID_API_KEY=\
+REACT_APP_RAPID_HOST=\
+REACT_APP_FORGOT_PASS_CHANGE_AUTH=\
+REACT_APP_LOCALSTORAGE_USER_LOGIN_STATUS=\
+REACT_APP_PRODUCT_FIRST_NAME=\
+REACT_APP_PRODUCT_LAST_NAME=
