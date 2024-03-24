@@ -1,8 +1,10 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Paper } from "@mui/material";
+import { Avatar, Paper } from "@mui/material";
 import io from "socket.io-client";
 import Cookies from "js-cookie";
 import "./styles/chat.css";
+import ChatSideBar from "./components/ChatSideBar.tsx";
+import axios from "../../api/axios.js";
 
 interface messageType {
   user : string,
@@ -39,6 +41,13 @@ function ChatUI({ username }) {
   let count = 0;
   const [messages, setMessages] = useState<messageType[]>([]);
   const currentMessage = useRef();
+  const [profileImage, setProfileImage] = useState<any>(null);
+
+    const getProfileImage = () => {
+        axios.get("/get-profile-image", { responseType: 'blob' }).then((res) => {
+            setProfileImage(URL.createObjectURL(res.data));
+        });
+    }
 
   const sendMessage = (e : any) => {
     e.preventDefault();
@@ -48,6 +57,10 @@ function ChatUI({ username }) {
     });
     currentMessage.current.value = "";
   };
+
+  useEffect(() => {
+    getProfileImage();
+  }, [])
 
   useEffect(() => {
     socket.on("receive_message", (data) => {
@@ -70,14 +83,20 @@ function ChatUI({ username }) {
         <h4>Chat With Organization</h4>
       </div>
       <div className="chat-body">
-        <div className="chat-sidebar"></div>
+        <div className="chat-sidebar">
+          <ChatSideBar />
+        </div>
         <div className="chat-box">
           <div className="chat-msg-body">
             {messages.map((message : messageType) => 
             <div key={count++}>
               {message.isSentByMe && 
                 <div className="left-msg">
-                  <div className="msg-img"></div>
+                  <div className="msg-img">
+                    <Avatar sx={{ bgcolor: "purple", margin: "auto", width: 50, height: 50 }}>
+                      <img src={profileImage} style={{ width: 50, height: 50 }} />
+                    </Avatar>
+                  </div>
                   <div className="msg-bubble">
                     <div className="msg-info">
                       <div className="msg-info-name">{message.user}</div>

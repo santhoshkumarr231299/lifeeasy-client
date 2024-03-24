@@ -40,6 +40,7 @@ const SearchMedicines = lazy(() =>
   import("../customer/SearchMedicines.tsx")
 );
 const ChatWithOrganization = lazy(() => import("../chatWithOrg/ChatWithOrganization.tsx"));
+const ThemeSettingsPage = lazy(() => import("../main/Settings/ThemeSettings.tsx"));
 
 const menuIcons = {
     1 : <Dashboard />,
@@ -148,6 +149,12 @@ function contentArea(option : number, user : any, theme : any) {
           <ChatWithOrganization theme={theme} username={user.username} />
         </Suspense>
       );
+    case 998:
+      return (
+        <Suspense fallback={<CircularProgress size={50} />}>
+          <ThemeSettingsPage theme={theme} />
+        </Suspense>
+      )
     case 999:
       return (
         <Suspense fallback={<CircularProgress size={50} />}>

@@ -16,10 +16,11 @@
     gap: 30px;
 }
 .chat-sidebar {
-    border: 2px solid black;
-    width: 200px;
+    /* border: 2px solid black; */
+    width: 250px;
     height: 640px;
     border-radius: 5px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 10px 0 rgba(0, 0, 0, 0.19);
 }
 .chat-box {
     /* border: 2px solid black; */
@@ -137,5 +138,5 @@
     justify-content: flex-end;
 }
 * {
-    scrollbar-color: purple orange;
+    scrollbar-color: purple white;
 }

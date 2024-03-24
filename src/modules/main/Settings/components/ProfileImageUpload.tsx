@@ -56,10 +56,12 @@ function ProfileImageUpload({ username, setOpenPopup, setSeverityForPopup, setMe
     const FileUpload = () => {
         const handleFileUpload = (event : any) => {
           const file = event.target.files[0];
-          setSelectedImage(() => file.name);
-          const formDataTemp = new FormData();
-          formDataTemp.append("file", file);
-          setFormData(() => formDataTemp);
+          if(file) {
+            setSelectedImage(() => file.name);
+            const formDataTemp = new FormData();
+            formDataTemp.append("file", file);
+            setFormData(() => formDataTemp);
+          }
         }
         return (
           <label

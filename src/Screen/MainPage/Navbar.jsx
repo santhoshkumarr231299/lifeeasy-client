@@ -1,10 +1,24 @@
-import React from "react";
+import React, { useState } from "react";
 import {  Avatar } from "@mui/material";
 import { purple } from "@mui/material/colors";
 import { Settings, Logout } from "@mui/icons-material";
 import logo from "../../assets/logo.png";
+import Button from '@mui/material/Button';
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
 
 export default function Navbar(props) {
+  const [anchorEl, setAnchorEl] = useState(null);
+  const open = Boolean(anchorEl);
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = (e, pageId) => {
+    if(pageId) {
+      props.changeOption(e, pageId);
+    }
+    setAnchorEl(null);
+  };
   return (
     <nav className="navbar navbar-light bg-light"
       style={{
@@ -89,7 +103,7 @@ export default function Navbar(props) {
             Hello{" "}
             {props.username[0].toUpperCase() + props.username.substring(1)}
           </div>
-          <div onClick={(e) => props.changeOption(e, 999)}>
+          <div onClick={handleClick}>
             <Settings className="icon-top" />
           </div>
           <div onClick={(e) => props.changeOption(e, 1000)}>
@@ -97,6 +111,22 @@ export default function Navbar(props) {
           </div>
         </div>
       </div>
+      <Menu
+        anchorEl={anchorEl}
+        open={open}
+        onClose={e => handleClose(e, null)}
+        anchorOrigin={{
+          vertical: 'top',
+          horizontal: 'left',
+        }}
+        transformOrigin={{
+          vertical: 'top',
+          horizontal: 'left',
+        }}
+      >
+        <MenuItem onClick={e => handleClose(e, 999)}>My Account</MenuItem>
+        <MenuItem onClick={e => handleClose(e, 998)}>Theme Settings</MenuItem>
+      </Menu>
     </nav>
   );
 }
