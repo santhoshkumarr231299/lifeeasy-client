@@ -1,33 +1,41 @@
-import axios from "../../api/axios";
+import axios from "../../../api/axios";
 import React, { useState } from "react";
-import { Paper, Button, TextField, CircularProgress } from "@mui/material";
+import { Paper, Button, CircularProgress } from "@mui/material";
 import { useEffect } from "react";
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert from "@mui/material/Alert";
-import Form from "react-bootstrap/Form";
-import InputGroup from "react-bootstrap/InputGroup";
+import ThemeCards from "./components/ThemeCards.tsx";
+
+interface themeType {
+  id : number,
+  name : string,
+  background : string,
+  fontColor : string,
+  others : string
+}
 
 export default function ThemeSettings({ theme }) {
-  const [user, setUser] = useState({});
-  const [option, setOption] = useState(1);
-  const [isButtonClicked, setButtonClicked] = useState(false);
+  const [option, setOption] = useState<number>(0);
+  const [themes, setThemes] = useState<themeType[]>([]);
   const settings = () => {
-    switch (option) {
-      case 1:
-        return <UserDetails />;
-      default:
-    }
+      switch (option) {
+        case 1:
+          return <Themes themes={themes} appTheme={theme}/>;
+        default:
+          return <CircularProgress />
+      }
   };
-  const callChangePass = (e) => {
-    e.preventDefault();
-    if (!isButtonClicked) {
-      setButtonClicked(true);
-      setOption(2);
-    } else {
-      setButtonClicked(false);
+
+  const getThemes = () => {
+    axios.get("/get-themes").then((res) => {
       setOption(1);
-    }
-  };
+      setThemes(res.data.data);
+    })
+  } 
+
+  useEffect(() => {
+    getThemes();
+  }, []);
   return (
     <div>
       <Paper
@@ -42,9 +50,12 @@ export default function ThemeSettings({ theme }) {
         }}
       >
        <div style={{
-        marginBottom : "20px"
+        padding : "30px"
        }}>
-          <Button
+        <h3>
+          Choose Theme
+        </h3>
+          {/* <Button
             style={{
               marginBottom: "20px",
               marginTop: "20px",
@@ -56,7 +67,7 @@ export default function ThemeSettings({ theme }) {
             onClick={(e) => option == 2 ? setOption(1) : setOption(2)}
           >
             {option == 1 ? "Back" : "Change Password"}
-          </Button>
+          </Button> */}
        </div>
         {settings()}
       </Paper>
@@ -64,7 +75,7 @@ export default function ThemeSettings({ theme }) {
   );
 }
 
-function UserDetails({ user, setUser, theme }) {
+function Themes({ themes, appTheme }) {
   const [open, setOpen] = useState(false);
   const [severity, setSeverity] = useState("");
   const [message, setMessage] = useState("");
@@ -79,7 +90,18 @@ function UserDetails({ user, setUser, theme }) {
   });
   return (
     <div>
-      Hello
+      <div 
+        style={{ 
+            display: "grid",
+            gridTemplateColumns: "repeat(auto-fit, minmax(350px, 1fr))",
+        }}
+      >
+        {themes.map((theme: themeType) => (
+          <div key={theme.id}>
+            <ThemeCards theme={theme} appTheme={appTheme} setOpen={setOpen} setSeverity={setSeverity} setMessage={setMessage} />
+          </div>
+        ))}
+      </div>
       <Snackbar open={open} autoHideDuration={3000} onClose={handleClose}>
         <Alert onClose={handleClose} severity={severity} sx={{ width: "100%" }}>
           {message}
