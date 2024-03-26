@@ -1,9 +1,7 @@
 import React, { useState } from "react";
 import {  Avatar } from "@mui/material";
-import { purple } from "@mui/material/colors";
 import { Settings, Logout } from "@mui/icons-material";
 import logo from "../../assets/logo.png";
-import Button from '@mui/material/Button';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 
@@ -20,9 +18,8 @@ export default function Navbar(props) {
     setAnchorEl(null);
   };
   return (
-    <nav className="navbar navbar-light bg-light"
+    <nav className={props.theme.background == "black" ? "navbar navbar-dark bg-dark" : "navbar navbar-light bg-light"}
       style={{
-        backgroundColor : props.theme.backgroundColor,
         color: props.theme.fontColor
       }}
     >
@@ -97,7 +94,7 @@ export default function Navbar(props) {
               alignItems: "center",
             }}
           >
-            <Avatar sx={{ bgcolor: purple[500] }}>
+            <Avatar sx={{ bgcolor: props.theme.others }}>
               {props.username[0].toUpperCase()}
             </Avatar>
             Hello{" "}

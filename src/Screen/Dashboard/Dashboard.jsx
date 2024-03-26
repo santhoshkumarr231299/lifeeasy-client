@@ -99,9 +99,7 @@ function Dashboard({ theme }) {
 
   useEffect(() => {
     axios
-      .post("/get-dashboard-details", {
-        secretKey: Cookies.get(process.env.REACT_APP_SECRET_COOKIE_KEY),
-      })
+      .post("/get-dashboard-details")
       .then((resp) => {
         list[0].value = resp.data.managersCount;
         list[1].value = resp.data.pharmacistsCount;
@@ -135,16 +133,16 @@ function Dashboard({ theme }) {
       <div>
         <Paper
           elevation={3}
-          style={{
+          sx={{
             marginRight: "20px",
             marginLeft: "20px",
-            backgroundColor: "white",
+            backgroundColor: theme.background,
             // width: "160vh",
             height: "550px",
             color: "Black",
             // boxShadow: "10px",
           }}>
-          <BarChart data={chartList} />
+          <BarChart theme={theme} data={chartList} />
         </Paper>
       </div>
     </Paper>

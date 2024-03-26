@@ -3,7 +3,6 @@ import axios from "../../api/axios";
 import { useState } from "react";
 import { useEffect } from "react";
 import { RazorpayPaymentGateWay } from "../PaymentGateWay/PaymentGatewWay";
-import Cookies from "js-cookie";
 import { TextField, Button, Paper } from "@mui/material";
 import InputAdornment from "@mui/material/InputAdornment";
 import OutlinedInput from "@mui/material/OutlinedInput";
@@ -22,11 +21,11 @@ import {
   MDBInput,
   MDBCard,
   MDBCardBody,
-  MDBCardImage,
   MDBCol,
   MDBIcon,
   MDBRow,
 } from "mdb-react-ui-kit";
+import color from "material-ui-colors/dist/amber.js";
 
 export default function MainMedicinePage(props) {
   const [option, setOption] = useState(0);
@@ -37,10 +36,10 @@ export default function MainMedicinePage(props) {
     switch (option) {
       case 1:
         return (
-          <CartPage username={props.username} changeOption={changeOption} />
+          <CartPage theme={props.theme} username={props.username} changeOption={changeOption} />
         );
       default:
-        return <MedicinePage changeOption={changeOption} />;
+        return <MedicinePage theme={props.theme} changeOption={changeOption} />;
     }
   };
   return <div>{getMedicinePage()}</div>;
@@ -118,10 +117,9 @@ function MedicinePage(props) {
       style={{
         alignSelf: "center",
         margin: "auto",
-        backgroundColor: "white",
+        backgroundColor: props.theme.background,
         width: "1560px",
         minHeight: "810px",
-        color: "Black",
       }}>
       <div
         style={{
@@ -147,11 +145,14 @@ function MedicinePage(props) {
                 width: "80%",
                 margin: "25px 0px 20px 0px",
                 zIndex: "0",
+                placeholder : {
+                  color : props.theme.fontColor
+                }
               }}
               id="outlined-adornment-amount"
               startAdornment={
                 <InputAdornment position="start">
-                  <SearchIcon />
+                  <SearchIcon sx={{ color : props.theme.fontColor }} />
                 </InputAdornment>
               }
               endAdornment={
@@ -169,7 +170,7 @@ function MedicinePage(props) {
             />
             <Tooltip title="Cart" onClick={(e) => changeOption(e)} arrow>
               <Badge badgeContent={cartItemSize} color="warning">
-                <ShoppingCartIcon color="action" />
+                <ShoppingCartIcon sx={{ color : props.theme.fontColor }} />
               </Badge>
             </Tooltip>
           </div>
@@ -285,9 +286,7 @@ function CartPage(props) {
       .then((resp) => {
         if (resp.data.status === "success") {
           axios
-            .post("/get-cart-items", {
-              secretKey: Cookies.get(process.env.REACT_APP_SECRET_COOKIE_KEY),
-            })
+            .post("/get-cart-items")
             .then((resp1) => {
               let tempList = [];
               let amt = 0;
@@ -376,10 +375,9 @@ function CartPage(props) {
         style={{
           alignSelf: "center",
           margin: "auto",
-          backgroundColor: "white",
+          backgroundColor: props.theme.background,
           width: "1560px",
           minHeight: "810px",
-          color: "Black",
         }}>
         <div
           style={{

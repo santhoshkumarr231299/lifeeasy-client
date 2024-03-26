@@ -29,7 +29,7 @@ export default function Chart(props) {
         <YAxis />
         <Tooltip />
         <Legend />
-        <Bar dataKey="Count" stackId="a" fill="#8884d8" />
+        <Bar dataKey="Count" stackId="a" fill={props.theme.others} />
       </BarChart>
     </ResponsiveContainer>
   );

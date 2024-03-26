@@ -164,8 +164,9 @@ function MainPage() {
                     className="sidebar-items"
                     style={{
                       width: "280px",
-                      color: option === menu.menuValue ? "purple" : "",
+                      color: option === menu.menuValue ? theme.others : theme.fontColor,
                       fontWeight: option === menu.menuValue ? "bold" : "",
+                      backgroundColor: theme.background
                     }}
                   >
                     <a

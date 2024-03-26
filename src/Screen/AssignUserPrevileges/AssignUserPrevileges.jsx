@@ -16,13 +16,13 @@ export default function AssignUserPrevilegesPage(props) {
           textAlign: "center",
           alignSelf: "center",
           margin: "auto",
-          backgroundColor: "white",
+          backgroundColor: props.theme.background,
           width: "1560px",
           height: "810px",
-          color: "Black",
+          color: props.theme.fontColor,
         }}
       >
-        <AssignUserPrevileges />
+        <AssignUserPrevileges theme={props.theme} />
       </Paper>
     </div>
   );
@@ -254,7 +254,7 @@ function AssignUserPrevileges(props) {
           <div>
             <h6 style={{ margin: 0, padding: 0 }}>SELECTED USER : </h6>
           </div>
-          <div style={{ textDecorationLine: "underline", color: "purple" }}>
+          <div style={{ textDecorationLine: "underline", color: props.theme.others }}>
             {selectedUser && selectedUser.length === 1
               ? selectedUser[0].label
               : "none"}
@@ -322,7 +322,7 @@ function AssignUserPrevileges(props) {
         style={{
           marginBottom: "20px",
           marginTop: "10px",
-          backgroundColor: "purple",
+          backgroundColor: props.theme.others,
         }}
         variant="contained"
         onClick={(e) => updatePrevileges(e)}
