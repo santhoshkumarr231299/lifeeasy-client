@@ -4,7 +4,6 @@ import Snackbar from "@mui/material/Snackbar";
 import { CircularProgress } from "@mui/material";
 import MuiAlert from "@mui/material/Alert";
 import axios from "../../api/axios";
-import Cookies from "js-cookie";
 import { useNavigate } from "react-router-dom";
 import Navbar from "./Navbar";
 import LogoutPage from "../LogoutPage/LogoutPage";
@@ -76,7 +75,8 @@ function SubscribeToServicePage({ theme }) {
                 username: res.data.username,
                 role: res.data.role,
                 pharmacy: res.data.pharmacy,
-                subscriptionPack : res.data.subscriptionPack
+                subscriptionPack : res.data.subscriptionPack,
+                theme : res.data.theme
               });
               let today = new Date();
               let DateOfSubscription = new Date(res.data.DateOfSubscription);
@@ -100,12 +100,12 @@ function SubscribeToServicePage({ theme }) {
                 pharmacy={user ? user.pharmacy ?  user.pharmacy : " " : " "}
                 username={user ? user.username ? user.username : " " : " "}
                 setLogout={setLogout}
-                theme={theme}  
+                theme={user?.theme}  
             />
             <div 
             className="subscribe-screen">
               { user && user.subscriptionPack && (user.subscriptionPack == 'none') && 
-                    <div className="subs-card">
+                    <div className="subs-card" style={{ backgroundColor: user?.theme?.background, color: user?.theme?.fontColor }}>
                     <form>
                         <h3 className="subs-title">Free Trail</h3>
                             <ul>
@@ -134,7 +134,7 @@ function SubscribeToServicePage({ theme }) {
                     </form>                
                 </div>
               }
-                <div className="subs-card">
+                <div className="subs-card" style={{ backgroundColor: user?.theme?.background, color: user?.theme?.fontColor }}>
                     <form>
                          <h3 className="subs-title">Monthly Subscription</h3>
                             <ul>
@@ -162,7 +162,7 @@ function SubscribeToServicePage({ theme }) {
                          </button>
                     </form>
                 </div>
-                <div className="subs-card">
+                <div className="subs-card" style={{ backgroundColor: user?.theme?.background, color: user?.theme?.fontColor }}>
                     <form>
                         <h3 className="subs-title">Yearly Subscription</h3>
                             <ul>

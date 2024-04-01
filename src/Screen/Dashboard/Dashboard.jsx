@@ -2,7 +2,6 @@ import { Paper } from "@mui/material";
 import axios from "../../api/axios";
 import React, { useEffect, useState, lazy } from "react";
 import { Card } from "react-bootstrap";
-import Cookies from "js-cookie";
 
 const BarChart = lazy(() => import("./Chart"));
 function boxes(list) {
