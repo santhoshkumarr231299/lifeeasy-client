@@ -30,7 +30,7 @@ export default function ThemeCards({ theme, appTheme, setOpen, setSeverity, setM
                 <div style={{height: "100%", width: "100%"}}>Others</div>
             </div>
             <CardContent>
-                <strong>{theme.name[0].toUpperCase() + theme.name.substring(1) + " Theme"}</strong>
+                <strong>{theme.name[0].toUpperCase() + theme.name.substring(1)}</strong>
             </CardContent>
                 <Button
                     style={{
